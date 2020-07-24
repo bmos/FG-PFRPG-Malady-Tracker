@@ -14,7 +14,7 @@
 		</ruleset>
 	</properties>
 
-	<announcement text="https://example.com\nPFRPG Disease Tracker:\nThis extension helps track disease duration, saves, effects, and other information."  icon="logo_vitamin" font="emotefont" />
+	<announcement text="https://github.com/bmos/FG-PFRPG-Disease-Tracker\nPFRPG Disease Tracker:\nThis extension helps track disease duration, saves, effects, and other information."  icon="logo_vitamin" font="emotefont" />
 
 	<base>
 		<!-- Graphics -->
@@ -26,8 +26,5 @@
 		<includefile source="campaign/record_disease.xml" />
 		<!-- Strings -->
 		<includefile source="strings/strings_disease_tracker.xml" />
-		<!-- Scripts -->
-		<script name="DiseaseTracker" file="scripts/disease_tracker.lua" />
-		<script name="EffectManagerDT" file="scripts/manager_effect_DT.lua" />
 	</base>
 </root>

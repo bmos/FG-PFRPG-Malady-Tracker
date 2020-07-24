@@ -4,25 +4,16 @@
 
 <root>
 	<!-- Labels -->
-	<string name="char_sanity_title">Sanity</string>
-	<string name="char_madness_title">Madnesses</string>
+	<string name="char_diseases_title">Diseases</string>
 
 	<string name="char_diseases_button_tooltip">Disease Tracker</string>
 
-	<string name="char_label_sanityscore">Score</string>
-	<string name="char_label_sanitythreshold">Threshold</string>
-	<string name="char_label_sanityedge">Edge</string>
-	<string name="char_label_sanitydamage">Damage</string>
-
-	<string name="record_madness_severity_label">SEVERITY</string>
-	<string name="record_madness_severity_type_label">Type</string>
-	<string name="record_madness_subtype_label">Subtype</string>
-	<string name="record_madness_severity_lesser">lesser madness</string>
-	<string name="record_madness_severity_greater">greater madness</string>
-	<string name="record_madness_stats_label">STATS</string>
-	<string name="record_madness_save_label">Save</string>
-	<string name="record_madness_onset_label">Onset</string>
-	<string name="record_madness_effect_label">EFFECTS</string>
-	<string name="record_madness_dormancy_label">DORMANCY</string>
-	<string name="record_madness_description_label">DESCRIPTION</string>
+	<string name="record_disease_section_stats_label">STATS</string>
+	<string name="record_disease_type_label">Type</string>
+	<string name="record_disease_save_label">Save</string>
+	<string name="record_disease_onset_label">Onset</string>
+	<string name="record_disease_frequency_label">Frequency</string>
+	<string name="record_disease_section_effect_label">EFFECT</string>
+	<string name="record_disease_section_cure_label">CURE</string>
+	<string name="record_disease_section_description_label">DESCRIPTION</string>
 </root>
