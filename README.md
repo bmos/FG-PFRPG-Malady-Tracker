@@ -6,3 +6,7 @@ This extension has been fully tested with FantasyGrounds Classic 3.3.11 and Fant
 
 # Features
 * Track diseases incurred
+* Roll save and announce success
+
+# Example Image
+<img src="https://i.imgur.com/wXv9pEF.jpg" alt="disease tracker example image"/>
