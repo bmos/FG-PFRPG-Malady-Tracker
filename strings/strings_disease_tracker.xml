@@ -10,6 +10,7 @@
 
 	<string name="record_disease_section_stats_label">STATS</string>
 	<string name="record_disease_type_label">Type</string>
+	<string name="record_disease_subtype_label">Subtype</string>
 	<string name="record_disease_save_label">Save</string>
 	<string name="record_disease_onset_label">Onset</string>
 	<string name="record_disease_frequency_label">Frequency</string>

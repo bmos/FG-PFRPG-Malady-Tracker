@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for attribution and copyright information. -->
+
+<root>
+	<windowclass name="diseasedesc">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="450" height="450" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="450" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<playercontrol />
+		<sharable />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update()
+				end
+				if content.subwindow then
+					content.subwindow.update()
+				end
+			end
+		</script>
+		<sheetdata>
+			<sub_ref_header name="header">
+				<class>diseasedesc_header</class>
+			</sub_ref_header>
+
+			<frame_ref_content />
+			<sub_ref_content name="content">
+				<class>diseasedesc_stats</class>
+			</sub_ref_content>
+			<scrollbar_ref_content />
+			
+			<resize_referencepage />
+			<close_referencepage />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="diseasedesc_header">
+		<margins control="0,0,0,7" />
+		<script>
+			function onInit()
+				update()
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode())
+				name.setReadOnly(bReadOnly)
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>diseasedesc</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_disease" />
+			</string_record_name>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="diseasedesc_stats">
+		<margins control="0,0,0,15" />
+		<script>
+			function onInit()
+				update()
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode())
+			
+				if bReadOnly then
+					local sSubtype = ''
+					if subtype.getValue() and subtype.getValue() ~= '' then
+						sSubtype = ' (' .. subtype.getValue() .. ')'
+					end
+					
+					local sSave = ''
+					if savedc.getValue() and savedc.getValue() ~= 0 and savetype.getValue() and savetype.getValue() ~= '' then
+						sSave = 'DC ' .. savedc.getValue() .. ' '
+					end
+					if savetype.getValue() and savetype.getValue() ~= '' then
+						sSave = sSave .. savetype.getValue()
+					else
+						sSave = 'none'
+					end
+				
+					save_string.setValue(sSave)
+					save_string.setVisible(true)
+					savetype.setVisible(false)
+					savedc_label.setVisible(false)
+					savedc.setVisible(false)
+				
+					type_biglabel.setValue('[' .. type.getValue() .. sSubtype .. ']')
+					type_biglabel.setVisible(true)
+					type.setVisible(false)
+					type_label.setVisible(false)
+					subtype.setVisible(false)
+					subtype_label.setVisible(false)
+				else
+					save_string.setVisible(false)
+					savetype.setVisible(true)
+					savedc_label.setVisible(true)
+					savedc.setVisible(true)
+				
+					type_biglabel.setVisible(false)
+					type.setVisible(true)
+					type_label.setVisible(true)
+					subtype.setVisible(true)
+					subtype_label.setVisible(true)
+				end
+			
+				onset.update(bReadOnly)
+				frequency.update(bReadOnly)
+				effect.update(bReadOnly)
+				cure.update(bReadOnly)
+				description.update(bReadOnly)
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_column name="type_biglabel">
+				<anchored>
+					<top relation="relative" offset="7" />
+				</anchored>
+				<font>reference-b-large</font>
+			</label_column>
+			
+			<header_column name="section_stats_label">
+				<static textres="record_disease_section_stats_label"/>
+				<center />
+			</header_column>
+			
+			<label_column name="type_label">
+				<static textres="record_disease_type_label" />
+			</label_column>	
+			<string_columnh name="type">
+				<default>disease</default>
+			</string_columnh>
+			
+			<label_column name="subtype_label">
+				<static textres="record_disease_subtype_label" />
+			</label_column>
+			<string_columnh name="subtype" />
+			
+			<label_column name="save_label">
+				<static textres="record_disease_save_label" />
+			</label_column>
+			
+			<string_columnh name="save_string">
+				<anchored>
+					<left />
+				</anchored>
+				<readonly />
+			</string_columnh>
+			
+			<number_column_right name="savedc">
+				<anchored height="20" >
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				</anchored>
+				<hideonvalue value="0" />
+			</number_column_right>
+			<label name="savedc_label">
+				<anchored height="20">
+					<top parent="subtype" anchor="bottom" offset="7" />
+					<right parent="savedc" anchor="left" offset="-10" />
+				</anchored>
+				<static textres="dc" />
+			</label>
+			
+			<button_stringcycler name="savetype">
+				<anchored width="50">
+					<top parent="subtype" anchor="bottom" offset="7" />
+					<right parent="savedc_label" anchor="left" offset="-10" />
+				</anchored>
+				<parameters>
+					<defaultlabelres>power_label_savetypenone</defaultlabelres>
+					<labelsres>power_label_savetypefort|power_label_savetyperef|power_label_savetypewill</labelsres>
+					<values>fortitude|reflex|will</values>
+				</parameters>
+			</button_stringcycler>
+			
+			<label_column name="onset_label">
+				<static textres="record_disease_onset_label" />
+			</label_column>
+			<string_columnh name="onset" />
+			
+			<label_column name="frequency_label">
+				<static textres="record_disease_frequency_label" />
+			</label_column>
+			<string_columnh name="frequency" />
+			
+			<header_column name="section_effect_label">
+				<static textres="record_disease_section_effect_label"/>
+				<center />
+			</header_column>
+			<ft_columnh name="effect" />
+			
+			<header_column name="section_cure_label">
+				<static textres="record_disease_section_cure_label"/>
+				<center />
+			</header_column>
+			<ft_columnh name="cure" />
+			
+			<header_column name="section_description_label">
+				<static textres="record_disease_section_description_label"/>
+				<center />
+			</header_column>
+			<ft_columnh name="description" />
+		</sheetdata>
+	</windowclass>
+</root>
