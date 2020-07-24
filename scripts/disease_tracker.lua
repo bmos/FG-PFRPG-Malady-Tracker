@@ -30,3 +30,23 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 	
 	return true
 end
+
+---	This function rolls the save specified in the disease information
+function rollSave(rActor, sSave, nDC)
+	if sSave == 'fort' then
+		sSave = 'fortitude'
+	elseif sSave == 'ref' then
+		sSave = 'reflex'
+	elseif sSave == 'none' then
+		sSave = nil
+	end
+
+	local rRoll = ActionSave.getRoll(rActor, sSave)
+
+	if nDC == 0 then
+		nDC = nil
+	end
+	rRoll.nTarget = nDC
+
+	ActionsManager.performAction(nil, rActor, rRoll)
+end
