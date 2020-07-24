@@ -66,7 +66,7 @@
 			</label_frametop>
 			<list_charabilities name="diseases">
 				<anchored to="diseasesframe">
-					<top offset="28" />
+					<top offset="30" />
 					<left offset="15" />
 					<right offset="-20" />
 					<bottom offset="-15" />
