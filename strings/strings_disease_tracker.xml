@@ -14,7 +14,9 @@
 	<string name="record_disease_save_label">Save</string>
 	<string name="record_disease_onset_label">Onset</string>
 	<string name="record_disease_frequency_label">Frequency</string>
+	<string name="record_disease_cure_label">Cure</string>
 	<string name="record_disease_section_effect_label">EFFECT</string>
-	<string name="record_disease_section_cure_label">CURE</string>
+	<string name="record_disease_poison_effect_primary_label">Primary</string>
+	<string name="record_disease_poison_effect_secondary_label">Secondary</string>
 	<string name="record_disease_section_description_label">DESCRIPTION</string>
 </root>

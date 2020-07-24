@@ -77,7 +77,6 @@
 			end
 			function update()
 				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode())
-			
 				if bReadOnly then
 					local sSubtype = ''
 					if subtype.getValue() and subtype.getValue() ~= '' then
@@ -121,9 +120,13 @@
 			
 				onset.update(bReadOnly)
 				frequency.update(bReadOnly)
-				effect.update(bReadOnly)
 				cure.update(bReadOnly)
+				disease_effect.update(bReadOnly)
+				poison_effect_primary.update(bReadOnly)
+				poison_effect_secondary.update(bReadOnly)
 				description.update(bReadOnly)
+
+				type.switchFormat()
 			end
 		</script>
 		<sheetdata>
@@ -146,6 +149,33 @@
 			</label_column>	
 			<string_columnh name="type">
 				<default>disease</default>
+				<script>
+					function onValueChanged()
+						switchFormat()
+					end
+					function switchFormat()
+						local sType = string.lower(window.type.getValue())
+						if sType == 'poison' then
+							window.disease_effect.setVisible(false)
+							window.poison_effect_primary_label.setVisible(true)
+							window.poison_effect_primary.setVisible(true)
+							window.poison_effect_secondary_label.setVisible(true)
+							window.poison_effect_secondary.setVisible(true)
+						elseif sType == 'disease' then
+							window.disease_effect.setVisible(true)
+							window.poison_effect_primary_label.setVisible(false)
+							window.poison_effect_primary.setVisible(false)
+							window.poison_effect_secondary_label.setVisible(false)
+							window.poison_effect_secondary.setVisible(false)
+						else
+							window.disease_effect.setVisible(true)
+							window.poison_effect_primary_label.setVisible(true)
+							window.poison_effect_primary.setVisible(true)
+							window.poison_effect_secondary_label.setVisible(true)
+							window.poison_effect_secondary.setVisible(true)
+						end
+					end
+				</script>
 			</string_columnh>
 			
 			<label_column name="subtype_label">
@@ -200,17 +230,27 @@
 			</label_column>
 			<string_columnh name="frequency" />
 			
+			<label_column name="cure_label">
+				<static textres="record_disease_cure_label" />
+			</label_column>
+			<string_columnh name="cure" />
+			
 			<header_column name="section_effect_label">
 				<static textres="record_disease_section_effect_label"/>
 				<center />
 			</header_column>
-			<ft_columnh name="effect" />
+
+			<ft_columnh name="disease_effect" />
 			
-			<header_column name="section_cure_label">
-				<static textres="record_disease_section_cure_label"/>
-				<center />
-			</header_column>
-			<ft_columnh name="cure" />
+			<label_column name="poison_effect_primary_label">
+				<static textres="record_disease_poison_effect_primary_label" />
+			</label_column>
+			<string_columnh name="poison_effect_primary" />
+			
+			<label_column name="poison_effect_secondary_label">
+				<static textres="record_disease_poison_effect_secondary_label" />
+			</label_column>
+			<string_columnh name="poison_effect_secondary" />
 			
 			<header_column name="section_description_label">
 				<static textres="record_disease_section_description_label"/>
