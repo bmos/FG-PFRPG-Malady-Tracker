@@ -3,7 +3,7 @@
 <!-- Please see the license.html file included with this distribution for attribution and copyright information. -->
 
 <root>
-	<windowclass name="diseasedesc">
+	<windowclass name="referencedisease">
 		<frame>recordsheet</frame>
 		<placement>
 			<size width="450" height="475" />
@@ -56,7 +56,7 @@
 		</script>
 		<sheetdata>
 			<link_record_header>
-				<class>diseasedesc</class>
+				<class>referencedisease</class>
 			</link_record_header>
 
 			<anchor_record_header_right />

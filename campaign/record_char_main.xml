@@ -28,7 +28,7 @@
 				<tooltip textres="char_diseases_button_tooltip" />
 				<script>
 					function onButtonPress()
-						Interface.openWindow('charsheet_diseases', window.getDatabaseNode())
+						Interface.openWindow('charsheet_diseasetracker', window.getDatabaseNode())
 					end
 				</script>
 			</buttoncontrol>
@@ -36,7 +36,22 @@
 	</windowclass>
 	
 	<!-- Diseases List Sheet -->
-	<windowclass name="charsheet_diseases">
+	<windowclass name="charsheet_diseasetracker">
+		<script>
+			function onDrop(x, y, draginfo)
+				return handleDrop(draginfo, nil);
+			end
+			
+			function handleDrop(draginfo, nodeTargetList)
+				if draginfo.isType("shortcut") then
+					local sClass, sRecord = draginfo.getShortcutData()
+					if StringManager.contains({"referencedisease"}, sClass) then
+						DiseaseTracker.addDisease(getDatabaseNode(), sClass, sRecord, nodeTargetList)
+						return true
+					end
+				end
+			end
+		</script>
 		<frame>charsheethelper</frame>
 		<placement>
 			<size width="300" height="135" />
@@ -72,7 +87,7 @@
 					<bottom offset="-15" />
 				</anchored>
 				<datasource>.diseases</datasource>
-				<class>char_health_diseases</class>
+				<class>referencediseases</class>
 			</list_charabilities>
 			<scrollbar>
 				<anchored to="diseases" />
@@ -93,7 +108,7 @@
 	</windowclass>
 
 	<!-- Disease Sheet -->
-	<windowclass name="char_health_diseases">
+	<windowclass name="referencediseases">
 		<margins control="0,0,0,2" />
 		<sheetdata>
 			<genericcontrol name="rightanchor">
@@ -113,7 +128,7 @@
 					<top offset="2" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
 				</anchored>
-				<class>diseasedesc</class>
+				<class>referencedisease</class>
 				<description field="name" />
 				<readonly />
 			</linkcontrol>

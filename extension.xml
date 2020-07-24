@@ -26,5 +26,7 @@
 		<includefile source="campaign/record_disease.xml" />
 		<!-- Strings -->
 		<includefile source="strings/strings_disease_tracker.xml" />
+		<!-- Scripts -->
+		<script name="DiseaseTracker" file="scripts/disease_tracker.lua" />
 	</base>
 </root>
