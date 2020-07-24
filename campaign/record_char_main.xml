@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_main" merge="join">
+		<sheetdata>
+		<!-- Health -->
+			<frame_char name="hpframe">
+				<bounds>15,380,385,100</bounds>
+			</frame_char>
+			
+			<string_labeled name="dr" source="defenses.damagereduction">
+				<anchored>
+					<top anchor="top" offset="65" />
+					<left anchor="left" offset="45" />
+					<right anchor="right" offset="-15" />
+				</anchored>
+				<labelres>char_label_dr</labelres>
+			</string_labeled>
+
+			<buttoncontrol name="button_diseases">
+				<bounds>30,444,23,23</bounds>
+				<icon normal="button_vitamin" pressed="button_vitamin_down" />
+				<tooltip textres="char_diseases_button_tooltip" />
+				<script>
+					function onButtonPress()
+						Interface.openWindow('charsheet_diseases', window.getDatabaseNode())
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+	
+	<!-- Diseases List Sheet -->
+	<windowclass name="charsheet_diseases">
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="300" height="135" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="200" />
+			<maximum width="300" height="650" />
+			<dynamic />
+		</sizelimits>
+		<nodelete />
+		<playercontrol />
+		<sheetdata>
+			<windowtitlebar_char name="title">
+				<prefix>char_diseases_title</prefix>
+			</windowtitlebar_char>
+			<anchor_title_charsheethelper name="contentanchor" />
+		
+			<frame_char name="diseasesframe">
+				<anchored position="insidetopleft" offset="15,45">
+					<right anchor="right" offset="-15" />
+					<bottom anchor="bottom" offset="-15" />
+				</anchored>
+			</frame_char>
+			<label_frametop>
+				<anchored to="diseasesframe" />
+				<static textres="char_diseases_title" />
+			</label_frametop>
+			<list_charabilities name="diseases">
+				<anchored to="diseasesframe">
+					<top offset="28" />
+					<left offset="15" />
+					<right offset="-20" />
+					<bottom offset="-15" />
+				</anchored>
+				<datasource>.diseases</datasource>
+				<class>char_health_diseases</class>
+			</list_charabilities>
+			<scrollbar>
+				<anchored to="diseases" />
+				<target>diseases</target>
+			</scrollbar>
+			<button_iedit name="diseases_iedit">
+				<anchored to="diseases" position="aboveright" offset="5,0" />
+				<target>diseases</target>
+			</button_iedit>
+			<button_iadd name="diseases_iadd">
+				<anchored to="diseases" position="aboveleft" offset="5,0" />
+				<target>diseases</target>
+			</button_iadd>
+		
+			<close_charsheethelper />
+			<resize_charsheethelper />
+		</sheetdata>
+	</windowclass>
+
+	<!-- Disease Sheet -->
+	<windowclass name="char_health_diseases">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_idelete>
+			<linkcontrol name="shortcut">
+				<anchored width="20" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<class>diseasedesc</class>
+				<description field="name" />
+				<readonly />
+			</linkcontrol>
+			<string_textlistitem name="name">
+				<anchored>
+					<top offset="2" />
+					<left offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+			</string_textlistitem>
+		</sheetdata>
+	</windowclass>
+</root>
