@@ -15,7 +15,7 @@
 			
 			<string_labeled name="dr" source="defenses.damagereduction">
 				<anchored>
-					<top anchor="top" offset="65" />
+					<top anchor="top" offset="64" />
 					<left anchor="left" offset="45" />
 					<right anchor="right" offset="-15" />
 				</anchored>
