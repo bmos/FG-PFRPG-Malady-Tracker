@@ -52,6 +52,7 @@ local function ifLocked()
 	if subtype.getValue() and subtype.getValue() ~= '' then
 		sSubtype = ' (' .. subtype.getValue() .. ')'
 	end
+	type_biglabel.setValue('[' .. type.getValue() .. sSubtype .. ']')
 
 	generateSaveString()
 
@@ -60,8 +61,8 @@ local function ifLocked()
 	savedc_label.setVisible(false)
 	savedc.setVisible(false)
 	saveroll.setVisible(true)
+	raisesave.setVisible(true)
 
-	type_biglabel.setValue('[' .. type.getValue() .. sSubtype .. ']')
 	type_biglabel.setVisible(true)
 	type.setVisible(false)
 	type_label.setVisible(false)
@@ -76,6 +77,7 @@ local function ifUnlocked()
 	savedc_label.setVisible(true)
 	savedc.setVisible(true)
 	saveroll.setVisible(false)
+	raisesave.setVisible(false)
 
 	type_biglabel.setVisible(false)
 	type.setVisible(true)
