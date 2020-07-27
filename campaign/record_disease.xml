@@ -171,10 +171,78 @@
 			</label_column>
 			<string_columnh name="onset" />
 			
-			<label_column name="frequency_label">
-				<static textres="record_disease_frequency_label" />
+			<label_column name="freq_label">
+				<static textres="record_disease_freq_label" />
 			</label_column>
-			<string_columnh name="frequency" />
+			
+			<string_columnh name="freq_string">
+				<anchored>
+					<left />
+				</anchored>
+				<readonly />
+			</string_columnh>
+			
+			<number_column_right name="freq_interval">
+				<anchored height="20" >
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				</anchored>
+				<hideonvalue value="0" />
+			</number_column_right>
+			
+			<button_stringcycler name="freq_unit">
+				<anchored width="50">
+					<top parent="onset" anchor="bottom" offset="7" />
+					<right parent="freq_interval" anchor="left" offset="-10" />
+				</anchored>
+				<parameters>
+					<defaultlabelres>record_disease_cycler_freq_none</defaultlabelres>
+					<labelsres>record_disease_cycler_freq_round|record_disease_cycler_freq_minute|record_disease_cycler_freq_hour|record_disease_cycler_freq_day</labelsres>
+					<values>rounds|minutes|hours|days</values>
+				</parameters>
+			</button_stringcycler>
+			
+			<label_column name="duration_label">
+				<static textres="record_disease_duration_label" />
+			</label_column>
+			
+			<string_columnh name="duration_string">
+				<anchored>
+					<left />
+				</anchored>
+				<readonly />
+			</string_columnh>
+			
+			<number_column_right name="duration_interval">
+				<anchored height="20" >
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				</anchored>
+				<hideonvalue value="0" />
+			</number_column_right>
+			
+			<button_stringcycler name="duration_unit">
+				<anchored width="50">
+					<top parent="freq_unit" anchor="bottom" offset="7" />
+					<right parent="duration_interval" anchor="left" offset="-10" />
+				</anchored>
+				<parameters>
+					<defaultlabelres>record_disease_cycler_duration_none</defaultlabelres>
+					<labelsres>record_disease_cycler_duration_rounds|record_disease_cycler_duration_minutes|record_disease_cycler_duration_hours|record_disease_cycler_duration_days|record_disease_cycler_duration_weeks|record_disease_cycler_duration_indefinite</labelsres>
+					<values>rounds|minutes|hours|days|weeks|forever</values>
+				</parameters>
+			</button_stringcycler>
+
+			<buttoncontrol name="increaseduration">
+				<anchored to="duration_string" position="left" offset="5" width="20" height="20" />
+				<icon normal="button_zoomin" pressed="button_zoomin_down" />
+				<tooltip textres="char_disease_increaseduration" />
+				<script>
+					function onClickRelease(target, button, image)
+						nDurInt = window.duration_interval.getValue()
+						window.duration_interval.setValue(nDurInt * 1.5)
+						window.generateDurationString()
+					end
+				</script>
+			</buttoncontrol>
 			
 			<label_column name="cure_label">
 				<static textres="record_disease_cure_label" />
