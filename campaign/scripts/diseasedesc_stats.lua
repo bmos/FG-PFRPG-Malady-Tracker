@@ -24,25 +24,25 @@ end
 
 ---	This function hides extra fields once the malady type is set.
 function switchType()
-	local sType = string.lower(window.type.getValue())
+	local sType = string.lower(type.getValue())
 	if sType == 'poison' then
-		window.disease_effect.setVisible(false)
-		window.poison_effect_primary_label.setVisible(true)
-		window.poison_effect_primary.setVisible(true)
-		window.poison_effect_secondary_label.setVisible(true)
-		window.poison_effect_secondary.setVisible(true)
+		disease_effect.setVisible(false)
+		poison_effect_primary_label.setVisible(true)
+		poison_effect_primary.setVisible(true)
+		poison_effect_secondary_label.setVisible(true)
+		poison_effect_secondary.setVisible(true)
 	elseif sType == 'disease' then
-		window.disease_effect.setVisible(true)
-		window.poison_effect_primary_label.setVisible(false)
-		window.poison_effect_primary.setVisible(false)
-		window.poison_effect_secondary_label.setVisible(false)
-		window.poison_effect_secondary.setVisible(false)
+		disease_effect.setVisible(true)
+		poison_effect_primary_label.setVisible(false)
+		poison_effect_primary.setVisible(false)
+		poison_effect_secondary_label.setVisible(false)
+		poison_effect_secondary.setVisible(false)
 	else
-		window.disease_effect.setVisible(true)
-		window.poison_effect_primary_label.setVisible(true)
-		window.poison_effect_primary.setVisible(true)
-		window.poison_effect_secondary_label.setVisible(true)
-		window.poison_effect_secondary.setVisible(true)
+		disease_effect.setVisible(true)
+		poison_effect_primary_label.setVisible(true)
+		poison_effect_primary.setVisible(true)
+		poison_effect_secondary_label.setVisible(true)
+		poison_effect_secondary.setVisible(true)
 	end
 end
 
