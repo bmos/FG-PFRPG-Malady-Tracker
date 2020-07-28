@@ -12,4 +12,4 @@ This extension has been tested with [FantasyGrounds Classic](https://www.fantasy
 * Automated button to roll against listed save DC and announce success/failure
 
 # Example Image
-<img src="https://i.imgur.com/wXv9pEF.jpg" alt="disease tracker example image"/>
+<img src="https://i.imgur.com/9Ap1GQS.jpg" alt="disease tracker example image"/>
