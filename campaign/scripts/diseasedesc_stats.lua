@@ -61,7 +61,6 @@ local function ifLocked(sType)
 	savedc_label.setVisible(false)
 	savedc.setVisible(false)
 	saveroll.setVisible(true)
-	if save_string.getValue() and save_string.getValue() ~= 'none' then raisesave.setVisible(true) end
 
 	if sType ~= 'disease' then
 		duration_label.setVisible(false)
@@ -86,6 +85,7 @@ local function ifLocked(sType)
 	end
 	if sType == 'poison' then
 		disease_effect.setVisible(false)
+		if save_string.getValue() and save_string.getValue() ~= 'none' then raisesave.setVisible(true) end
 		if duration_interval.getValue() and duration_interval.getValue() > 0 then increaseduration.setVisible(true) end
 	end
 	
