@@ -94,7 +94,7 @@
 				<default>disease</default>
 				<script>
 					function onValueChanged()
-						window.switchType()
+						window.update()
 					end
 				</script>
 			</string_columnh>
@@ -175,18 +175,12 @@
 				<static textres="record_disease_freq_label" />
 			</label_column>
 			
-			<string_columnh name="freq_string">
-				<anchored>
-					<left />
-				</anchored>
-				<readonly />
-			</string_columnh>
-			
 			<number_column_right name="freq_interval">
 				<anchored height="20" >
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
 				</anchored>
-				<hideonvalue value="0" />
+				<default>1</default>
+				<readonly />
 			</number_column_right>
 			
 			<button_stringcycler name="freq_unit">
@@ -204,13 +198,6 @@
 			<label_column name="duration_label">
 				<static textres="record_disease_duration_label" />
 			</label_column>
-			
-			<string_columnh name="duration_string">
-				<anchored>
-					<left />
-				</anchored>
-				<readonly />
-			</string_columnh>
 			
 			<number_column_right name="duration_interval">
 				<anchored height="20" >
@@ -232,14 +219,14 @@
 			</button_stringcycler>
 
 			<buttoncontrol name="increaseduration">
-				<anchored to="duration_string" position="left" offset="5" width="20" height="20" />
+				<anchored to="save_string" position="right" offset="-15" width="20" height="20" />
 				<icon normal="button_zoomin" pressed="button_zoomin_down" />
 				<tooltip textres="char_disease_increaseduration" />
 				<script>
 					function onClickRelease(target, button, image)
 						nDurInt = window.duration_interval.getValue()
 						window.duration_interval.setValue(nDurInt * 1.5)
-						window.generateDurationString()
+						window.generateSaveString()
 					end
 				</script>
 			</buttoncontrol>
@@ -254,17 +241,17 @@
 				<center />
 			</header_column>
 
-			<ft_columnh name="disease_effect" />
+			<ft_column name="disease_effect" />
 			
 			<label_column name="poison_effect_primary_label">
 				<static textres="record_disease_poison_effect_primary_label" />
 			</label_column>
-			<string_columnh name="poison_effect_primary" />
+			<string_column name="poison_effect_primary" />
 			
 			<label_column name="poison_effect_secondary_label">
 				<static textres="record_disease_poison_effect_secondary_label" />
 			</label_column>
-			<string_columnh name="poison_effect_secondary" />
+			<string_column name="poison_effect_secondary" />
 			
 			<header_column name="section_description_label">
 				<static textres="record_disease_section_description_label"/>
