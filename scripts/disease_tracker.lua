@@ -37,6 +37,8 @@ function rollSave(rActor, sSave, nDC)
 		sSave = 'fortitude'
 	elseif sSave == 'ref' then
 		sSave = 'reflex'
+	elseif sSave == 'will' then
+		sSave = 'will'
 	elseif sSave == 'none' then
 		sSave = nil
 	end
