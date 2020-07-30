@@ -148,7 +148,8 @@
 						local rActor = ActorManager.getActor('pc', window.getDatabaseNode().getChild('...'))
 						local sSave = string.lower(window.savetype.getValue())
 						local nDC = window.savedc.getValue()
-						DiseaseTracker.rollSave(rActor, sSave, nDC)
+						local sType = string.lower(window.type.getValue())
+						DiseaseTracker.rollSave(rActor, sSave, nDC, sType)
 					end
 				</script>
 			</button_roll>

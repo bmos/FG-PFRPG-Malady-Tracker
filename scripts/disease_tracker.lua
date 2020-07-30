@@ -32,7 +32,7 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 end
 
 ---	This function rolls the save specified in the disease information
-function rollSave(rActor, sSave, nDC)
+function rollSave(rActor, sSave, nDC, sType)
 	if sSave == 'fort' then
 		sSave = 'fortitude'
 	elseif sSave == 'ref' then
@@ -49,6 +49,8 @@ function rollSave(rActor, sSave, nDC)
 		nDC = nil
 	end
 	rRoll.nTarget = nDC
+	if sType == 'disease' then rRoll.tags = 'disease' end
+	if sType == 'poison' then rRoll.tags = 'poison' end
 
 	ActionsManager.performAction(nil, rActor, rRoll)
 end
