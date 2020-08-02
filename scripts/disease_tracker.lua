@@ -49,8 +49,8 @@ function rollSave(rActor, sSave, nDC, sType)
 		nDC = nil
 	end
 	rRoll.nTarget = nDC
-	if sType == 'disease' then rRoll.tags = 'disease' end
-	if sType == 'poison' then rRoll.tags = 'poison' end
+	if sType == 'disease' then rRoll.tags = 'diseasetracker' end
+	if sType == 'poison' then rRoll.tags = 'poisontracker' end
 
 	ActionsManager.performAction(nil, rActor, rRoll)
 end
