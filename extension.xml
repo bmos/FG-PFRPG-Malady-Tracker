@@ -3,7 +3,7 @@
 	<!-- Please see the LICENSE.md file included with this distribution for attribution and copyright information. -->
 	<properties>
 		<name>Disease Tracker</name>
-		<version>1.1.0</version>
+		<version>1.2.0</version>
 		<author>bmos (Wil Thieme)</author>
 		<description>This FantasyGrounds extension helps track disease duration, saves, effects, and other information.</description>
 		<ruleset>
@@ -14,7 +14,7 @@
 		</ruleset>
 	</properties>
 
-	<announcement text="https://github.com/bmos/FG-PFRPG-Disease-Tracker\nPFRPG Disease Tracker:\nThis extension helps track disease duration, saves, effects, and other information. To access it, click the pill bottle button next by the character's hitpoints."  icon="logo_vitamin" font="emotefont" />
+	<announcement text="https://github.com/bmos/FG-PFRPG-Disease-Tracker\nPFRPG Disease Tracker v1.2.0:\nThis extension helps track disease duration, saves, effects, and other information. To access it, click the pill bottle button next by the character's hitpoints."  icon="logo_vitamin" font="emotefont" />
 
 	<base>
 		<!-- Graphics -->
