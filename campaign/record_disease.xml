@@ -149,7 +149,8 @@
 						local sSave = string.lower(window.savetype.getValue())
 						local nDC = window.savedc.getValue()
 						local sType = string.lower(window.type.getValue())
-						DiseaseTracker.rollSave(rActor, sSave, nDC, sType)
+						local sDiseaseName = DB.getValue(window.getDatabaseNode(), 'name', '')
+						DiseaseTracker.rollSave(rActor, sSave, nDC, sType, sDiseaseName)
 					end
 				</script>
 			</button_roll>
@@ -200,9 +201,9 @@
 							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
-							if getValue() == '/min' then DB.setValue(window.getDatabaseNode(), 'remindercycle', 'number', 1) end
-							if getValue() == '/hour' then DB.setValue(window.getDatabaseNode(), 'remindercycle', 'number', 60) end
-							if getValue() == '/day' then DB.setValue(window.getDatabaseNode(), 'remindercycle', 'number', 1440) end
+						else
+							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
+							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
 						end
 					end
 				</script>
@@ -226,9 +227,21 @@
 				</anchored>
 				<parameters>
 					<defaultlabelres>record_disease_cycler_duration_none</defaultlabelres>
-					<labelsres>record_disease_cycler_duration_rounds|record_disease_cycler_duration_minutes|record_disease_cycler_duration_hours|record_disease_cycler_duration_days|record_disease_cycler_duration_weeks|record_disease_cycler_duration_indefinite</labelsres>
-					<values>rounds|minutes|hours|days|weeks|forever</values>
+					<labelsres>record_disease_cycler_duration_rounds|record_disease_cycler_duration_minutes|record_disease_cycler_duration_hours|record_disease_cycler_duration_days|record_disease_cycler_duration_weeks</labelsres>
+					<values>.1|1|60|1440|10080</values>
 				</parameters>
+				<script>
+					function onValueChanged()
+						if TimeManager and getValue() ~= '' then
+							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
+							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
+							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
+						else
+							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
+							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
+						end
+					end
+				</script>
 			</button_stringcycler>
 
 			<buttoncontrol name="increaseduration">

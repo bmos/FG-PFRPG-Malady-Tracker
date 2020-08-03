@@ -13,9 +13,18 @@ function onTimeChanged(node)
 			local nDateOfContr = DB.getValue(vvNode, 'starttime')
 			if nDateOfContr and nDateinMinutes then								-- if the disease has a date of contraction listed and the current date is known
 				local nTimeElapsed = nDateinMinutes - nDateOfContr
-				local nFreq = DB.getValue(vvNode, 'remindercycle', 1)
+				local nFreq = DB.getValue(vvNode, 'freq_unit', 1)
 				local nPrevRollCount = DB.getValue(vvNode, 'savecount', 0)
 				local nNewRollCount = math.floor(nTimeElapsed / nFreq)
+				local nTargetRollCount = nNewRollCount - nPrevRollCount
+
+				local nDurUnit = DB.getValue(vvNode, 'duration_unit')
+				local nDurVal = DB.getValue(vvNode, 'duration_interval')
+				local nDuration = 0
+				
+				if nDurUnit and nDurVal then nDuration = (nDurUnit * nDurVal) end
+				
+				if nDuration ~= 0 and nTargetRollCount > (nDuration / nFreq) then nTargetRollCount = (nDuration / nFreq) end
 				
 				if DB.getValue(vvNode, 'savetype') and nNewRollCount > nPrevRollCount then	-- if savetype is known and more saves are due
 					local nRollCount = 0
@@ -24,10 +33,13 @@ function onTimeChanged(node)
 						local sSave = DB.getValue(vvNode, 'savetype')
 						local nDC = DB.getValue(vvNode, 'savedc')
 						local sType = DB.getValue(vvNode, 'type')
-						rollSave(rActor, sSave, nDC, sType)
+						local sDiseaseName = DB.getValue(vvNode, 'name')
+						rollSave(rActor, sSave, nDC, sType, sDiseaseName)
 
 						nRollCount = nRollCount + 1
-					until nRollCount == (nNewRollCount - nPrevRollCount)
+					until nRollCount == nTargetRollCount
+
+					if nDurUnit and nDurVal and nTimeElapsed >= nDuration then vvNode.delete(); break end
 
 					DB.setValue(vvNode, 'savecount', 'number', nPrevRollCount + nRollCount)	-- saves the new total for use next time
 				end
@@ -66,7 +78,7 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 end
 
 ---	This function rolls the save specified in the disease information
-function rollSave(rActor, sSave, nDC, sType)
+function rollSave(rActor, sSave, nDC, sType, sDiseaseName)
 	if sSave == 'fort' then
 		sSave = 'fortitude'
 	elseif sSave == 'ref' then
@@ -83,8 +95,12 @@ function rollSave(rActor, sSave, nDC, sType)
 		nDC = nil
 	end
 	rRoll.nTarget = nDC
-	if sType == 'disease' then rRoll.tags = 'diseasetracker' end
-	if sType == 'poison' then rRoll.tags = 'poisontracker' end
-
+	if sType ~= '' then
+		rRoll.tags = sType .. 'tracker'
+	end
+	if sDiseaseName ~= '' and sSave then
+		rRoll.sDesc = '[' .. string.upper(sType) .. '] ' .. sDiseaseName .. ' [' .. string.upper(sSave) .. ' SAVE]'
+	end
+	
 	ActionsManager.performAction(nil, rActor, rRoll)
 end
