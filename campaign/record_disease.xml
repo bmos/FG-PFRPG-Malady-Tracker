@@ -192,7 +192,7 @@
 				<parameters>
 					<defaultlabelres>record_disease_cycler_freq_none</defaultlabelres>
 					<labelsres>record_disease_cycler_freq_round|record_disease_cycler_freq_minute|record_disease_cycler_freq_hour|record_disease_cycler_freq_day</labelsres>
-					<values>rounds|minutes|hours|days</values>
+					<values>.1|1|60|1440</values>
 				</parameters>
 				<script>
 					function onValueChanged()
