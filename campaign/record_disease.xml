@@ -194,6 +194,17 @@
 					<labelsres>record_disease_cycler_freq_round|record_disease_cycler_freq_minute|record_disease_cycler_freq_hour|record_disease_cycler_freq_day</labelsres>
 					<values>rounds|minutes|hours|days</values>
 				</parameters>
+				<script>
+					function onValueChanged()
+						if TimeManager and (getValue() == '/min' or getValue() == '/hour' or getValue() == '/day') then
+							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
+							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
+							if getValue() == '/min' then DB.setValue(window.getDatabaseNode(), 'remindercycle', 'number', 1) end
+							if getValue() == '/hour' then DB.setValue(window.getDatabaseNode(), 'remindercycle', 'number', 60) end
+							if getValue() == '/day' then DB.setValue(window.getDatabaseNode(), 'remindercycle', 'number', 1440) end
+						end
+					end
+				</script>
 			</button_stringcycler>
 			
 			<label_column name="duration_label">
