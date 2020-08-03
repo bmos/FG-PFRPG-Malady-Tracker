@@ -12,15 +12,23 @@ function onTimeChanged(node)
 		for _,vvNode in pairs(DB.getChildren(vNode, "diseases")) do 			-- iterates through each disease of the player character
 			local nDateOfContr = DB.getValue(vvNode, 'starttime')
 			if nDateOfContr and nDateinMinutes then								-- if the disease has a date of contraction listed and the current date is known
-				local nTimeElapsed = nDateinMinutes - nDateOfContr
+				local rActor = ActorManager.getActor('pc', vNode)
+				
+				local sDiseaseName = DB.getValue(vvNode, 'name')
+				local sType = DB.getValue(vvNode, 'type')
+				local sSave = DB.getValue(vvNode, 'savetype')
+				local nDC = DB.getValue(vvNode, 'savedc')
+				
 				local nFreq = DB.getValue(vvNode, 'freq_unit', 1)
-				local nPrevRollCount = DB.getValue(vvNode, 'savecount', 0)
-				local nNewRollCount = math.floor(nTimeElapsed / nFreq)
-				local nTargetRollCount = nNewRollCount - nPrevRollCount
 
 				local nDurUnit = DB.getValue(vvNode, 'duration_unit')
 				local nDurVal = DB.getValue(vvNode, 'duration_interval')
 				local nDuration = 0
+
+				local nTimeElapsed = nDateinMinutes - nDateOfContr
+				local nPrevRollCount = DB.getValue(vvNode, 'savecount', 0)
+				local nNewRollCount = math.floor(nTimeElapsed / nFreq)
+				local nTargetRollCount = nNewRollCount - nPrevRollCount
 				
 				if nDurUnit and nDurVal then nDuration = (nDurUnit * nDurVal) end
 				
@@ -29,17 +37,18 @@ function onTimeChanged(node)
 				if DB.getValue(vvNode, 'savetype') and nNewRollCount > nPrevRollCount then	-- if savetype is known and more saves are due
 					local nRollCount = 0
 					repeat														-- rolls saving throws until the correct total number have been rolled
-						local rActor = ActorManager.getActor('pc', vNode)
-						local sSave = DB.getValue(vvNode, 'savetype')
-						local nDC = DB.getValue(vvNode, 'savedc')
-						local sType = DB.getValue(vvNode, 'type')
-						local sDiseaseName = DB.getValue(vvNode, 'name')
 						rollSave(rActor, sSave, nDC, sType, sDiseaseName)
 
 						nRollCount = nRollCount + 1
 					until nRollCount == nTargetRollCount
-
-					if nDurUnit and nDurVal and nTimeElapsed >= nDuration then vvNode.delete(); break end
+					
+					if nDurUnit and nDurVal and nTimeElapsed >= nDuration then
+						DB.setValue(vvNode, 'starttime', 'number', nil)
+						DB.setValue(vvNode, 'savecount', 'number', nil)
+						DB.setValue(vvNode, 'name', 'string', '[EXPIRED]' .. sDiseaseName)
+						ChatManager.SystemMessage(DB.getValue(vNode, 'name') .."'s " .. sDiseaseName .. 'has run its course.')
+						break
+					end
 
 					DB.setValue(vvNode, 'savecount', 'number', nPrevRollCount + nRollCount)	-- saves the new total for use next time
 				end
