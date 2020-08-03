@@ -199,6 +199,7 @@
 						if TimeManager and (getValue() == '/min' or getValue() == '/hour' or getValue() == '/day') then
 							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
+							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
 							if getValue() == '/min' then DB.setValue(window.getDatabaseNode(), 'remindercycle', 'number', 1) end
 							if getValue() == '/hour' then DB.setValue(window.getDatabaseNode(), 'remindercycle', 'number', 60) end
 							if getValue() == '/day' then DB.setValue(window.getDatabaseNode(), 'remindercycle', 'number', 1440) end
