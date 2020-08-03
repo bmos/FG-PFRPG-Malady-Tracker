@@ -10,11 +10,13 @@ function onTimeChanged(node)
 	local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
 	for _,vNode in pairs(DB.getChildren(node.getChild('...'), "charsheet")) do 	-- iterates through each player character
 		for _,vvNode in pairs(DB.getChildren(vNode, "diseases")) do 			-- iterates through each disease of the player character
+			local sDiseaseName = DB.getValue(vvNode, 'name', '')
 			local nDateOfContr = DB.getValue(vvNode, 'starttime')
-			if nDateOfContr and nDateinMinutes then								-- if the disease has a date of contraction listed and the current date is known
+			
+			-- if the disease has a date of contraction listed and the current date is known
+			if nDateOfContr and nDateinMinutes and not string.find(sDiseaseName, '[EXPIRED]', 1) then
 				local rActor = ActorManager.getActor('pc', vNode)
 				
-				local sDiseaseName = DB.getValue(vvNode, 'name')
 				local sType = DB.getValue(vvNode, 'type')
 				local sSave = DB.getValue(vvNode, 'savetype')
 				local nDC = DB.getValue(vvNode, 'savedc')
@@ -34,9 +36,9 @@ function onTimeChanged(node)
 				
 				if nDuration ~= 0 and nTargetRollCount > (nDuration / nFreq) then nTargetRollCount = (nDuration / nFreq) end
 				
-				if DB.getValue(vvNode, 'savetype') and nNewRollCount > nPrevRollCount then	-- if savetype is known and more saves are due
+				if sSave and nNewRollCount > nPrevRollCount then	-- if savetype is known and more saves are due
 					local nRollCount = 0
-					repeat														-- rolls saving throws until the correct total number have been rolled
+					repeat											-- rolls saving throws until the correct total number have been rolled
 						rollSave(rActor, sSave, nDC, sType, sDiseaseName)
 
 						nRollCount = nRollCount + 1
@@ -45,8 +47,8 @@ function onTimeChanged(node)
 					if nDurUnit and nDurVal and nTimeElapsed >= nDuration then
 						DB.setValue(vvNode, 'starttime', 'number', nil)
 						DB.setValue(vvNode, 'savecount', 'number', nil)
-						DB.setValue(vvNode, 'name', 'string', '[EXPIRED]' .. sDiseaseName)
-						ChatManager.SystemMessage(DB.getValue(vNode, 'name') .."'s " .. sDiseaseName .. 'has run its course.')
+						DB.setValue(vvNode, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
+						ChatManager.SystemMessage(DB.getValue(vNode, 'name') .."'s " .. sDiseaseName .. ' has run its course.')
 						break
 					end
 
