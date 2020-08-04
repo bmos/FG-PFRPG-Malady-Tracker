@@ -6,10 +6,10 @@
 	<windowclass name="referencedisease">
 		<frame>recordsheet</frame>
 		<placement>
-			<size width="450" height="475" />
+			<size width="500" height="475" />
 		</placement>
 		<sizelimits>
-			<minimum width="350" height="450" />
+			<minimum width="450" height="450" />
 			<dynamic />
 		</sizelimits>
 		<minimize>minimized_reference</minimize>
@@ -149,7 +149,8 @@
 						local sSave = string.lower(window.savetype.getValue())
 						local nDC = window.savedc.getValue()
 						local sType = string.lower(window.type.getValue())
-						DiseaseTracker.rollSave(rActor, sSave, nDC, sType)
+						local sDiseaseName = DB.getValue(window.getDatabaseNode(), 'name', '')
+						DiseaseTracker.rollSave(rActor, sSave, nDC, sType, sDiseaseName)
 					end
 				</script>
 			</button_roll>
@@ -170,7 +171,38 @@
 			<label_column name="onset_label">
 				<static textres="record_disease_onset_label" />
 			</label_column>
-			<string_columnh name="onset" />
+			
+			<number_column_right name="onset_interval">
+				<anchored height="20" >
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				</anchored>
+				<hideonvalue value="0" />
+			</number_column_right>
+			
+			<button_stringcycler name="onset_unit">
+				<anchored width="50">
+					<top parent="savetype" anchor="bottom" offset="7" />
+					<right parent="savedc" anchor="left" offset="-10" />
+				</anchored>
+				<parameters>
+					<defaultlabelres>record_disease_cycler_duration_none</defaultlabelres>
+					<labelsres>record_disease_cycler_duration_rounds|record_disease_cycler_duration_minutes|record_disease_cycler_duration_hours|record_disease_cycler_duration_days|record_disease_cycler_duration_weeks</labelsres>
+					<values>.1|1|60|1440|10080</values>
+				</parameters>
+				<script>
+					function onValueChanged()
+						if TimeManager and getValue() ~= '' then
+							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
+							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
+							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
+						else
+							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
+							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
+						end
+						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'onset_unit', 'string', nil) end
+					end
+				</script>
+			</button_stringcycler>
 			
 			<label_column name="freq_label">
 				<static textres="record_disease_freq_label" />
@@ -186,14 +218,27 @@
 			
 			<button_stringcycler name="freq_unit">
 				<anchored width="50">
-					<top parent="onset" anchor="bottom" offset="7" />
+					<top parent="onset_unit" anchor="bottom" offset="7" />
 					<right parent="freq_interval" anchor="left" offset="-10" />
 				</anchored>
 				<parameters>
 					<defaultlabelres>record_disease_cycler_freq_none</defaultlabelres>
 					<labelsres>record_disease_cycler_freq_round|record_disease_cycler_freq_minute|record_disease_cycler_freq_hour|record_disease_cycler_freq_day</labelsres>
-					<values>rounds|minutes|hours|days</values>
+					<values>.1|1|60|1440</values>
 				</parameters>
+				<script>
+					function onValueChanged()
+						if TimeManager and (getValue() == '/min' or getValue() == '/hour' or getValue() == '/day') then
+							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
+							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
+							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
+						else
+							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
+							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
+						end
+						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'freq_unit', 'string', nil) end
+					end
+				</script>
 			</button_stringcycler>
 			
 			<label_column name="duration_label">
@@ -214,9 +259,22 @@
 				</anchored>
 				<parameters>
 					<defaultlabelres>record_disease_cycler_duration_none</defaultlabelres>
-					<labelsres>record_disease_cycler_duration_rounds|record_disease_cycler_duration_minutes|record_disease_cycler_duration_hours|record_disease_cycler_duration_days|record_disease_cycler_duration_weeks|record_disease_cycler_duration_indefinite</labelsres>
-					<values>rounds|minutes|hours|days|weeks|forever</values>
+					<labelsres>record_disease_cycler_duration_rounds|record_disease_cycler_duration_minutes|record_disease_cycler_duration_hours|record_disease_cycler_duration_days|record_disease_cycler_duration_weeks</labelsres>
+					<values>.1|1|60|1440|10080</values>
 				</parameters>
+				<script>
+					function onValueChanged()
+						if TimeManager and getValue() ~= '' then
+							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
+							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
+							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
+						else
+							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
+							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
+						end
+						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'duration_unit', 'string', nil) end
+					end
+				</script>
 			</button_stringcycler>
 
 			<buttoncontrol name="increaseduration">
@@ -242,17 +300,17 @@
 				<center />
 			</header_column>
 
-			<ft_column name="disease_effect" />
+			<ft_columnh name="disease_effect" />
 			
 			<label_column name="poison_effect_primary_label">
 				<static textres="record_disease_poison_effect_primary_label" />
 			</label_column>
-			<string_column name="poison_effect_primary" />
+			<string_columnh name="poison_effect_primary" />
 			
 			<label_column name="poison_effect_secondary_label">
 				<static textres="record_disease_poison_effect_secondary_label" />
 			</label_column>
-			<string_column name="poison_effect_secondary" />
+			<string_columnh name="poison_effect_secondary" />
 			
 			<header_column name="section_description_label">
 				<static textres="record_disease_section_description_label"/>
