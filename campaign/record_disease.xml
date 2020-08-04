@@ -199,6 +199,7 @@
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
 						end
+						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'onset_unit', 'string', nil) end
 					end
 				</script>
 			</button_stringcycler>
@@ -235,6 +236,7 @@
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
 						end
+						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'freq_unit', 'string', nil) end
 					end
 				</script>
 			</button_stringcycler>
@@ -270,6 +272,7 @@
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
 						end
+						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'duration_unit', 'string', nil) end
 					end
 				</script>
 			</button_stringcycler>
