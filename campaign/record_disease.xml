@@ -267,17 +267,17 @@
 				<center />
 			</header_column>
 
-			<ft_column name="disease_effect" />
+			<ft_columnh name="disease_effect" />
 			
 			<label_column name="poison_effect_primary_label">
 				<static textres="record_disease_poison_effect_primary_label" />
 			</label_column>
-			<string_column name="poison_effect_primary" />
+			<string_columnh name="poison_effect_primary" />
 			
 			<label_column name="poison_effect_secondary_label">
 				<static textres="record_disease_poison_effect_secondary_label" />
 			</label_column>
-			<string_column name="poison_effect_secondary" />
+			<string_columnh name="poison_effect_secondary" />
 			
 			<header_column name="section_description_label">
 				<static textres="record_disease_section_description_label"/>

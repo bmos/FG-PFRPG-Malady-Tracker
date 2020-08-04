@@ -81,7 +81,9 @@ local function ifLocked(sType)
 		disease_effect.setVisible(true)
 		increaseduration.setVisible(false)
 		poison_effect_primary.setVisible(false)
+		poison_effect_primary_label.setVisible(false)
 		poison_effect_secondary.setVisible(false)
+		poison_effect_secondary_label.setVisible(false)
 	end
 	if sType == 'poison' then
 		disease_effect.setVisible(false)
@@ -125,6 +127,9 @@ local function ifUnlocked(sType)
 		poison_effect_secondary.setVisible(true)
 		poison_effect_secondary_label.setVisible(true)
 	else
+		duration_label.setVisible(true)
+		duration_interval.setVisible(true)
+		duration_unit.setVisible(true)
 		disease_effect.setVisible(true)
 		poison_effect_primary.setVisible(false)
 		poison_effect_primary_label.setVisible(false)
@@ -132,6 +137,7 @@ local function ifUnlocked(sType)
 		poison_effect_secondary_label.setVisible(false)
 	end
 	if sType == 'poison' then disease_effect.setVisible(false) end
+	if sType ~= 'poison' then disease_effect.setVisible(true) end
 
 	section_effect_label.setVisible(true)
 	section_description_label.setVisible(true)
@@ -154,5 +160,8 @@ function update()
 
 	onset.update(bReadOnly)
 	cure.update(bReadOnly)
+	if sType ~= 'poison' then disease_effect.update(bReadOnly) end
+	if sType ~= 'disease' then poison_effect_primary.update(bReadOnly) end
+	if sType ~= 'disease' then poison_effect_secondary.update(bReadOnly) end
 	description.update(bReadOnly)
 end
