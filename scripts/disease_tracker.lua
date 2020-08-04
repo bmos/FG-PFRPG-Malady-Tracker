@@ -12,9 +12,16 @@ function onTimeChanged(node)
 		for _,vvNode in pairs(DB.getChildren(vNode, "diseases")) do 			-- iterates through each disease of the player character
 			local sDiseaseName = DB.getValue(vvNode, 'name', '')
 			local nDateOfContr = DB.getValue(vvNode, 'starttime')
+			local nTimeElapsed = nDateinMinutes - nDateOfContr
 			
+			local nOnsUnit = DB.getValue(vvNode, 'onset_unit')
+			local nOnsVal = DB.getValue(vvNode, 'onset_interval')
+			local nOnset = 0
+			
+			if nOnsUnit and nOnsVal then nOnset = (nOnsUnit * nOnsVal) end
+				
 			-- if the disease has a date of contraction listed and the current date is known
-			if nDateOfContr and nDateinMinutes and not string.find(sDiseaseName, '[EXPIRED]', 1) then
+			if nDateOfContr and nDateinMinutes and not string.find(sDiseaseName, '[EXPIRED]', 1) and (nTimeElapsed >= nOnset) then
 				local rActor = ActorManager.getActor('pc', vNode)
 				
 				local sType = DB.getValue(vvNode, 'type')
@@ -27,12 +34,11 @@ function onTimeChanged(node)
 				local nDurVal = DB.getValue(vvNode, 'duration_interval')
 				local nDuration = 0
 
-				local nTimeElapsed = nDateinMinutes - nDateOfContr
-				local nPrevRollCount = DB.getValue(vvNode, 'savecount', 0)
-				local nNewRollCount = math.floor(nTimeElapsed / nFreq)
-				local nTargetRollCount = nNewRollCount - nPrevRollCount
-				
 				if nDurUnit and nDurVal then nDuration = (nDurUnit * nDurVal) end
+
+				local nPrevRollCount = DB.getValue(vvNode, 'savecount', 0)
+				local nNewRollCount = math.floor((nTimeElapsed - nOnset) / nFreq)
+				local nTargetRollCount = nNewRollCount - nPrevRollCount
 				
 				if nDuration ~= 0 and nTargetRollCount > (nDuration / nFreq) then nTargetRollCount = (nDuration / nFreq) end
 				

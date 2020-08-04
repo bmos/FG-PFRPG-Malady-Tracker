@@ -7,6 +7,16 @@ function onInit()
 end
 
 --	This function takes the Save DC related information and combines them into a single string that can be displayed once the window is locked.
+local function generateOnsetString()
+	local sOnset = ''
+	
+	if onset_unit.getValue() ~= '' then sOnset = onset_interval.getValue() end
+	if onset_unit.getValue() ~= '' then sOnset = sOnset .. ' ' .. onset_unit.getValue() else sOnset = '' end
+	
+	return sOnset
+end
+
+--	This function takes the Save DC related information and combines them into a single string that can be displayed once the window is locked.
 local function generateDurationString()
 	local sDur = ''
 	
@@ -40,6 +50,9 @@ function generateSaveString()
 	
 	local sDur = generateDurationString()
 	if sSave == '' then sSave = sDur elseif duration_interval.getValue() > 0 then sSave = sSave .. ' for ' .. sDur end
+
+	local sOnset = generateOnsetString()
+	if sSave ~= '' and onset_interval.getValue() > 0 then sSave = sSave .. ' after ' .. sOnset end
 
 	if sSave == '' then sSave = 'none' end
 	
@@ -96,6 +109,10 @@ local function ifLocked(sType)
 	end
 	if description.getValue() == '\n<p></p>' then section_description_label.setVisible(false) end
 
+	onset_label.setVisible(false)
+	onset_unit.setVisible(false)
+	onset_interval.setVisible(false)
+	
 	freq_label.setVisible(false)
 	freq_unit.setVisible(false)
 	freq_interval.setVisible(false)
@@ -142,6 +159,10 @@ local function ifUnlocked(sType)
 	section_effect_label.setVisible(true)
 	section_description_label.setVisible(true)
 
+	onset_label.setVisible(true)
+	onset_unit.setVisible(true)
+	onset_interval.setVisible(true)
+
 	freq_label.setVisible(true)
 	freq_unit.setVisible(true)
 	freq_interval.setVisible(true)
@@ -158,7 +179,6 @@ function update()
 	local sType = string.lower(type.getValue())
 	if bReadOnly then ifLocked(sType) else ifUnlocked(sType) end
 
-	onset.update(bReadOnly)
 	cure.update(bReadOnly)
 	if sType ~= 'poison' then disease_effect.update(bReadOnly) end
 	if sType ~= 'disease' then poison_effect_primary.update(bReadOnly) end
