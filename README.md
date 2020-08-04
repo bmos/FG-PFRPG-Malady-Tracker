@@ -9,7 +9,8 @@ This extension has been tested with [FantasyGrounds Classic](https://www.fantasy
 # Features
 * Track diseases or poisons that are incurred
 * If poison, show buttons to increaes DC or duration (for subsequent doses/exposure)
-* Automated button to roll against listed save DC and announce success/failure
+* Manual button to roll against listed save DC and announce success/failure
+* Automated rolling of saving throws based on elapased time. This requires pr6i6e6st's [Clock Adjuster](https://www.fantasygrounds.com/forums/showthread.php?57561-Utility-Clock-Adjuster) extension.
 
 # Example Image
 <img src="https://i.imgur.com/9Ap1GQS.jpg" alt="disease tracker example image"/>
