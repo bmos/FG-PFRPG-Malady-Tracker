@@ -3,7 +3,7 @@
 --
 
 function onInit()
-	if TimeManager then DB.addHandler("calendar.current", "onChildUpdate", onTimeChanged) end
+	if TimeManager then DB.addHandler('calendar.current', 'onChildUpdate', onTimeChanged) end
 end
 
 ---	This function is called by the handler which watches for changes in current time.
@@ -12,9 +12,9 @@ end
 function onTimeChanged(node)
 	local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
 	-- iterates through each player character
-	for _,vNode in pairs(DB.getChildren(node.getChild('...'), "charsheet")) do
+	for _,vNode in pairs(DB.getChildren(node.getChild('...'), 'charsheet')) do
 		-- iterates through each diseases and poisons of the player character
-		for _,vvNode in pairs(DB.getChildren(vNode, "diseases")) do
+		for _,vvNode in pairs(DB.getChildren(vNode, 'diseases')) do
 			local sDiseaseName = DB.getValue(vvNode, 'name', '')
 			local nDateOfContr = DB.getValue(vvNode, 'starttime', nDateinMinutes)
 			local nTimeElapsed = nDateinMinutes - nDateOfContr
