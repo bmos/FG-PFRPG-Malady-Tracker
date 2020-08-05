@@ -36,4 +36,7 @@
 	<string name="record_disease_cycler_duration_days">days</string>
 	<string name="record_disease_cycler_duration_weeks">weeks</string>
 	<string name="record_disease_cycler_duration_indefinite">forever</string>
+	
+	<string name="disease_tooltip_saveconsecutive">Saves must be consecutive</string>
+	<string name="disease_tooltip_savetotal">Saves do not need to be consecutive</string>
 </root>
