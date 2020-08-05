@@ -6,21 +6,27 @@ function onInit()
 	if TimeManager then DB.addHandler("calendar.current", "onChildUpdate", onTimeChanged) end
 end
 
+---	This function is called by the handler which watches for changes in current time.
+--	The handler is only configured if the ClockAdjuster extension is installed.
+--	@param node the databasenode corresponding to the calendar (two levels below database root)
 function onTimeChanged(node)
 	local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
-	for _,vNode in pairs(DB.getChildren(node.getChild('...'), "charsheet")) do 	-- iterates through each player character
-		for _,vvNode in pairs(DB.getChildren(vNode, "diseases")) do 			-- iterates through each disease of the player character
+	-- iterates through each player character
+	for _,vNode in pairs(DB.getChildren(node.getChild('...'), "charsheet")) do
+		-- iterates through each diseases and poisons of the player character
+		for _,vvNode in pairs(DB.getChildren(vNode, "diseases")) do
 			local sDiseaseName = DB.getValue(vvNode, 'name', '')
-			local nDateOfContr = DB.getValue(vvNode, 'starttime', 0)
+			local nDateOfContr = DB.getValue(vvNode, 'starttime', nDateinMinutes)
 			local nTimeElapsed = nDateinMinutes - nDateOfContr
 			
 			local nOnsUnit = DB.getValue(vvNode, 'onset_unit', 0)
 			local nOnsVal = DB.getValue(vvNode, 'onset_interval', 0)
 			local nOnset = 0
 			
+			-- if onset components are configured, calculate total time to onset
 			if nOnsUnit ~= 0 and nOnsVal ~= 0 then nOnset = (nOnsUnit * nOnsVal) end
 			
-			-- if the disease has a date of contraction listed, the current date is known, and enough time has elapsed for the disease to kick in
+			-- if the disease has a starting time, the current time is known, and any onset has elapsed
 			if nDateOfContr ~= 0 and nDateinMinutes and (nTimeElapsed >= nOnset) then
 				Debug.chat(nTimeElapsed, nOnset)
 				local rActor = ActorManager.getActor('pc', vNode)
@@ -34,6 +40,7 @@ function onTimeChanged(node)
 				local nDurVal = DB.getValue(vvNode, 'duration_interval', 0)
 				local nDuration = 0
 
+				-- if duration components are configured, calculate total duration
 				if nDurUnit ~= 0 and nDurVal ~= 0 then nDuration = (nDurUnit * nDurVal) end
 
 				local nPrevRollCount = DB.getValue(vvNode, 'savecount', 0)
@@ -41,17 +48,23 @@ function onTimeChanged(node)
 				if not (nNewRollCount >= 0) then nNewRollCount = 0 end
 				local nTargetRollCount = nNewRollCount - nPrevRollCount
 				
+				-- if the disease has a duration, recalculate how many rolls should have been rolled
 				if nDuration ~= 0 and nTargetRollCount > (nDuration / nFreq) then nTargetRollCount = (nDuration / nFreq) end
 				
-				if sSave and nNewRollCount > nPrevRollCount then	-- if savetype is known and more saves are due
+				-- if savetype is known and more saves are due to be rolled
+				if sSave and nNewRollCount > nPrevRollCount then
 					local nRollCount = 0
-					repeat											-- rolls saving throws until the correct total number have been rolled
+					-- rolls saving throws until the desired total is achieved
+					repeat
 						rollSave(rActor, sSave, nDC, sType, sDiseaseName)
 
 						nRollCount = nRollCount + 1
 					until nRollCount == nTargetRollCount
 					
-					if nDurUnit ~= 0 and nDurVal ~= 0 and nTimeElapsed >= nDuration then
+					-- if the disease has a duration and the duration has now expired,
+					-- announce in chat, delete the save-counting + time records,
+					-- and add [EXPIRED] to the disease name
+					if nDuration ~= 0 and nTimeElapsed >= nDuration then
 						DB.setValue(vvNode, 'starttime', 'number', nil)
 						DB.setValue(vvNode, 'savecount', 'number', nil)
 						DB.setValue(vvNode, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
@@ -67,10 +80,6 @@ function onTimeChanged(node)
 end
 
 --- Allow dragging and dropping madnesses between players
---	@return nodeChar This is the databasenode of the player character within charsheet.
---	@return sClass 
---	@return sRecord 
---	@return nodeTargetList 
 function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 	if not nodeChar then
 		return false;
