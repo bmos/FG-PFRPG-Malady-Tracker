@@ -27,7 +27,6 @@ function onTimeChanged(node)
 			if nOnsUnit ~= 0 and nOnsVal ~= 0 then nOnset = (nOnsUnit * nOnsVal) end
 			
 			-- if the disease has a starting time, the current time is known, and any onset has elapsed
-			Debug.chat(nDateOfContr, nDateinMinutes, nTimeElapsed, nOnset)
 			if nDateOfContr ~= 0 and nDateinMinutes and (nTimeElapsed >= nOnset) then
 				local rActor = ActorManager.getActor('pc', vNode)
 				
