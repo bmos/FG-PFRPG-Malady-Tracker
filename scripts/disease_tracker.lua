@@ -73,6 +73,17 @@ function onTimeChanged(node)
 					end
 
 					DB.setValue(vvNode, 'savecount', 'number', nPrevRollCount + nRollCount)	-- saves the new total for use next time
+					
+					local nConsecutiveSaves = DB.getValue(vvNode, 'savecount_consec', 0)
+					local nSavesReq = DB.getValue(vvNode, 'savesreq', 0)
+					
+					if nConsecutiveSaves >= nSavesReq then
+						DB.setValue(vvNode, 'starttime', 'number', nil)
+						DB.setValue(vvNode, 'savecount', 'number', nil)
+						DB.setValue(vvNode, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
+						ChatManager.SystemMessage(DB.getValue(vNode, 'name') ..' has overcome their ' .. sDiseaseName .. '.')
+						break
+					end
 				end
 			end
 		end
