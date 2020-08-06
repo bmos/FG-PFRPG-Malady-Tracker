@@ -27,8 +27,8 @@ function onTimeChanged(node)
 			if nOnsUnit ~= 0 and nOnsVal ~= 0 then nOnset = (nOnsUnit * nOnsVal) end
 			
 			-- if the disease has a starting time, the current time is known, and any onset has elapsed
+			Debug.chat(nDateOfContr, nDateinMinutes, nTimeElapsed, nOnset)
 			if nDateOfContr ~= 0 and nDateinMinutes and (nTimeElapsed >= nOnset) then
-				Debug.chat(nTimeElapsed, nOnset)
 				local rActor = ActorManager.getActor('pc', vNode)
 				
 				local sType = DB.getValue(vvNode, 'type')
@@ -73,11 +73,16 @@ function onTimeChanged(node)
 					end
 
 					DB.setValue(vvNode, 'savecount', 'number', nPrevRollCount + nRollCount)	-- saves the new total for use next time
+					if DB.getValue(vvNode, 'isconsecutive', 1) == 0 then
+						-- DB.setValue(vvNode, 'savecount_consec', 'number', nPrevRollCount + nRollCount)
+					else
+						
+					end
 					
 					local nConsecutiveSaves = DB.getValue(vvNode, 'savecount_consec', 0)
 					local nSavesReq = DB.getValue(vvNode, 'savesreq', 0)
 					
-					if nConsecutiveSaves >= nSavesReq then
+					if nSavesReq ~= 0 and nConsecutiveSaves >= nSavesReq then
 						DB.setValue(vvNode, 'starttime', 'number', nil)
 						DB.setValue(vvNode, 'savecount', 'number', nil)
 						DB.setValue(vvNode, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
