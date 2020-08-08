@@ -122,6 +122,14 @@ local function ifLocked(sType)
 	type_label.setVisible(false)
 	subtype.setVisible(false)
 	subtype_label.setVisible(false)
+	
+	if savesreq.getValue() ~= 0 then
+		savecount_seperator.setVisible(true)
+		isconsecutive.setVisible(true)
+	else
+		savecount_seperator.setVisible(false)
+		isconsecutive.setVisible(false)
+	end
 end
 
 --	This function sets the visibility and editability of various fields on the malady sheet when it is locked.
@@ -172,6 +180,9 @@ local function ifUnlocked(sType)
 	type_label.setVisible(true)
 	subtype.setVisible(true)
 	subtype_label.setVisible(true)
+	
+	savecount_seperator.setVisible(true)
+	isconsecutive.setVisible(true)
 end
 
 function update()
@@ -179,7 +190,8 @@ function update()
 	local sType = string.lower(type.getValue())
 	if bReadOnly then ifLocked(sType) else ifUnlocked(sType) end
 
-	cure.update(bReadOnly)
+	savesreq.update(bReadOnly, bForceHide, 'cure_label')
+	savecount_consec.update(false, bForceHide, 'cure_label', savesreq)
 	if sType ~= 'poison' then disease_effect.update(bReadOnly) end
 	if sType ~= 'disease' then poison_effect_primary.update(bReadOnly) end
 	if sType ~= 'disease' then poison_effect_secondary.update(bReadOnly) end

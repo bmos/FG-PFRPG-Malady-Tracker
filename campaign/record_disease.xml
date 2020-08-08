@@ -124,7 +124,7 @@
 			<label name="savedc_label">
 				<anchored height="20">
 					<top parent="subtype" anchor="bottom" offset="7" />
-					<right parent="savedc" anchor="left" offset="-10" />
+					<right parent="savedc" anchor="left" offset="-8" />
 				</anchored>
 				<static textres="dc" />
 			</label>
@@ -132,7 +132,7 @@
 			<button_stringcycler name="savetype">
 				<anchored width="50">
 					<top parent="subtype" anchor="bottom" offset="7" />
-					<right parent="savedc_label" anchor="left" offset="-10" />
+					<right parent="savedc_label" anchor="left" offset="-8" />
 				</anchored>
 				<parameters>
 					<defaultlabelres>power_label_savetypenone</defaultlabelres>
@@ -293,7 +293,37 @@
 			<label_column name="cure_label">
 				<static textres="record_disease_cure_label" />
 			</label_column>
-			<string_columnh name="cure" />
+			<number_column_right name="savesreq">
+				<anchored height="20" >
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				</anchored>
+				<hideonvalue value="0" />
+				<script file="common/scripts/column_number_extra.lua" />
+			</number_column_right>
+			<label name="savecount_seperator">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="-20" />
+					<right parent="savesreq" anchor="left" offset="-8" />
+				</anchored>
+				<static>/</static>
+			</label>
+			<number_column_right name="savecount_consec">
+				<anchored height="20" >
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="-20" />
+					<right parent="savecount_seperator" anchor="left" relation="relative" offset="-8" />
+				</anchored>
+				<hideonvalue value="0" />
+				<script file="common/scripts/column_number_extra.lua" />
+			</number_column_right>
+			<buttonfield name="isconsecutive">
+				<anchored width="12" height="12">
+					<top parent="savecount_seperator" anchor="top" relation="relative" offset="4" />
+					<right parent="savecount_seperator" anchor="left" relation="relative" offset="-8" />
+				</anchored>
+				<state icon="button_checkoff" tooltipres="disease_tooltip_savetotal" />
+				<state icon="button_checkon" tooltipres="disease_tooltip_saveconsecutive" />
+				<default>1</default>
+			</buttonfield>
 			
 			<header_column name="section_effect_label">
 				<static textres="record_disease_section_effect_label"/>
