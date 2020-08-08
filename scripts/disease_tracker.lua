@@ -84,7 +84,7 @@ function onTimeChanged(node)
 					if nSavesReq ~= 0 and nConsecutiveSaves >= nSavesReq then
 						DB.setValue(vvNode, 'starttime', 'number', nil)
 						DB.setValue(vvNode, 'savecount', 'number', nil)
-						DB.setValue(vvNode, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
+						DB.setValue(vvNode, 'name', 'string', '[CURED] ' .. sDiseaseName)
 						ChatManager.SystemMessage(DB.getValue(vNode, 'name') ..' has overcome their ' .. sDiseaseName .. '.')
 						break
 					end
