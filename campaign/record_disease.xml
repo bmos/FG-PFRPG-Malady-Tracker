@@ -146,11 +146,8 @@
 				<script>
 					function onClickRelease(target, button, image)
 						local rActor = ActorManager.getActor('pc', window.getDatabaseNode().getChild('...'))
-						local sSave = string.lower(window.savetype.getValue())
-						local nDC = window.savedc.getValue()
-						local sType = string.lower(window.type.getValue())
-						local sDiseaseName = DB.getValue(window.getDatabaseNode(), 'name', '')
-						DiseaseTracker.rollSave(rActor, sSave, nDC, sType, sDiseaseName)
+						local nodeDisease = window.getDatabaseNode()
+						DiseaseTracker.rollSave(rActor, nodeDisease)
 					end
 				</script>
 			</button_roll>

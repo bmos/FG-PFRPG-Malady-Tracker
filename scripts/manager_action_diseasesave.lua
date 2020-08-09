@@ -1,22 +1,80 @@
 -- 
 -- Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
+OOB_MSGTYPE_APPLYDISEASESAVE = "applysave";
 
 function onInit()
+--	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYDISEASESAVE, handleApplySave);
+
 	GameSystem.actions['disease'] = { bUseModStack = true }
 	ActionsManager.registerModHandler('disease', modSave)
 	ActionsManager.registerResultHandler('disease', onRoll)
 end
 
-local function getRoll(rActor, sSave, nDC, sDiseaseType)
+function handleApplySave(msgOOB)
+	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
+	local rOrigin = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
+	
+	local rAction = {};
+	rAction.bSecret = (tonumber(msgOOB.nSecret) == 1);
+	rAction.sDesc = msgOOB.sDesc;
+	rAction.nTotal = tonumber(msgOOB.nTotal) or 0;
+	rAction.sSaveDesc = msgOOB.sSaveDesc;
+	rAction.nTarget = tonumber(msgOOB.nTarget) or 0;
+	rAction.bRemoveOnMiss = (tonumber(msgOOB.nRemoveOnMiss) == 1);
+	rAction.sSaveResult = msgOOB.sSaveResult;
+	
+	applySave(rSource, rOrigin, rAction);
+end
+
+function notifyApplySave(rSource, rRoll)
+	local msgOOB = {};
+	msgOOB.type = OOB_MSGTYPE_APPLYDISEASESAVE;
+	
+	if rRoll.bTower then
+		msgOOB.nSecret = 1;
+	else
+		msgOOB.nSecret = 0;
+	end
+	msgOOB.sDesc = rRoll.sDesc;
+	msgOOB.nTotal = ActionsManager.total(rRoll);
+	msgOOB.sSaveDesc = rRoll.sSaveDesc;
+	msgOOB.nTarget = rRoll.nTarget;
+	msgOOB.sSaveResult = rRoll.sSaveResult;
+	if rRoll.bRemoveOnMiss then msgOOB.nRemoveOnMiss = 1; end
+
+	local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
+	msgOOB.sSourceType = sSourceType;
+	msgOOB.sSourceNode = sSourceNode;
+
+	if rRoll.sSource ~= "" then
+		msgOOB.sTargetType = "ct";
+		msgOOB.sTargetNode = rRoll.sSource;
+	else
+		msgOOB.sTargetType = "";
+		msgOOB.sTargetNode = "";
+	end
+	
+	local nodeDiseaseRoll = DB.findNode(rRoll.nodeDisease)
+	if rRoll.sSaveResult == 'failure' and DB.getValue(nodeDiseaseRoll, 'isconsecutive', 1) == 1 then
+		DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', 0)
+	elseif rRoll.sSaveResult == 'success' then
+		DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', DB.getValue(nodeDiseaseRoll, 'savecount_consec', 0) + 1)
+	end
+	
+	Comm.deliverOOBMessage(msgOOB, "");
+end
+
+local function getRoll(rActor, nodeDisease)
 	local rRoll = {}
 	rRoll.sType = 'disease'
 	rRoll.aDice = { 'd20' }
 	rRoll.nMod = 0
-	
+
 	-- Look up actor specific information
 	local sAbility = nil
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor)
+	local sSave = DB.getValue(nodeDisease, 'savetype')
 	if nodeActor then
 		if sActorType == 'pc' then
 			rRoll.nMod = DB.getValue(nodeActor, 'saves.' .. sSave .. '.total', 0)
@@ -26,6 +84,11 @@ local function getRoll(rActor, sSave, nDC, sDiseaseType)
 		end
 	end
 
+	local sDiseaseType = string.lower(DB.getValue(nodeDisease, 'type'))
+	if sDiseaseType ~= '' then
+		rRoll.tags = sDiseaseType .. 'tracker'
+	end
+	
 	rRoll.sDesc = '[DISEASE] ' .. StringManager.capitalize(sSave)
 	if sDiseaseType == 'poison' then rRoll.sDesc = '[POISON] ' .. StringManager.capitalize(sSave) end
 	if sAbility and sAbility ~= '' then
@@ -39,12 +102,9 @@ local function getRoll(rActor, sSave, nDC, sDiseaseType)
 		end
 	end
 	
+	local nDC = DB.getValue(nodeDisease, 'savedc')
 	if nDC == 0 then nDC = nil end
 	rRoll.nTarget = nDC
-	
-	if sDiseaseType ~= '' then
-		rRoll.tags = sDiseaseType .. 'tracker'
-	end
 	
 	return rRoll
 end
@@ -200,19 +260,23 @@ local function modSave(rSource, rTarget, rRoll)
 	rRoll.nMod = rRoll.nMod + nAddMod
 end
 
-function performRoll(draginfo, rActor, sSave, nDC, sDiseaseType, sDiseaseName)
-	local rRoll = getRoll(rActor, sSave, nDC, sDiseaseType)
+function performRoll(draginfo, rActor, nodeDisease)
+	local rRoll = getRoll(rActor, nodeDisease)
 
-	-- if sDiseaseName ~= '' and sSave then
-		-- rRoll.sDesc = '[' .. string.upper(sDiseaseType) .. '] ' .. sDiseaseName .. ' [' .. string.upper(sSave) .. ' SAVE]'
-	-- end
+	local sDiseaseName = DB.getValue(nodeDisease, 'name')
+	if sDiseaseName and sDiseaseName ~= '' then
+		rRoll.sDesc = rRoll.sDesc .. ' (against ' .. sDiseaseName .. ')'
+	end
+	
+	rRoll.nodeDisease = nodeDisease.getPath()
+	
 	ActionsManager.performAction(draginfo, rActor, rRoll)
 end
 
 function onRoll(rSource, rTarget, rRoll)
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll)
 	Comm.deliverChatMessage(rMessage)
-	
+		
 	if rRoll.nTarget then
 		rRoll.nTotal = ActionsManager.total(rRoll)
 		if #(rRoll.aDice) > 0 then
@@ -231,6 +295,6 @@ function onRoll(rSource, rTarget, rRoll)
 				rRoll.sSaveResult = 'failure'
 			end
 		end
-		-- notifyApplySave(rSource, rRoll)
+		notifyApplySave(rSource, rRoll)
 	end
 end
