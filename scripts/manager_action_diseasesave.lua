@@ -8,17 +8,7 @@ function onInit()
 	ActionsManager.registerResultHandler('disease', onRoll)
 end
 
-function performRoll(draginfo, rActor, sSave, nDC, sDiseaseType, sDiseaseName)
-	local rRoll = getRoll(rActor, sSave, nDC, sDiseaseType)
-
-	-- if sDiseaseName ~= '' and sSave then
-		-- rRoll.sDesc = '[' .. string.upper(sDiseaseType) .. '] ' .. sDiseaseName .. ' [' .. string.upper(sSave) .. ' SAVE]'
-	-- end
-	
-	ActionsManager.performAction(draginfo, rActor, rRoll)
-end
-
-function getRoll(rActor, sSave, nDC, sDiseaseType)
+local function getRoll(rActor, sSave, nDC, sDiseaseType)
 	local rRoll = {}
 	rRoll.sType = 'disease'
 	rRoll.aDice = { 'd20' }
@@ -59,7 +49,7 @@ function getRoll(rActor, sSave, nDC, sDiseaseType)
 	return rRoll
 end
 
-function modSave(rSource, rTarget, rRoll)
+local function modSave(rSource, rTarget, rRoll)
 	local aAddDesc = {}
 	local aAddDice = {}
 	local nAddMod = 0
@@ -210,8 +200,16 @@ function modSave(rSource, rTarget, rRoll)
 	rRoll.nMod = rRoll.nMod + nAddMod
 end
 
+function performRoll(draginfo, rActor, sSave, nDC, sDiseaseType, sDiseaseName)
+	local rRoll = getRoll(rActor, sSave, nDC, sDiseaseType)
+
+	-- if sDiseaseName ~= '' and sSave then
+		-- rRoll.sDesc = '[' .. string.upper(sDiseaseType) .. '] ' .. sDiseaseName .. ' [' .. string.upper(sSave) .. ' SAVE]'
+	-- end
+	ActionsManager.performAction(draginfo, rActor, rRoll)
+end
+
 function onRoll(rSource, rTarget, rRoll)
-	Debug.chat('onRoll')
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll)
 	Comm.deliverChatMessage(rMessage)
 	
