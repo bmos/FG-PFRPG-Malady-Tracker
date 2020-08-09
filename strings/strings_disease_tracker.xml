@@ -28,6 +28,7 @@
 	<string name="record_disease_cycler_freq_minute">/min</string>
 	<string name="record_disease_cycler_freq_hour">/hour</string>
 	<string name="record_disease_cycler_freq_day">/day</string>
+	<string name="record_disease_cycler_freq_week">/week</string>
 	
 	<string name="record_disease_cycler_duration_none">-</string>
 	<string name="record_disease_cycler_duration_rounds">rounds</string>
