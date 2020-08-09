@@ -9,7 +9,7 @@
 			<size width="500" height="475" />
 		</placement>
 		<sizelimits>
-			<minimum width="450" height="450" />
+			<minimum width="475" height="450" />
 			<dynamic />
 		</sizelimits>
 		<minimize>minimized_reference</minimize>
@@ -93,6 +93,9 @@
 			<string_columnh name="type">
 				<default>disease</default>
 				<script>
+					function onInit()
+						window.update()
+					end
 					function onValueChanged()
 						window.update()
 					end
@@ -146,11 +149,8 @@
 				<script>
 					function onClickRelease(target, button, image)
 						local rActor = ActorManager.getActor('pc', window.getDatabaseNode().getChild('...'))
-						local sSave = string.lower(window.savetype.getValue())
-						local nDC = window.savedc.getValue()
-						local sType = string.lower(window.type.getValue())
-						local sDiseaseName = DB.getValue(window.getDatabaseNode(), 'name', '')
-						DiseaseTracker.rollSave(rActor, sSave, nDC, sType, sDiseaseName)
+						local nodeDisease = window.getDatabaseNode()
+						DiseaseTracker.rollSave(rActor, nodeDisease)
 					end
 				</script>
 			</button_roll>
@@ -191,14 +191,6 @@
 				</parameters>
 				<script>
 					function onValueChanged()
-						if TimeManager and getValue() ~= '' then
-							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
-							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
-							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
-						else
-							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
-							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
-						end
 						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'onset_unit', 'string', nil) end
 					end
 				</script>
@@ -223,12 +215,22 @@
 				</anchored>
 				<parameters>
 					<defaultlabelres>record_disease_cycler_freq_none</defaultlabelres>
-					<labelsres>record_disease_cycler_freq_round|record_disease_cycler_freq_minute|record_disease_cycler_freq_hour|record_disease_cycler_freq_day</labelsres>
-					<values>.1|1|60|1440</values>
+					<labelsres>record_disease_cycler_freq_round|record_disease_cycler_freq_minute|record_disease_cycler_freq_hour|record_disease_cycler_freq_day|record_disease_cycler_freq_week</labelsres>
+					<values>.1|1|60|1440|10080</values>
 				</parameters>
+			</button_stringcycler>
+			
+			<buttoncontrol name="button_settime">
+				<anchored to="freq_unit" width="20" height="20">
+					<right anchor="left" offset="-8" />
+					<top anchor="top" offset="0" />
+				</anchored>
+				<icon normal="button_ctnextround" pressed="button_ctnextround_down" />
+				<tooltip textres="item_tooltip_settime" />
+				<gmvisibleonly />
 				<script>
-					function onValueChanged()
-						if TimeManager and (getValue() == '/min' or getValue() == '/hour' or getValue() == '/day') then
+					function onButtonPress()
+						if TimeManager and (window.freq_unit.getValue() == '/min' or window.freq_unit.getValue() == '/hour' or window.freq_unit.getValue() == '/day') then
 							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
@@ -236,10 +238,9 @@
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
 						end
-						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'freq_unit', 'string', nil) end
 					end
 				</script>
-			</button_stringcycler>
+			</buttoncontrol>
 			
 			<label_column name="duration_label">
 				<static textres="record_disease_duration_label" />
@@ -264,14 +265,6 @@
 				</parameters>
 				<script>
 					function onValueChanged()
-						if TimeManager and getValue() ~= '' then
-							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
-							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
-							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
-						else
-							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
-							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
-						end
 						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'duration_unit', 'string', nil) end
 					end
 				</script>
@@ -283,8 +276,7 @@
 				<tooltip textres="char_disease_increaseduration" />
 				<script>
 					function onClickRelease(target, button, image)
-						nDurInt = window.duration_interval.getValue()
-						window.duration_interval.setValue(nDurInt * 1.5)
+						window.duration_interval.setValue(window.duration_interval.getValue() * 1.5)
 						window.generateSaveString()
 					end
 				</script>
@@ -298,6 +290,7 @@
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
 				</anchored>
 				<hideonvalue value="0" />
+				<tooltip textres="disease_tooltip_savesreq" />
 				<script file="common/scripts/column_number_extra.lua" />
 			</number_column_right>
 			<label name="savecount_seperator">
@@ -313,6 +306,7 @@
 					<right parent="savecount_seperator" anchor="left" relation="relative" offset="-8" />
 				</anchored>
 				<hideonvalue value="0" />
+				<tooltip textres="disease_tooltip_savecount_consec" />
 				<script file="common/scripts/column_number_extra.lua" />
 			</number_column_right>
 			<buttonfield name="isconsecutive">

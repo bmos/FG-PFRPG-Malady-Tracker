@@ -61,4 +61,18 @@ function onValueChanged()
 			end
 		end
 	end
+
+	local nodeChar = window.getDatabaseNode().getChild('...')
+	if nodeChar.getParent().getName() == 'charsheet' then
+		local nodeDisease = window.getDatabaseNode()
+		local nConsecutiveSaves = DB.getValue(nodeDisease, 'savecount_consec', 0)
+		local nSavesReq = DB.getValue(nodeDisease, 'savesreq', 0)
+		if nSavesReq ~= 0 and nConsecutiveSaves >= nSavesReq then
+			DB.setValue(nodeDisease, 'starttime', 'number', nil)
+			DB.setValue(nodeDisease, 'savecount', 'number', nil)
+			local sDiseaseName = DB.getValue(nodeDisease, 'name', 0)
+			DB.setValue(nodeDisease, 'name', 'string', '[CURED] ' .. sDiseaseName)
+			ChatManager.SystemMessage(DB.getValue(nodeChar, 'name') ..' has overcome their ' .. sDiseaseName .. '.')
+		end
+	end
 end

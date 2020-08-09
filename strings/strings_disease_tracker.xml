@@ -28,6 +28,7 @@
 	<string name="record_disease_cycler_freq_minute">/min</string>
 	<string name="record_disease_cycler_freq_hour">/hour</string>
 	<string name="record_disease_cycler_freq_day">/day</string>
+	<string name="record_disease_cycler_freq_week">/week</string>
 	
 	<string name="record_disease_cycler_duration_none">-</string>
 	<string name="record_disease_cycler_duration_rounds">rounds</string>
@@ -37,6 +38,11 @@
 	<string name="record_disease_cycler_duration_weeks">weeks</string>
 	<string name="record_disease_cycler_duration_indefinite">forever</string>
 	
+	<string name="item_tooltip_settime">Reset automatic save timer</string>
+
 	<string name="disease_tooltip_saveconsecutive">Saves must be consecutive</string>
 	<string name="disease_tooltip_savetotal">Saves do not need to be consecutive</string>
+	
+	<string name="disease_tooltip_savecount_consec">Number of successful saves rolled</string>
+	<string name="disease_tooltip_savesreq">Number of saves required to cure</string>
 </root>

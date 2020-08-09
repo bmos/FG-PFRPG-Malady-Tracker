@@ -28,5 +28,6 @@
 		<includefile source="strings/strings_disease_tracker.xml" />
 		<!-- Scripts -->
 		<script name="DiseaseTracker" file="scripts/disease_tracker.lua" />
+		<script name="ActionDiseaseSave" file="scripts/manager_action_diseasesave.lua" />
 	</base>
 </root>
