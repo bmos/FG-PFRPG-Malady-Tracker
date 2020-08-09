@@ -176,7 +176,8 @@ local function ifUnlocked(sType)
 	onset_unit.setVisible(true)
 	onset_interval.setVisible(true)
 
-	button_settime.setVisible(true)
+	button_settime.setVisible(false)
+	if TimeManager then button_settime.setVisible(true) end
 
 	freq_label.setVisible(true)
 	freq_unit.setVisible(true)
