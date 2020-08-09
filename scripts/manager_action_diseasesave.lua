@@ -61,7 +61,6 @@ function notifyApplySave(rSource, rRoll)
 			DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', 0)
 		elseif rRoll.sSaveResult:match('success') then
 			DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', DB.getValue(nodeDiseaseRoll, 'savecount_consec', 0) + 1)
-			Debug.chat(DB.getValue(nodeDiseaseRoll, 'savecount_consec', 0))
 		end
 	end
 	
