@@ -3,8 +3,6 @@
 --
 
 function onInit()
---	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYDISEASESAVE, handleApplySave)
-
 	GameSystem.actions['diseasesave'] = { bUseModStack = true }
 	ActionsManager.registerModHandler('diseasesave', modSave)
 	ActionsManager.registerResultHandler('diseasesave', onSave)
