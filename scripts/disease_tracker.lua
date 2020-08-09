@@ -30,7 +30,7 @@ function onTimeChanged(node)
 			if nDateOfContr ~= 0 and nDateinMinutes and (nTimeElapsed >= nOnset) then
 				local rActor = ActorManager.getActor('pc', vNode)
 				
-				local sType = DB.getValue(vvNode, 'type')
+				local sDiseaseType = DB.getValue(vvNode, 'type')
 				local sSave = DB.getValue(vvNode, 'savetype')
 				local nDC = DB.getValue(vvNode, 'savedc')
 				
@@ -55,7 +55,7 @@ function onTimeChanged(node)
 					local nRollCount = 0
 					-- rolls saving throws until the desired total is achieved
 					repeat
-						rollSave(rActor, sSave, nDC, sType, sDiseaseName)
+						rollSave(rActor, sSave, nDC, sDiseaseType, sDiseaseName)
 
 						nRollCount = nRollCount + 1
 					until nRollCount == nTargetRollCount
@@ -120,7 +120,7 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 end
 
 ---	This function rolls the save specified in the disease information
-function rollSave(rActor, sSave, nDC, sType, sDiseaseName)
+function rollSave(rActor, sSave, nDC, sDiseaseType, sDiseaseName)
 	if sSave == 'fort' then
 		sSave = 'fortitude'
 	elseif sSave == 'ref' then
@@ -131,18 +131,5 @@ function rollSave(rActor, sSave, nDC, sType, sDiseaseName)
 		sSave = nil
 	end
 
-	local rRoll = ActionSave.getRoll(rActor, sSave)
-
-	if nDC == 0 then
-		nDC = nil
-	end
-	rRoll.nTarget = nDC
-	if sType ~= '' then
-		rRoll.tags = sType .. 'tracker'
-	end
-	if sDiseaseName ~= '' and sSave then
-		rRoll.sDesc = '[' .. string.upper(sType) .. '] ' .. sDiseaseName .. ' [' .. string.upper(sSave) .. ' SAVE]'
-	end
-	
-	ActionsManager.performAction(nil, rActor, rRoll)
+	ActionDiseaseSave.performRoll(nil, rActor, sSave, nDC, sDiseaseType, sDiseaseName)
 end
