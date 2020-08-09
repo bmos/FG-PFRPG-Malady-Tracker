@@ -92,6 +92,7 @@ local function ifLocked(sType)
 		duration_interval.setVisible(false)
 		duration_unit.setVisible(false)
 		disease_effect.setVisible(true)
+		raisesave.setVisible(false)
 		increaseduration.setVisible(false)
 		poison_effect_primary.setVisible(false)
 		poison_effect_primary_label.setVisible(false)
@@ -101,7 +102,9 @@ local function ifLocked(sType)
 	if sType == 'poison' then
 		disease_effect.setVisible(false)
 		if save_string.getValue() and save_string.getValue() ~= 'none' then raisesave.setVisible(true) end
+		if not save_string.getValue() or save_string.getValue() == 'none' then raisesave.setVisible(false) end
 		if duration_interval.getValue() and duration_interval.getValue() > 0 then increaseduration.setVisible(true) end
+		if not duration_interval.getValue() or duration_interval.getValue() <= 0 then increaseduration.setVisible(false) end
 	end
 	
 	if disease_effect.getValue() == '\n<p></p>' and poison_effect_primary.getValue() == '' and poison_effect_primary.getValue() == '' then
@@ -112,7 +115,9 @@ local function ifLocked(sType)
 	onset_label.setVisible(false)
 	onset_unit.setVisible(false)
 	onset_interval.setVisible(false)
-	
+
+	button_settime.setVisible(false)
+
 	freq_label.setVisible(false)
 	freq_unit.setVisible(false)
 	freq_interval.setVisible(false)
@@ -170,6 +175,8 @@ local function ifUnlocked(sType)
 	onset_label.setVisible(true)
 	onset_unit.setVisible(true)
 	onset_interval.setVisible(true)
+
+	button_settime.setVisible(true)
 
 	freq_label.setVisible(true)
 	freq_unit.setVisible(true)

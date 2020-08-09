@@ -41,4 +41,7 @@
 
 	<string name="disease_tooltip_saveconsecutive">Saves must be consecutive</string>
 	<string name="disease_tooltip_savetotal">Saves do not need to be consecutive</string>
+	
+	<string name="disease_tooltip_savecount_consec">Number of successful saves rolled</string>
+	<string name="disease_tooltip_savesreq">Number of saves required to cure</string>
 </root>

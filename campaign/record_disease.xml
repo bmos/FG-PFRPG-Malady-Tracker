@@ -9,7 +9,7 @@
 			<size width="500" height="475" />
 		</placement>
 		<sizelimits>
-			<minimum width="450" height="450" />
+			<minimum width="475" height="450" />
 			<dynamic />
 		</sizelimits>
 		<minimize>minimized_reference</minimize>
@@ -93,6 +93,9 @@
 			<string_columnh name="type">
 				<default>disease</default>
 				<script>
+					function onInit()
+						window.update()
+					end
 					function onValueChanged()
 						window.update()
 					end
@@ -287,6 +290,7 @@
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
 				</anchored>
 				<hideonvalue value="0" />
+				<tooltip textres="disease_tooltip_savesreq" />
 				<script file="common/scripts/column_number_extra.lua" />
 			</number_column_right>
 			<label name="savecount_seperator">
@@ -302,6 +306,7 @@
 					<right parent="savecount_seperator" anchor="left" relation="relative" offset="-8" />
 				</anchored>
 				<hideonvalue value="0" />
+				<tooltip textres="disease_tooltip_savecount_consec" />
 				<script file="common/scripts/column_number_extra.lua" />
 			</number_column_right>
 			<buttonfield name="isconsecutive">
