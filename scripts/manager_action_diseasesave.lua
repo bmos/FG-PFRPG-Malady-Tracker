@@ -56,9 +56,9 @@ function notifyApplySave(rSource, rRoll)
 	end
 	
 	local nodeDiseaseRoll = DB.findNode(rRoll.nodeDisease)
-	if rRoll.sSaveResult == 'failure' and DB.getValue(nodeDiseaseRoll, 'isconsecutive', 1) == 1 then
+	if rRoll.sSaveResult:match('failure') and DB.getValue(nodeDiseaseRoll, 'isconsecutive', 1) == 1 then
 		DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', 0)
-	elseif rRoll.sSaveResult == 'success' then
+	elseif rRoll.sSaveResult:match('success') then
 		DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', DB.getValue(nodeDiseaseRoll, 'savecount_consec', 0) + 1)
 	end
 	

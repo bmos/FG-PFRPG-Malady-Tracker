@@ -188,14 +188,6 @@
 				</parameters>
 				<script>
 					function onValueChanged()
-						if TimeManager and getValue() ~= '' then
-							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
-							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
-							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
-						else
-							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
-							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
-						end
 						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'onset_unit', 'string', nil) end
 					end
 				</script>
@@ -223,9 +215,19 @@
 					<labelsres>record_disease_cycler_freq_round|record_disease_cycler_freq_minute|record_disease_cycler_freq_hour|record_disease_cycler_freq_day</labelsres>
 					<values>.1|1|60|1440</values>
 				</parameters>
+			</button_stringcycler>
+			
+			<buttoncontrol name="button_settime">
+				<anchored to="freq_unit" width="20" height="20">
+					<right anchor="left" offset="-8" />
+					<top anchor="top" offset="0" />
+				</anchored>
+				<icon normal="button_ctnextround" pressed="button_ctnextround_down" />
+				<tooltip textres="item_tooltip_settime" />
+				<gmvisibleonly />
 				<script>
-					function onValueChanged()
-						if TimeManager and (getValue() == '/min' or getValue() == '/hour' or getValue() == '/day') then
+					function onButtonPress()
+						if TimeManager and (window.freq_unit.getValue() == '/min' or window.freq_unit.getValue() == '/hour' or window.freq_unit.getValue() == '/day') then
 							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
@@ -233,10 +235,9 @@
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
 						end
-						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'freq_unit', 'string', nil) end
 					end
 				</script>
-			</button_stringcycler>
+			</buttoncontrol>
 			
 			<label_column name="duration_label">
 				<static textres="record_disease_duration_label" />
@@ -261,14 +262,6 @@
 				</parameters>
 				<script>
 					function onValueChanged()
-						if TimeManager and getValue() ~= '' then
-							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
-							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
-							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
-						else
-							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
-							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
-						end
 						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'duration_unit', 'string', nil) end
 					end
 				</script>
