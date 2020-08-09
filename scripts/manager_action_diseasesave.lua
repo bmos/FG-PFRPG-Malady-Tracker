@@ -3,9 +3,9 @@
 --
 
 function onInit()
-	GameSystem.actions['diseasesave'] = { bUseModStack = true }
-	ActionsManager.registerModHandler('diseasesave', modSave)
-	ActionsManager.registerResultHandler('diseasesave', onSave)
+	GameSystem.actions['disease'] = { bUseModStack = true }
+	ActionsManager.registerModHandler('disease', modSave)
+	ActionsManager.registerResultHandler('disease', onRoll)
 end
 
 function performRoll(draginfo, rActor, sSave, nDC, sDiseaseType, sDiseaseName)
@@ -20,7 +20,7 @@ end
 
 function getRoll(rActor, sSave, nDC, sDiseaseType)
 	local rRoll = {}
-	rRoll.sType = 'diseasesave'
+	rRoll.sType = 'disease'
 	rRoll.aDice = { 'd20' }
 	rRoll.nMod = 0
 	
@@ -210,8 +210,8 @@ function modSave(rSource, rTarget, rRoll)
 	rRoll.nMod = rRoll.nMod + nAddMod
 end
 
-function onSave(rSource, rTarget, rRoll)
-	Debug.chat('onSave')
+function onRoll(rSource, rTarget, rRoll)
+	Debug.chat('onRoll')
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll)
 	Comm.deliverChatMessage(rMessage)
 	
