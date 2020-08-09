@@ -58,7 +58,6 @@ function getRoll(rActor, sSave, nDC, sDiseaseType)
 		rRoll.tags = sDiseaseType .. 'tracker'
 	end
 	
-	Debug.chat(rRoll)
 	return rRoll
 end
 
