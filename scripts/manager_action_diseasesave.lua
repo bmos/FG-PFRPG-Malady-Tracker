@@ -56,10 +56,13 @@ function notifyApplySave(rSource, rRoll)
 	end
 	
 	local nodeDiseaseRoll = DB.findNode(rRoll.nodeDisease)
-	if rRoll.sSaveResult:match('failure') and DB.getValue(nodeDiseaseRoll, 'isconsecutive', 1) == 1 then
-		DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', 0)
-	elseif rRoll.sSaveResult:match('success') then
-		DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', DB.getValue(nodeDiseaseRoll, 'savecount_consec', 0) + 1)
+	if DB.getValue(nodeDiseaseRoll, 'savesreq') ~= 0 then
+		if rRoll.sSaveResult:match('failure') and DB.getValue(nodeDiseaseRoll, 'isconsecutive', 1) == 1 then
+			DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', 0)
+		elseif rRoll.sSaveResult:match('success') then
+			DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', DB.getValue(nodeDiseaseRoll, 'savecount_consec', 0) + 1)
+			Debug.chat(DB.getValue(nodeDiseaseRoll, 'savecount_consec', 0))
+		end
 	end
 	
 	Comm.deliverOOBMessage(msgOOB, "");

@@ -273,8 +273,7 @@
 				<tooltip textres="char_disease_increaseduration" />
 				<script>
 					function onClickRelease(target, button, image)
-						nDurInt = window.duration_interval.getValue()
-						window.duration_interval.setValue(nDurInt * 1.5)
+						window.duration_interval.setValue(window.duration_interval.getValue() * 1.5)
 						window.generateSaveString()
 					end
 				</script>

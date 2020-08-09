@@ -28,8 +28,6 @@ function onTimeChanged(node)
 			
 			-- if the disease has a starting time, the current time is known, and any onset has elapsed
 			if nDateOfContr ~= 0 and nDateinMinutes and (nTimeElapsed >= nOnset) then
-				local rActor = ActorManager.getActor('pc', nodeChar)
-								
 				local nFreq = DB.getValue(nodeDisease, 'freq_unit', 1)
 				local nDurUnit = DB.getValue(nodeDisease, 'duration_unit', 0)
 				local nDurVal = DB.getValue(nodeDisease, 'duration_interval', 0)
@@ -48,6 +46,7 @@ function onTimeChanged(node)
 				
 				-- if savetype is known and more saves are due to be rolled
 				if DB.getValue(nodeDisease, 'savetype') and nNewRollCount > nPrevRollCount then
+					local rActor = ActorManager.getActor('pc', nodeChar)
 					local nRollCount = 0
 					-- rolls saving throws until the desired total is achieved
 					repeat
@@ -68,22 +67,6 @@ function onTimeChanged(node)
 					end
 					
 					DB.setValue(nodeDisease, 'savecount', 'number', nPrevRollCount + nRollCount)	-- saves the new total for use next time
-					if DB.getValue(nodeDisease, 'isconsecutive', 1) == 0 then
-						-- DB.setValue(nodeDisease, 'savecount_consec', 'number', nPrevRollCount + nRollCount)
-					else
-						
-					end
-					
-					local nConsecutiveSaves = DB.getValue(nodeDisease, 'savecount_consec', 0)
-					local nSavesReq = DB.getValue(nodeDisease, 'savesreq', 0)
-					
-					if nSavesReq ~= 0 and nConsecutiveSaves >= nSavesReq then
-						DB.setValue(nodeDisease, 'starttime', 'number', nil)
-						DB.setValue(nodeDisease, 'savecount', 'number', nil)
-						DB.setValue(nodeDisease, 'name', 'string', '[CURED] ' .. sDiseaseName)
-						ChatManager.SystemMessage(DB.getValue(nodeChar, 'name') ..' has overcome their ' .. sDiseaseName .. '.')
-						break
-					end
 				end
 			end
 		end
