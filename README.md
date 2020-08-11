@@ -14,4 +14,4 @@ This extension has been tested with [FantasyGrounds Classic](https://www.fantasy
 * Automatic counting of rolled saves (automatic or manual), taking into account consecutive/nonconsecutive requirements.
 
 # Video Demonstration (click for video)
-[<img src="https://i.ytimg.com/vi_webp/gBv50oSphBM/sddefault.webp">](https://www.youtube.com/watch?v=gBv50oSphBM)
+[<img src="https://i.ytimg.com/vi_webp/gBv50oSphBM/maxresdefault.webp">](https://www.youtube.com/watch?v=gBv50oSphBM)
