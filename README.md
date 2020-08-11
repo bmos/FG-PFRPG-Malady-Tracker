@@ -13,5 +13,5 @@ This extension has been tested with [FantasyGrounds Classic](https://www.fantasy
 * Automated rolling of saving throws based on elapased time. This requires pr6i6e6st's [Clock Adjuster](https://www.fantasygrounds.com/forums/showthread.php?57561-Utility-Clock-Adjuster) extension.
 * Automatic counting of rolled saves (automatic or manual), taking into account consecutive/nonconsecutive requirements.
 
-# Example Image
-<img src="https://i.imgur.com/9Ap1GQS.jpg" alt="disease tracker example image"/>
+# Video Demonstration (click for video)
+[<img src="https://i.ytimg.com/vi_webp/gBv50oSphBM/sddefault.webp">](https://www.youtube.com/watch?v=gBv50oSphBM)
