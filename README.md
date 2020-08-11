@@ -4,7 +4,7 @@ Just like the sanity tracker, there is a list of afflictions. Each opens to a st
 When the statblock is locked, a button will be shown to roll a saving throw against the affliction. If ClockAdjuster is enabled, saves can be rolled automatically.
 
 # Compatibility and Instructions
-This extension has been tested with [FantasyGrounds Classic](https://www.fantasygrounds.com/home/FantasyGroundsClassic.php) 3.3.11 and [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) 4.0.0 (2020-07-16).
+This extension has been tested with [FantasyGrounds Classic](https://www.fantasygrounds.com/home/FantasyGroundsClassic.php) 3.3.11 and [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) 4.0.0 (2020-08-05). If you're using the ClockAdjuster extension with FG Classic, please be aware that timed events (such as automatic saves) will not occur precisely. For example, a 1/day save seems to take 25-26hours to occur.
 
 # Features
 * Track diseases or poisons that are incurred
