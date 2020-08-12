@@ -21,6 +21,8 @@
 	    <icon name="logo_vitamin" file="graphics/vitamin_logo.png" />
 	    <icon name="button_vitamin" file="graphics/button_vitamin.png" />
 	    <icon name="button_vitamin_down" file="graphics/button_vitamin_down.png" />
+	    <icon name="button_diseases" file="graphics/button_diseases.png" />
+	    <icon name="button_diseases_down" file="graphics/button_diseases_down.png" />
 		<!-- Campaign Records -->
 		<includefile source="campaign/record_char_main.xml" />
 		<includefile source="campaign/record_disease.xml" />
