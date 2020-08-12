@@ -73,7 +73,7 @@ local function ifLocked(sType)
 	savetype.setVisible(false)
 	savedc_label.setVisible(false)
 	savedc.setVisible(false)
-	saveroll.setVisible(true)
+	if getDatabaseNode().getChild('...').getName() == 'charsheet' then saveroll.setVisible(true) end
 
 	if sType ~= 'disease' then
 		duration_label.setVisible(false)
@@ -157,9 +157,9 @@ local function ifUnlocked(sType)
 		poison_effect_secondary.setVisible(true)
 		poison_effect_secondary_label.setVisible(true)
 	else
-		duration_label.setVisible(true)
-		duration_interval.setVisible(true)
-		duration_unit.setVisible(true)
+		duration_label.setVisible(false)
+		duration_interval.setVisible(false)
+		duration_unit.setVisible(false)
 		disease_effect.setVisible(true)
 		poison_effect_primary.setVisible(false)
 		poison_effect_primary_label.setVisible(false)
@@ -177,7 +177,7 @@ local function ifUnlocked(sType)
 	onset_interval.setVisible(true)
 
 	button_settime.setVisible(false)
-	if TimeManager then button_settime.setVisible(true) end
+	if TimeManager and getDatabaseNode().getChild('...').getName() == 'charsheet' then button_settime.setVisible(true) end
 
 	freq_label.setVisible(true)
 	freq_unit.setVisible(true)
