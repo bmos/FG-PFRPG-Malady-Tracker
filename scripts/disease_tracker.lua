@@ -3,7 +3,7 @@
 --
 
 function onInit()
-	if TimeManager then DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged) end
+	if User.isHost() and TimeManager then DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged) end
 end
 
 ---	This function is called by the handler which watches for changes in current time.
