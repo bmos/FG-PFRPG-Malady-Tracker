@@ -73,7 +73,11 @@ local function ifLocked(sType)
 	savetype.setVisible(false)
 	savedc_label.setVisible(false)
 	savedc.setVisible(false)
-	if getDatabaseNode().getParent().getName() == 'diseases' then saveroll.setVisible(true) end
+	
+	if getDatabaseNode().getParent().getName() == 'diseases'
+	then saveroll.setVisible(true)
+	else saveroll.setVisible(false)
+	end
 
 	if sType ~= 'disease' then
 		duration_label.setVisible(false)
@@ -101,10 +105,14 @@ local function ifLocked(sType)
 	end
 	if sType == 'poison' then
 		disease_effect.setVisible(false)
-		if save_string.getValue() and save_string.getValue() ~= 'none' then raisesave.setVisible(true) end
-		if not save_string.getValue() or save_string.getValue() == 'none' then raisesave.setVisible(false) end
-		if duration_interval.getValue() and duration_interval.getValue() > 0 then increaseduration.setVisible(true) end
-		if not duration_interval.getValue() or duration_interval.getValue() <= 0 then increaseduration.setVisible(false) end
+		if save_string.getValue() and save_string.getValue() ~= 'none' and getDatabaseNode().getParent().getName() == 'diseases'
+		then raisesave.setVisible(true)
+		else raisesave.setVisible(false)
+		end
+		if duration_interval.getValue() and duration_interval.getValue() > 0 and getDatabaseNode().getParent().getName() == 'diseases'
+		then increaseduration.setVisible(true)
+		else increaseduration.setVisible(false)
+		end
 	end
 	
 	if disease_effect.getValue() == '\n<p></p>' and poison_effect_primary.getValue() == '' and poison_effect_primary.getValue() == '' then
