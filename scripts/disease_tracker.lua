@@ -18,7 +18,7 @@ aSBOverrides = {
 };
 
 function onInit()
-	if TimeManager then DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged) end
+	if User.isHost() and TimeManager then DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged) end
 	for kRecordType,vRecordType in pairs(aSBOverrides) do
 		LibraryData.setRecordTypeInfo(kRecordType, vRecordType)
 	end
