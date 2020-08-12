@@ -73,7 +73,7 @@ local function ifLocked(sType)
 	savetype.setVisible(false)
 	savedc_label.setVisible(false)
 	savedc.setVisible(false)
-	if getDatabaseNode().getChild('...').getName() == 'charsheet' then saveroll.setVisible(true) end
+	if getDatabaseNode().getParent().getName() == 'diseases' then saveroll.setVisible(true) end
 
 	if sType ~= 'disease' then
 		duration_label.setVisible(false)
@@ -177,7 +177,7 @@ local function ifUnlocked(sType)
 	onset_interval.setVisible(true)
 
 	button_settime.setVisible(false)
-	if TimeManager and getDatabaseNode().getChild('...').getName() == 'charsheet' then button_settime.setVisible(true) end
+	if TimeManager and getDatabaseNode().getParent().getName() == 'diseases' then button_settime.setVisible(true) end
 
 	freq_label.setVisible(true)
 	freq_unit.setVisible(true)
