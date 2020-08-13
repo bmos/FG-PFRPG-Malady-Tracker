@@ -30,7 +30,7 @@ end
 local function generateFrequencyString()
 	local sFreq = ''
 	
-	if freq_unit.getValue() ~= '' then sFreq = freq_interval.getValue() end
+	if freq_unit.getValue() ~= '' then sFreq = DiseaseTrackerLib.round(freq_interval.getValue(), 1) end
 	if freq_unit.getValue() ~= '' then sFreq = sFreq .. freq_unit.getValue() else sFreq = '' end
 	
 	return sFreq
