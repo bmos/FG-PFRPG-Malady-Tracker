@@ -268,6 +268,7 @@
 						if getValue() == '' then DB.setValue(window.getDatabaseNode(), 'duration_unit', 'string', nil) end
 					end
 				</script>
+				<tabtarget next="savecount_consec" />
 			</button_stringcycler>
 
 			<buttoncontrol name="increaseduration">
@@ -292,6 +293,7 @@
 				<hideonvalue value="0" />
 				<tooltip textres="disease_tooltip_savesreq" />
 				<script file="common/scripts/column_number_extra.lua" />
+				<tabtarget next="disease_effect" />
 			</number_column_right>
 			<label name="savecount_seperator">
 				<anchored height="20">
@@ -308,6 +310,7 @@
 				<hideonvalue value="0" />
 				<tooltip textres="disease_tooltip_savecount_consec" />
 				<script file="common/scripts/column_number_extra.lua" />
+				<tabtarget next="savesreq" />
 			</number_column_right>
 			<buttonfield name="isconsecutive">
 				<anchored width="12" height="12">
