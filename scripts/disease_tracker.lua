@@ -2,8 +2,26 @@
 --	Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
 
+aSBOverrides = {
+	-- CoreRPG overrides
+	["disease"] = {
+		bExport = true,
+		aDataMap = { "disease", "reference.diseases" }, 
+		aDisplayIcon = { "button_diseases", "button_diseases_down" },
+		sRecordDisplayClass = "referencedisease", 
+		aGMListButtons = { "button_feat_type" };
+		aPlayerListButtons = { "button_feat_type" };
+		aCustomFilters = {
+			["Type"] = { sField = "type" },
+		},
+	},
+};
+
 function onInit()
 	if User.isHost() and TimeManager then DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged) end
+	for kRecordType,vRecordType in pairs(aSBOverrides) do
+		LibraryData.setRecordTypeInfo(kRecordType, vRecordType)
+	end
 end
 
 ---	This function is called by the handler which watches for changes in current time.

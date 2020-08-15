@@ -45,4 +45,6 @@
 	
 	<string name="disease_tooltip_savecount_consec">Number of successful saves rolled</string>
 	<string name="disease_tooltip_savesreq">Number of saves required to cure</string>
+	
+	<string name="library_recordtype_label_disease">Diseases</string>
 </root>

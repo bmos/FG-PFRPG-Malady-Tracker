@@ -62,8 +62,8 @@ function onValueChanged()
 		end
 	end
 
-	local nodeChar = window.getDatabaseNode().getChild('...')
-	if nodeChar.getParent().getName() == 'charsheet' then
+	if window.getDatabaseNode().getParent().getName() == 'diseases' then
+		local nodeChar = window.getDatabaseNode().getChild('...')
 		local nodeDisease = window.getDatabaseNode()
 		local nConsecutiveSaves = DB.getValue(nodeDisease, 'savecount_consec', 0)
 		local nSavesReq = DB.getValue(nodeDisease, 'savesreq', 0)
