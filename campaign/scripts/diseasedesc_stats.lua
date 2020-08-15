@@ -74,15 +74,18 @@ local function ifLocked(sType)
 	savedc_label.setVisible(false)
 	savedc.setVisible(false)
 	
-	if getDatabaseNode().getParent().getName() == 'diseases'
-	then saveroll.setVisible(true)
-	else saveroll.setVisible(false)
+	if getDatabaseNode().getParent().getName() ~= 'disease'
+	and getDatabaseNode().getChild('...').getName() ~= 'reference' then
+		saveroll.setVisible(true)
+	else
+		saveroll.setVisible(false)
 	end
 
 	if sType ~= 'disease' then
 		duration_label.setVisible(false)
 		duration_interval.setVisible(false)
 		duration_unit.setVisible(false)
+		
 		if poison_effect_primary.getValue() == '' then
 			poison_effect_primary.setVisible(true)
 			poison_effect_primary_label.setVisible(true)
@@ -95,9 +98,12 @@ local function ifLocked(sType)
 		duration_label.setVisible(false)
 		duration_interval.setVisible(false)
 		duration_unit.setVisible(false)
-		disease_effect.setVisible(true)
+				
 		raisesave.setVisible(false)
 		increaseduration.setVisible(false)
+		
+		disease_effect.setVisible(true)
+		
 		poison_effect_primary.setVisible(false)
 		poison_effect_primary_label.setVisible(false)
 		poison_effect_secondary.setVisible(false)
@@ -105,17 +111,27 @@ local function ifLocked(sType)
 	end
 	if sType == 'poison' then
 		disease_effect.setVisible(false)
-		if save_string.getValue() and save_string.getValue() ~= 'none' and getDatabaseNode().getParent().getName() == 'diseases'
-		then raisesave.setVisible(true)
-		else raisesave.setVisible(false)
+		
+		if save_string.getValue() and save_string.getValue() ~= 'none'
+		and getDatabaseNode().getParent().getName() ~= 'disease'
+		and getDatabaseNode().getChild('...').getName() ~= 'reference' then
+			raisesave.setVisible(true)
+		else
+			raisesave.setVisible(false)
 		end
-		if duration_interval.getValue() and duration_interval.getValue() > 0 and getDatabaseNode().getParent().getName() == 'diseases'
-		then increaseduration.setVisible(true)
-		else increaseduration.setVisible(false)
+		
+		if duration_interval.getValue() and duration_interval.getValue() > 0
+		and getDatabaseNode().getParent().getName() ~= 'disease'
+		and getDatabaseNode().getChild('...').getName() ~= 'reference' then
+			increaseduration.setVisible(true)
+		else
+			increaseduration.setVisible(false)
 		end
 	end
 	
-	if disease_effect.getValue() == '\n<p></p>' and poison_effect_primary.getValue() == '' and poison_effect_primary.getValue() == '' then
+	if disease_effect.getValue() == '\n<p></p>'
+	and poison_effect_primary.getValue() == ''
+	and poison_effect_primary.getValue() == '' then
 		section_effect_label.setVisible(false)
 	end
 	if description.getValue() == '\n<p></p>' then section_description_label.setVisible(false) end
@@ -160,6 +176,7 @@ local function ifUnlocked(sType)
 		duration_label.setVisible(true)
 		duration_interval.setVisible(true)
 		duration_unit.setVisible(true)
+		
 		poison_effect_primary.setVisible(true)
 		poison_effect_primary_label.setVisible(true)
 		poison_effect_secondary.setVisible(true)
@@ -168,6 +185,7 @@ local function ifUnlocked(sType)
 		duration_label.setVisible(false)
 		duration_interval.setVisible(false)
 		duration_unit.setVisible(false)
+		
 		disease_effect.setVisible(true)
 		poison_effect_primary.setVisible(false)
 		poison_effect_primary_label.setVisible(false)
@@ -185,7 +203,11 @@ local function ifUnlocked(sType)
 	onset_interval.setVisible(true)
 
 	button_settime.setVisible(false)
-	if TimeManager and getDatabaseNode().getParent().getName() == 'diseases' then button_settime.setVisible(true) end
+	if TimeManager
+	and getDatabaseNode().getParent().getName() ~= 'disease'
+	and getDatabaseNode().getChild('...').getName() ~= 'reference' then
+		button_settime.setVisible(true)
+	end
 
 	freq_label.setVisible(true)
 	freq_unit.setVisible(true)
