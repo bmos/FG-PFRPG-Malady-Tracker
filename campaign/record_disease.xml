@@ -205,7 +205,6 @@
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
 				</anchored>
 				<default>1</default>
-				<readonly />
 			</number_column_right>
 			
 			<button_stringcycler name="freq_unit">
