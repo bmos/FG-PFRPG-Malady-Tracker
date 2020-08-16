@@ -156,7 +156,7 @@
 			</button_roll>
 
 			<buttoncontrol name="raisesave">
-				<anchored to="saveroll" position="left" offset="5" width="20" height="20" />
+				<anchored to="saveroll" position="left" offset="5" width="20" />
 				<icon normal="button_zoomin" pressed="button_zoomin_down" />
 				<tooltip textres="char_disease_raisesave" />
 				<script>
@@ -271,7 +271,7 @@
 			</button_stringcycler>
 
 			<buttoncontrol name="increaseduration">
-				<anchored to="save_string" position="right" offset="-15" width="20" height="20" />
+				<anchored to="save_string" position="right" offset="-15" width="20" />
 				<icon normal="button_zoomin" pressed="button_zoomin_down" />
 				<tooltip textres="char_disease_increaseduration" />
 				<script>
