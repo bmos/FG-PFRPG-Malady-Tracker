@@ -61,6 +61,10 @@ function onTimeChanged(node)
 				
 				-- if the disease has a duration, recalculate how many rolls should have been rolled
 				if nDuration ~= 0 and nTargetRollCount > (nDuration / nFreq) then nTargetRollCount = (nDuration / nFreq) end
+
+				local sDiseaseType = DB.getValue(nodeDisease, 'type', '')
+				local bIsAutoRoll = (DB.getValue(nodeChar, 'diseaserollactive', 1) == 1)
+				if not bIsAutoRoll then ChatManager.SystemMessage(DB.getValue(nodeChar, 'name') ..' is due to roll ' .. nTargetRollCount .. ' saving throws against their ' .. sDiseaseName .. ' ' .. sDiseaseType .. '.') end
 				
 				-- if savetype is known and more saves are due to be rolled
 				if DB.getValue(nodeDisease, 'savetype') and nNewRollCount > nPrevRollCount then
@@ -68,7 +72,7 @@ function onTimeChanged(node)
 					local nRollCount = 0
 					-- rolls saving throws until the desired total is achieved
 					repeat
-						rollSave(rActor, nodeDisease)
+						if bIsAutoRoll then rollSave(rActor, nodeDisease) end
 						
 						nRollCount = nRollCount + 1
 					until nRollCount == nTargetRollCount

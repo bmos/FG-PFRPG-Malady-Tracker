@@ -68,6 +68,21 @@
 				<prefix>char_diseases_title</prefix>
 			</windowtitlebar_char>
 			<anchor_title_charsheethelper name="contentanchor" />
+			
+			<buttonfield name="diseaserollactive">
+				<bounds>20,26,23,23</bounds>
+				<default>1</default>
+				<state icon="button_toggle_off" tooltipres="ct_tooltip_effectoff" />
+				<state icon="button_toggle_on" tooltipres="ct_tooltip_effecton" />
+				<script>
+				</script>
+			</buttonfield>
+			<stringcontrol name="label_autorollactive">
+				<anchored to="diseaserollactive" position="aboveleft" offset="-10,-6" width="55" />
+				<static>Auto Roll</static>
+				<font>sheetlabelmini</font>
+				<center />
+			</stringcontrol>
 		
 			<frame_char name="diseasesframe">
 				<anchored position="insidetopleft" offset="15,45">
