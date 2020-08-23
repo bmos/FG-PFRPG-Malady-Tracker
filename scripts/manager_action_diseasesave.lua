@@ -118,8 +118,8 @@ function modSave(rSource, rTarget, rRoll)
 	
 	-- Determine save type
 	local sSave = nil
-	local sSaveMatch = rRoll.sDesc:match('%[DISEASE%] ([^[]+)')
-	if not sSaveMatch then sSaveMatch = rRoll.sDesc:match('%[POISON%] ([^[]+)') end
+	local sSaveMatch = rRoll.sDesc:match('%]%s%a+%s%(')
+	sSaveMatch = sSaveMatch:sub(2, -2)
 	if sSaveMatch then
 		sSave = StringManager.trim(sSaveMatch):lower()
 	end
