@@ -74,8 +74,6 @@
 				<default>1</default>
 				<state icon="button_toggle_off" tooltipres="ct_tooltip_effectoff" />
 				<state icon="button_toggle_on" tooltipres="ct_tooltip_effecton" />
-				<script>
-				</script>
 			</buttonfield>
 			<stringcontrol name="label_autorollactive">
 				<anchored to="diseaserollactive" position="aboveleft" offset="-10,-6" width="55" />
