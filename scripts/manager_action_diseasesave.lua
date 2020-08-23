@@ -65,6 +65,18 @@ function notifyApplySave(rSource, rRoll)
 	end
 	
 	Comm.deliverOOBMessage(msgOOB, "");
+
+	if rRoll.sSaveResult:match('failure') then
+		local sMaladyEffect = nodeDiseaseRoll.getChild('disease_effect').getText()
+
+		local sPoisonEffect = nodeDiseaseRoll.getChild('poison_effect_primary').getText()
+		if sPoisonEffect ~= '' then sMaladyEffect = sPoisonEffect end
+
+		local sPoisonSecondary = nodeDiseaseRoll.getChild('poison_effect_secondary').getText()
+		if sPoisonSecondary ~= '' then sMaladyEffect = sMaladyEffect .. sPoisonSecondary end
+
+		ChatManager.SystemMessage('FAILURE EFFECT: ' .. sMaladyEffect)
+	end
 end
 
 local function getRoll(rActor, nodeDisease)
