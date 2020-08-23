@@ -111,7 +111,7 @@ local function getRoll(rActor, nodeDisease)
 	return rRoll
 end
 
-local function modSave(rSource, rTarget, rRoll)
+function modSave(rSource, rTarget, rRoll)
 	local aAddDesc = {}
 	local aAddDice = {}
 	local nAddMod = 0
