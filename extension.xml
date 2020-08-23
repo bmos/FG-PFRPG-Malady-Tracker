@@ -25,6 +25,7 @@
 	    <icon name="button_diseases_down" file="graphics/button_diseases_down.png" />
 		<!-- Campaign Records -->
 		<includefile source="campaign/record_char_main.xml" />
+		<includefile source="campaign/record_npc.xml" />
 		<includefile source="campaign/record_disease.xml" />
 		<!-- Strings -->
 		<includefile source="strings/strings_disease_tracker.xml" />
