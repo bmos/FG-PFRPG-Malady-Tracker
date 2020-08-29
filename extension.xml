@@ -3,7 +3,6 @@
 	<!-- Please see the LICENSE.md file included with this distribution for attribution and copyright information. -->
 	<properties>
 		<name>Disease Tracker</name>
-		<loadorder>40</loadorder>
 		<version>1.6.0</version>
 		<author>bmos (Wil Thieme)</author>
 		<description>This FantasyGrounds extension helps track disease duration, saves, effects, and other information.</description>
