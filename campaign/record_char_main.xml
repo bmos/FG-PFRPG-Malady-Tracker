@@ -106,7 +106,7 @@
 		</sheetdata>
 	</windowclass>
 
-	<!-- Disease Sheet -->
+	<!-- Disease List -->
 	<windowclass name="referencediseases">
 		<margins control="0,0,0,2" />
 		<sheetdata>
