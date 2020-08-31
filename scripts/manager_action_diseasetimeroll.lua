@@ -7,20 +7,20 @@ function onInit()
 	ActionsManager.registerResultHandler("diseasetimeroll", onRoll);
 end
 
-local function getRoll(rActor, tDice, sField)
+local function getRoll(rActor, tDice, nFixedInt, sField)
 	local rRoll = {};
 	
 	rRoll.sType = "diseasetimeroll";
 	rRoll.aDice = tDice;
-	rRoll.nMod = 0;
+	rRoll.nMod = nFixedInt;
 	rRoll.sDesc = sField;
 	
 	return rRoll;
 end
 
 -- Start the action process
-function performRoll(draginfo, nodeDisease, rActor, tDice, sField)
-	local rRoll = getRoll(rActor, tDice, sField);
+function performRoll(draginfo, nodeDisease, rActor, tDice, nFixedInt, sField)
+	local rRoll = getRoll(rActor, tDice, nFixedInt, sField);
 	rRoll['nodeDisease'] = nodeDisease.getPath()
 	
 	ActionsManager.performAction(draginfo, rActor, rRoll);
