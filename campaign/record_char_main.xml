@@ -37,21 +37,7 @@
 	
 	<!-- Diseases List Sheet -->
 	<windowclass name="charsheet_diseasetracker">
-		<script>
-			function onDrop(x, y, draginfo)
-				return handleDrop(draginfo, nil);
-			end
-			
-			function handleDrop(draginfo, nodeTargetList)
-				if draginfo.isType("shortcut") then
-					local sClass, sRecord = draginfo.getShortcutData()
-					if StringManager.contains({"referencedisease"}, sClass) then
-						DiseaseTracker.addDisease(getDatabaseNode(), sClass, sRecord, nodeTargetList)
-						return true
-					end
-				end
-			end
-		</script>
+		<script file="campaign/scripts/adddisease.lua" />
 		<frame>charsheethelper</frame>
 		<placement>
 			<size width="300" height="135" />

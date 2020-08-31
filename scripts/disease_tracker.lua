@@ -103,31 +103,6 @@ function onTimeChanged(node)
 	end
 end
 
---- Allow dragging and dropping madnesses between players
-function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
-	if not nodeChar then
-		return false;
-	end
-	
-	if sClass == 'referencedisease' then
-		local nodeSource = CharManager.resolveRefNode(sRecord)
-		if not nodeSource then
-			return
-		end
-		
-		if not nodeTargetList then
-			return
-		end
-		
-		local nodeEntry = nodeTargetList.createChild()
-		DB.copyNode(nodeSource, nodeEntry)
-	else
-		return false
-	end
-	
-	return true
-end
-
 ---	This function rolls the save specified in the disease information
 function rollSave(rActor, nodeDisease)
 	ActionDiseaseSave.performRoll(nil, rActor, nodeDisease)
