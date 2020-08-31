@@ -197,6 +197,13 @@
 					end
 				</script>
 			</button_stringcycler>
+
+			<basicdice name="onset_dice">
+				<anchored height="20" width="40">
+					<top parent="savetype" anchor="bottom" offset="7" />
+					<right parent="onset_unit" anchor="left" offset="-10" />
+				</anchored>
+			</basicdice>
 			
 			<label_column name="freq_label">
 				<static textres="record_disease_freq_label" />
@@ -220,6 +227,13 @@
 					<values>.1|1|60|1440|10080</values>
 				</parameters>
 			</button_stringcycler>
+
+			<basicdice name="freq_dice">
+				<anchored height="20" width="40">
+					<top parent="onset_unit" anchor="bottom" offset="7" />
+					<right parent="onset_unit" anchor="left" offset="-10" />
+				</anchored>
+			</basicdice>
 			
 			<buttoncontrol name="button_settime">
 				<anchored to="freq_unit" width="20" height="20">
@@ -271,6 +285,13 @@
 				</script>
 				<tabtarget next="savecount_consec" />
 			</button_stringcycler>
+
+			<basicdice name="duration_dice">
+				<anchored height="20" width="40">
+					<top parent="onset_unit" anchor="bottom" offset="34" />
+					<right parent="onset_unit" anchor="left" offset="-10" />
+				</anchored>
+			</basicdice>
 
 			<buttoncontrol name="increaseduration">
 				<anchored to="save_string" position="right" offset="-15" width="20" />
