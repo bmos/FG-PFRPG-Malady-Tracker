@@ -233,6 +233,7 @@
 					<top parent="onset_unit" anchor="bottom" offset="7" />
 					<right parent="onset_unit" anchor="left" offset="-10" />
 				</anchored>
+				<invisible />
 			</basicdice>
 			
 			<buttoncontrol name="button_settime">
