@@ -21,14 +21,17 @@ local function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 		local nodeEntry = nodeTargetList.createChild()
 		DB.copyNode(nodeSource, nodeEntry)
 		
-		if DB.getValue(nodeSource, 'onset_dice') then
-			ActionDiseaseTimeRoll.performRoll(draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'onset_dice'), DB.getValue(nodeSource, 'onset_interval'), 'Onset')
+		if nodeSource.getChild('....').getName() ~= 'charsheet' then
+			if DB.getValue(nodeSource, 'onset_dice') then
+				ActionDiseaseTimeRoll.performRoll(draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'onset_dice'), DB.getValue(nodeSource, 'onset_interval'), 'Onset')
+			end
+			if DB.getValue(nodeSource, 'freq_dice') then
+				ActionDiseaseTimeRoll.performRoll(draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'freq_dice'), DB.getValue(nodeSource, 'freq_interval'), 'Frequency')
+			end
+			if DB.getValue(nodeSource, 'duration_dice') then
+				ActionDiseaseTimeRoll.performRoll(draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'), 'Duration')
+			end
 		end
-		if DB.getValue(nodeSource, 'freq_dice') then
-			ActionDiseaseTimeRoll.performRoll(draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'freq_dice'), DB.getValue(nodeSource, 'freq_interval'), 'Frequency')
-		end
-		if DB.getValue(nodeSource, 'duration_dice') then
-			ActionDiseaseTimeRoll.performRoll(draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'), 'Duration')
 		end
 	else
 		return false
