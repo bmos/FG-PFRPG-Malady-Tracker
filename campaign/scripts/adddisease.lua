@@ -32,6 +32,9 @@ local function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 				ActionDiseaseTimeRoll.performRoll(draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'), 'Duration')
 			end
 		end
+		if TimeManager and DB.getValue(nodeEntry, 'freq_interval') and tonumber(DB.getValue(nodeEntry, 'freq_unit', .1)) >= 1 then
+			DB.setValue(nodeEntry, 'starttime', 'number', TimeManager.getCurrentDateinMinutes())
+			DB.setValue(nodeEntry, 'savecount', 'number', 0)
 		end
 	else
 		return false
