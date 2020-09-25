@@ -67,7 +67,8 @@ function onValueChanged()
 		local nodeDisease = window.getDatabaseNode()
 		local nConsecutiveSaves = DB.getValue(nodeDisease, 'savecount_consec', 0)
 		local nSavesReq = DB.getValue(nodeDisease, 'savesreq', 0)
-		if nSavesReq ~= 0 and nConsecutiveSaves >= nSavesReq then
+		local nDiseaseRollActive = DB.getValue(nodeDisease.getParent(), 'diseaserollactive', 1)
+		if nDiseaseRollActive ~= 1 and nSavesReq ~= 0 and nConsecutiveSaves >= nSavesReq then
 			DB.setValue(nodeDisease, 'starttime', 'number', nil)
 			DB.setValue(nodeDisease, 'savecount', 'number', nil)
 			local sDiseaseName = DB.getValue(nodeDisease, 'name', 0)
