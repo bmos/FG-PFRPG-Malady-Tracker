@@ -18,7 +18,10 @@ aSBOverrides = {
 };
 
 function onInit()
-	if User.isHost() and TimeManager then DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged) end
+	if User.isHost() and TimeManager then
+		DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged)
+		DB.addHandler('combattracker.round', 'onUpdate', onTimeChanged)
+	end
 	for kRecordType,vRecordType in pairs(aSBOverrides) do
 		LibraryData.setRecordTypeInfo(kRecordType, vRecordType)
 	end
@@ -88,11 +91,27 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 	end
 end
 
+---	This function is called by the handler which watches for changes in round number.
+--	The handler is only configured if the ClockAdjuster extension is installed.
+--	@param node the databasenode corresponding to combattracker.round (two levels below database root)
+function onRoundChanged(node)
+	timeConcierge(node)
+end
+
 ---	This function is called by the handler which watches for changes in current time.
 --	The handler is only configured if the ClockAdjuster extension is installed.
 --	@param node the databasenode corresponding to the calendar (two levels below database root)
 function onTimeChanged(node)
-	local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
+	timeConcierge(node)
+	DB.setValue(node.getChild('...'), 'combattracker.round', 'number', 1)
+end
+
+---	This function is called by the handler which watches for changes in current time.
+--	The handler is only configured if the ClockAdjuster extension is installed.
+--	@param node the databasenode corresponding to the calendar (two levels below database root)
+function timeConcierge(node)
+	local nRound = DB.getValue(node.getChild('...'), 'combattracker.round', 1)
+	local nDateinMinutes = TimeManager.getCurrentDateinMinutes() + ( 0.1 * nRound )
 	-- iterates through each player character
 	for _,nodeChar in pairs(DB.getChildren(node.getChild('...'), 'charsheet')) do
 		parseDiseases(nodeChar, nDateinMinutes)
