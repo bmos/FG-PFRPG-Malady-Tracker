@@ -78,10 +78,12 @@ function notifyApplySave(rSource, rRoll)
 	if rRoll.sSaveResult:match('failure') then
 		local sMaladyEffect = nodeDiseaseRoll.getChild('disease_effect').getText()
 
-		local sPoisonEffect = nodeDiseaseRoll.getChild('poison_effect_primary').getText()
+		local sPoisonEffect = ''
+		if nodeDiseaseRoll.getChild('poison_effect_primary') then nodeDiseaseRoll.getChild('poison_effect_primary').getText() end
 		if sPoisonEffect ~= '' then sMaladyEffect = sPoisonEffect end
 
-		local sPoisonSecondary = nodeDiseaseRoll.getChild('poison_effect_secondary').getText()
+		local sPoisonSecondary = ''
+		if nodeDiseaseRoll.getChild('poison_effect_secondary') then nodeDiseaseRoll.getChild('poison_effect_secondary').getText() end
 		if sPoisonSecondary ~= '' then sMaladyEffect = sMaladyEffect .. sPoisonSecondary end
 
 		ChatManager.SystemMessage('FAILURE EFFECT: ' .. sMaladyEffect)

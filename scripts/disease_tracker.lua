@@ -91,19 +91,12 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 	end
 end
 
----	This function is called by the handler which watches for changes in round number.
---	The handler is only configured if the ClockAdjuster extension is installed.
---	@param node the databasenode corresponding to combattracker.round (two levels below database root)
-function onRoundChanged(node)
-	timeConcierge(node)
-end
-
 ---	This function is called by the handler which watches for changes in current time.
 --	The handler is only configured if the ClockAdjuster extension is installed.
 --	@param node the databasenode corresponding to the calendar (two levels below database root)
 function onTimeChanged(node)
 	timeConcierge(node)
-	DB.setValue(node.getChild('...'), 'combattracker.round', 'number', 1)
+	-- DB.setValue(node.getChild('...'), 'combattracker.round', 'number', 1)
 end
 
 ---	This function is called by the handler which watches for changes in current time.
