@@ -60,7 +60,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 			if nDurUnit ~= 0 and nDurVal ~= 0 then nDuration = (nDurUnit * nDurVal) end
 
 			local nPrevRollCount = DB.getValue(nodeDisease, 'savecount', 0)
-			local nNewRollCount = math.floor((nTimeElapsed - nOnset + nFreq) / nFreq)
+			local nNewRollCount = math.floor(nTimeElapsed / nFreq)
 			if not (nNewRollCount >= 0) then nNewRollCount = 0 end
 			local nTargetRollCount = nNewRollCount - nPrevRollCount
 			
