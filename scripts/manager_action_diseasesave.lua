@@ -79,12 +79,12 @@ function notifyApplySave(rSource, rRoll)
 		local sMaladyEffect = nodeDiseaseRoll.getChild('disease_effect').getText()
 
 		local sPoisonEffect = ''
-		if nodeDiseaseRoll.getChild('poison_effect_primary') then nodeDiseaseRoll.getChild('poison_effect_primary').getText() end
-		if sPoisonEffect ~= '' then sMaladyEffect = sPoisonEffect end
+		if nodeDiseaseRoll.getChild('poison_effect_primary') then sPoisonEffect = nodeDiseaseRoll.getChild('poison_effect_primary').getText() end
+		if sPoisonEffect ~= '' then sMaladyEffect = '\nPRIMARY: ' .. sPoisonEffect end
 
 		local sPoisonSecondary = ''
-		if nodeDiseaseRoll.getChild('poison_effect_secondary') then nodeDiseaseRoll.getChild('poison_effect_secondary').getText() end
-		if sPoisonSecondary ~= '' then sMaladyEffect = sMaladyEffect .. sPoisonSecondary end
+		if nodeDiseaseRoll.getChild('poison_effect_secondary') then sPoisonSecondary = nodeDiseaseRoll.getChild('poison_effect_secondary').getText() end
+		if sPoisonSecondary ~= '' then sMaladyEffect = sMaladyEffect .. '\nSECONDARY: ' .. sPoisonSecondary end
 
 		ChatManager.SystemMessage('FAILURE EFFECT: ' .. sMaladyEffect)
 	end
