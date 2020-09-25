@@ -60,7 +60,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 			if nDurUnit ~= 0 and nDurVal ~= 0 then nDuration = (nDurUnit * nDurVal) end
 
 			local nPrevRollCount = DB.getValue(nodeDisease, 'savecount', 0)
-			local nNewRollCount = math.floor((nTimeElapsed - nOnset) / nFreq) + 1
+			local nNewRollCount = round((nTimeElapsed - nOnset) / nFreq, 1)
 			if not (nNewRollCount >= 0) then nNewRollCount = 0 end
 			local nTargetRollCount = nNewRollCount - nPrevRollCount
 			
@@ -72,7 +72,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 			if not bIsAutoRoll then ChatManager.SystemMessage(DB.getValue(nodeActor, 'name') ..' is due to roll ' .. nTargetRollCount .. ' saving throws against their ' .. sDiseaseName .. ' ' .. sDiseaseType .. '.') end
 			
 			-- if savetype is known and more saves are due to be rolled
-			if DB.getValue(nodeDisease, 'savetype') and nNewRollCount > nPrevRollCount then
+			if DB.getValue(nodeDisease, 'savetype') and nNewRollCount >= 1 and nNewRollCount > nPrevRollCount then
 				local rActor = ActorManager.getActor('pc', nodeActor)
 				local nRollCount = 0
 				-- rolls saving throws until the desired total is achieved
@@ -80,7 +80,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 					if bIsAutoRoll then rollSave(rActor, nodeDisease) end
 					
 					nRollCount = nRollCount + 1
-				until nRollCount == nTargetRollCount
+				until nRollCount >= nTargetRollCount
 				
 				-- if the disease has a duration and the duration has now expired,
 				-- announce in chat, delete the save-counting + time records,
