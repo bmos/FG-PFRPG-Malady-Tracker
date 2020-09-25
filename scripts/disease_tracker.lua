@@ -69,7 +69,9 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 
 			local sDiseaseType = DB.getValue(nodeDisease, 'type', '')
 			local bIsAutoRoll = (DB.getValue(nodeActor, 'diseaserollactive', 1) == 1)
-			if not bIsAutoRoll then ChatManager.SystemMessage(DB.getValue(nodeActor, 'name') ..' is due to roll ' .. nTargetRollCount .. ' saving throws against their ' .. sDiseaseName .. ' ' .. sDiseaseType .. '.') end
+			if not bIsAutoRoll then
+				ChatManager.SystemMessage(DB.getValue(nodeActor, 'name') ..' is due to roll ' .. nTargetRollCount .. ' saving throws against their ' .. sDiseaseName .. ' ' .. sDiseaseType .. '.')
+			end
 			
 			-- if savetype is known and more saves are due to be rolled
 			if DB.getValue(nodeDisease, 'savetype') and nNewRollCount >= 1 and nNewRollCount > nPrevRollCount then
@@ -89,7 +91,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 					DB.setValue(nodeDisease, 'starttime', 'number', nil)
 					DB.setValue(nodeDisease, 'savecount', 'number', nil)
 					DB.setValue(nodeDisease, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
-					ChatManager.SystemMessage(DB.getValue(nodeActor, 'name') .."'s " .. sDiseaseName .. ' has run its course.')
+					ChatManager.SystemMessage(DB.getValue(nodeActor, 'name', 'my first pc') .."'s " .. sDiseaseName .. ' has run its course.')
 					break
 				end
 				
