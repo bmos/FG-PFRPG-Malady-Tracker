@@ -64,6 +64,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 
 			local nPrevRollCount = DB.getValue(nodeDisease, 'savecount', 0)
 			local nNewRollCount = ((nTimeElapsed - nOnset) / nFreq) + 1
+			if string.find(tostring(nNewRollCount), '%.') then nNewRollCount = math.floor(nNewRollCount) end
 			if not (nNewRollCount >= 0) then nNewRollCount = 0 end
 			local nTargetRollCount = nNewRollCount - nPrevRollCount
 			
