@@ -57,14 +57,18 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 			local nDuration = 0
 			
 			-- if duration components are configured, calculate total duration
-			if nDurUnit ~= 0 and nDurVal ~= 0 then nDuration = (nDurUnit * nDurVal) end
+			if nDurUnit ~= 0 and nDurVal ~= 0 then
+				nDuration = (nDurUnit * nDurVal)
+				if nOnset ~= 0 then nDuration = nDuration + nOnset end
+			end
 
 			local nPrevRollCount = DB.getValue(nodeDisease, 'savecount', 0)
-			local nNewRollCount = math.floor(nTimeElapsed / nFreq)
+			local nNewRollCount = ((nTimeElapsed - nOnset) / nFreq) + 1
 			if not (nNewRollCount >= 0) then nNewRollCount = 0 end
 			local nTargetRollCount = nNewRollCount - nPrevRollCount
 			
 			-- if the disease has a duration, recalculate how many rolls should have been rolled
+			if nDuration ~= 0 then nTargetRollCount = nTargetRollCount - 1 end
 			if nDuration ~= 0 and nTargetRollCount > (nDuration / nFreq) then nTargetRollCount = (nDuration / nFreq) end
 
 			local sDiseaseType = DB.getValue(nodeDisease, 'type', '')
