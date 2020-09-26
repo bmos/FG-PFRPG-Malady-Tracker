@@ -51,7 +51,14 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 		
 		-- if the disease has a starting time, the current time is known, and any onset has elapsed
 		if nDateOfContr ~= 0 and nDateinMinutes and (nTimeElapsed >= nOnset) then
-			local nFreq = tonumber(DB.getValue(nodeDisease, 'freq_unit', 1))
+			local nFreqUnit = tonumber(DB.getValue(nodeDisease, 'freq_unit', 1))
+			local nFreqVal = DB.getValue(nodeDisease, 'freq_interval', 1)
+			local nFreq = 0
+			
+			-- if freqency components are configured, calculate freqency
+			if nFreqUnit ~= 0 and nFreqVal ~= 0 then nFreq = (nFreqUnit * nFreqVal) end
+			if nFreq == 0 then return; end
+			
 			local nDurUnit = DB.getValue(nodeDisease, 'duration_unit', 0)
 			local nDurVal = DB.getValue(nodeDisease, 'duration_interval', 0)
 			local nDuration = 0
