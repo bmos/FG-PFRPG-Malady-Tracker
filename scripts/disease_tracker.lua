@@ -40,37 +40,37 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 	for _,nodeDisease in pairs(DB.getChildren(nodeActor, 'diseases')) do
 		local sDiseaseName = DB.getValue(nodeDisease, 'name', '')
 		local nDateOfContr = DB.getValue(nodeDisease, 'starttime', nDateinMinutes)
-		if nDateOfContr <= 0 then return; end -- only continue if disease starting time has been set
+		if (nDateOfContr <= 0) then return; end -- only continue if disease starting time has been set
 		local nTimeElapsed = round((nDateinMinutes - nDateOfContr), 1)
-		local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit', 0))
+		local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit', '0'))
 		local nOnsVal = DB.getValue(nodeDisease, 'onset_interval', 0)
 		local nOnset = 0
 		
 		-- if onset components are configured, calculate total time to onset
-		if nOnsUnit ~= 0 and nOnsVal ~= 0 then nOnset = (nOnsUnit * nOnsVal) end
+		if (nOnsUnit ~= 0) and (nOnsVal ~= 0) then nOnset = (nOnsUnit * nOnsVal) end
 		
 		-- if the disease has a starting time, the current time is known, and any onset has elapsed
 		if nDateOfContr ~= 0 and nDateinMinutes and (nTimeElapsed >= nOnset) then
-			local nFreqUnit = tonumber(DB.getValue(nodeDisease, 'freq_unit', 1))
+			local nFreqUnit = tonumber(DB.getValue(nodeDisease, 'freq_unit', '1'))
 			local nFreqVal = DB.getValue(nodeDisease, 'freq_interval', 1)
 			local nFreq = (nFreqUnit * nFreqVal)
 			-- if freqency components are configured, calculate freqency
-			if nFreq == 0 then return; end
-			
+			if (nFreq == 0) then return; end
+
 			local nPrevRollCount = DB.getValue(nodeDisease, 'savecount', 0)
 			local nNewRollCount = ((nTimeElapsed - nOnset) / nFreq) + 1
 			if string.find(tostring(nNewRollCount), '%.') then nNewRollCount = math.floor(nNewRollCount) end
 			if (nNewRollCount < 0) then nNewRollCount = 0 end
 			local nTargetRollCount = nNewRollCount - nPrevRollCount
-			Debug.chat(nNewRollCount, nPrevRollCount)
 			
-			local nDurUnit = tonumber(DB.getValue(nodeDisease, 'duration_unit', 0))
+			local nDurUnit = tonumber(DB.getValue(nodeDisease, 'duration_unit', '0'))
+			if (nDurUnit == nil) then nDurUnit = 0 end -- I'm not sure why this needs to be here, but it does to support no-duration.
 			local nDurVal = DB.getValue(nodeDisease, 'duration_interval', 0)
 			-- if duration components are configured, calculate total duration
 			local nDuration = (nDurUnit * nDurVal)
 			if (nDuration ~= 0) then
 				-- if the disease has a duration, recalculate how many rolls should have been rolled
-				if (nTargetRollCount > (nDuration / nFreq)) then nTargetRollCount = (nDuration / nFreq) end
+				if (nTargetRollCount > (nDuration / nFreq)) then nTargetRollCount = nDuration / nFreq end
 				if (nOnset ~= 0) then nDuration = nDuration + nOnset end
 			end
 
