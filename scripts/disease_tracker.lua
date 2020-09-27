@@ -42,7 +42,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 		local nDateOfContr = DB.getValue(nodeDisease, 'starttime', nDateinMinutes)
 		if nDateOfContr <= 0 then return; end -- only continue if disease starting time has been set
 		local nTimeElapsed = round((nDateinMinutes - nDateOfContr), 1)
-		local nOnsUnit = DB.getValue(nodeDisease, 'onset_unit', 0)
+		local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit', 0))
 		local nOnsVal = DB.getValue(nodeDisease, 'onset_interval', 0)
 		local nOnset = 0
 		
@@ -53,31 +53,26 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 		if nDateOfContr ~= 0 and nDateinMinutes and (nTimeElapsed >= nOnset) then
 			local nFreqUnit = tonumber(DB.getValue(nodeDisease, 'freq_unit', 1))
 			local nFreqVal = DB.getValue(nodeDisease, 'freq_interval', 1)
-			local nFreq = 0
-			
+			local nFreq = (nFreqUnit * nFreqVal)
 			-- if freqency components are configured, calculate freqency
-			if nFreqUnit ~= 0 and nFreqVal ~= 0 then nFreq = (nFreqUnit * nFreqVal) end
 			if nFreq == 0 then return; end
 			
-			local nDurUnit = DB.getValue(nodeDisease, 'duration_unit', 0)
-			local nDurVal = DB.getValue(nodeDisease, 'duration_interval', 0)
-			local nDuration = 0
-			
-			-- if duration components are configured, calculate total duration
-			if nDurUnit ~= 0 and nDurVal ~= 0 then
-				nDuration = (nDurUnit * nDurVal)
-				if nOnset ~= 0 then nDuration = nDuration + nOnset end
-			end
-
 			local nPrevRollCount = DB.getValue(nodeDisease, 'savecount', 0)
 			local nNewRollCount = ((nTimeElapsed - nOnset) / nFreq) + 1
 			if string.find(tostring(nNewRollCount), '%.') then nNewRollCount = math.floor(nNewRollCount) end
-			if not (nNewRollCount >= 0) then nNewRollCount = 0 end
+			if (nNewRollCount < 0) then nNewRollCount = 0 end
 			local nTargetRollCount = nNewRollCount - nPrevRollCount
+			Debug.chat(nNewRollCount, nPrevRollCount)
 			
-			-- if the disease has a duration, recalculate how many rolls should have been rolled
-			if nDuration ~= 0 then nTargetRollCount = nTargetRollCount - 1 end
-			if nDuration ~= 0 and nTargetRollCount > (nDuration / nFreq) then nTargetRollCount = (nDuration / nFreq) end
+			local nDurUnit = tonumber(DB.getValue(nodeDisease, 'duration_unit', 0))
+			local nDurVal = DB.getValue(nodeDisease, 'duration_interval', 0)
+			-- if duration components are configured, calculate total duration
+			local nDuration = (nDurUnit * nDurVal)
+			if (nDuration ~= 0) then
+				-- if the disease has a duration, recalculate how many rolls should have been rolled
+				if (nTargetRollCount > (nDuration / nFreq)) then nTargetRollCount = (nDuration / nFreq) end
+				if (nOnset ~= 0) then nDuration = nDuration + nOnset end
+			end
 
 			local sDiseaseType = DB.getValue(nodeDisease, 'type', '')
 			local bIsAutoRoll = (DB.getValue(nodeActor, 'diseaserollactive', 1) == 1)
@@ -86,9 +81,11 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 			end
 			
 			-- if savetype is known and more saves are due to be rolled
-			if DB.getValue(nodeDisease, 'savetype') and nNewRollCount >= 1 and nNewRollCount > nPrevRollCount then
+			if DB.getValue(nodeDisease, 'savetype') and (nNewRollCount >= 1) and (nTargetRollCount > 0) then
 				local rActor = ActorManager.getActor('pc', nodeActor)
 				local nRollCount = 0
+				if (nDurUnit == 0.1) then nRollCount = 1 end
+				
 				-- rolls saving throws until the desired total is achieved
 				repeat
 					if bIsAutoRoll and not string.find(DB.getValue(nodeDisease, 'name', ''), '%[') then rollSave(rActor, nodeDisease) end
@@ -98,7 +95,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 				-- if the disease has a duration and the duration has now expired,
 				-- announce in chat, delete the save-counting + time records,
 				-- and add [EXPIRED] to the disease name
-				if nDuration ~= 0 and nTimeElapsed >= nDuration then
+				if (nDuration ~= 0) and (nTimeElapsed >= nDuration) then
 					DB.setValue(nodeDisease, 'starttime', 'number', nil)
 					DB.setValue(nodeDisease, 'savecount', 'number', nil)
 					if not string.find(DB.getValue(nodeDisease, 'name', ''), '%[EXPIRED%]') then
@@ -108,7 +105,8 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 					break
 				end
 				
-				DB.setValue(nodeDisease, 'savecount', 'number', nPrevRollCount + nRollCount)	-- saves the new total for use next time
+				if (nDurUnit == 0.1) then nRollCount = nRollCount - 1 end
+				DB.setValue(nodeDisease, 'savecount', 'number', nPrevRollCount + nRollCount) -- saves the new total for use next time
 			end
 		end
 	end
