@@ -61,6 +61,17 @@ function notifyApplySave(rSource, rRoll)
 			DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', 0)
 		elseif rRoll.sSaveResult:match('success') then
 			DB.setValue(nodeDiseaseRoll, 'savecount_consec', 'number', DB.getValue(nodeDiseaseRoll, 'savecount_consec', 0) + 1)
+			
+			local nConsecutiveSaves = DB.getValue(nodeDiseaseRoll, 'savecount_consec', 0)
+			local nSavesReq = DB.getValue(nodeDiseaseRoll, 'savesreq', 0)
+			if nSavesReq ~= 0 and nConsecutiveSaves >= nSavesReq then
+				DB.setValue(nodeDiseaseRoll, 'starttime', 'number', nil)
+				DB.setValue(nodeDiseaseRoll, 'savecount', 'number', nil)
+				local sDiseaseName = DB.getValue(nodeDiseaseRoll, 'name', 0)
+				if not string.find(DB.getValue(nodeDiseaseRoll, 'name', ''), '%[CURED%]') then
+					DB.setValue(nodeDiseaseRoll, 'name', 'string', '[CURED] ' .. sDiseaseName)
+				end
+			end
 		end
 	end
 	
@@ -69,11 +80,13 @@ function notifyApplySave(rSource, rRoll)
 	if rRoll.sSaveResult:match('failure') then
 		local sMaladyEffect = nodeDiseaseRoll.getChild('disease_effect').getText()
 
-		local sPoisonEffect = nodeDiseaseRoll.getChild('poison_effect_primary').getText()
-		if sPoisonEffect ~= '' then sMaladyEffect = sPoisonEffect end
+		local sPoisonEffect = ''
+		if nodeDiseaseRoll.getChild('poison_effect_primary') then sPoisonEffect = nodeDiseaseRoll.getChild('poison_effect_primary').getText() end
+		if sPoisonEffect ~= '' then sMaladyEffect = '\nPRIMARY: ' .. sPoisonEffect end
 
-		local sPoisonSecondary = nodeDiseaseRoll.getChild('poison_effect_secondary').getText()
-		if sPoisonSecondary ~= '' then sMaladyEffect = sMaladyEffect .. sPoisonSecondary end
+		local sPoisonSecondary = ''
+		if nodeDiseaseRoll.getChild('poison_effect_secondary') then sPoisonSecondary = nodeDiseaseRoll.getChild('poison_effect_secondary').getText() end
+		if sPoisonSecondary ~= '' then sMaladyEffect = sMaladyEffect .. '\nSECONDARY: ' .. sPoisonSecondary end
 
 		ChatManager.SystemMessage('FAILURE EFFECT: ' .. sMaladyEffect)
 	end
