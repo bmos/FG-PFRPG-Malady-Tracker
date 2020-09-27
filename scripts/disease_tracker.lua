@@ -91,8 +91,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 				local nRollCount = 0
 				-- rolls saving throws until the desired total is achieved
 				repeat
-					if bIsAutoRoll then rollSave(rActor, nodeDisease) end
-					
+					if bIsAutoRoll and not string.find(DB.getValue(nodeDisease, 'name', ''), '%[') then rollSave(rActor, nodeDisease) end
 					nRollCount = nRollCount + 1
 				until nRollCount >= nTargetRollCount
 				
@@ -102,7 +101,9 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 				if nDuration ~= 0 and nTimeElapsed >= nDuration then
 					DB.setValue(nodeDisease, 'starttime', 'number', nil)
 					DB.setValue(nodeDisease, 'savecount', 'number', nil)
-					DB.setValue(nodeDisease, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
+					if not string.find(DB.getValue(nodeDisease, 'name', ''), '%[EXPIRED%]') then
+						DB.setValue(nodeDisease, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
+					end
 					ChatManager.SystemMessage(DB.getValue(nodeActor, 'name', 'my first pc') .."'s " .. sDiseaseName .. ' has run its course.')
 					break
 				end

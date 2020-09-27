@@ -68,7 +68,9 @@ function notifyApplySave(rSource, rRoll)
 				DB.setValue(nodeDiseaseRoll, 'starttime', 'number', nil)
 				DB.setValue(nodeDiseaseRoll, 'savecount', 'number', nil)
 				local sDiseaseName = DB.getValue(nodeDiseaseRoll, 'name', 0)
-				DB.setValue(nodeDiseaseRoll, 'name', 'string', '[CURED] ' .. sDiseaseName)
+				if not string.find(DB.getValue(nodeDiseaseRoll, 'name', ''), '%[CURED%]') then
+					DB.setValue(nodeDiseaseRoll, 'name', 'string', '[CURED] ' .. sDiseaseName)
+				end
 			end
 		end
 	end
