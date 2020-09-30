@@ -254,7 +254,7 @@
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
 						else
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
-							DB.setValue(window.getDatabaseNode(), 'starttimestring', 'number', nil)
+							DB.setValue(window.getDatabaseNode(), 'starttimestring', 'string', nil)
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
 						end
 					end

@@ -70,7 +70,7 @@ function onValueChanged()
 		local nDiseaseRollActive = DB.getValue(nodeDisease.getParent(), 'diseaserollactive', 1)
 		if nDiseaseRollActive ~= 1 and nSavesReq ~= 0 and nConsecutiveSaves >= nSavesReq then
 			DB.setValue(nodeDisease, 'starttime', 'number', nil)
-			DB.setValue(nodeDisease, 'starttimestring', 'number', nil)
+			DB.setValue(nodeDisease, 'starttimestring', 'string', nil)
 			DB.setValue(nodeDisease, 'savecount', 'number', nil)
 			local sDiseaseName = DB.getValue(nodeDisease, 'name', 0)
 			DB.setValue(nodeDisease, 'name', 'string', '[CURED] ' .. sDiseaseName)

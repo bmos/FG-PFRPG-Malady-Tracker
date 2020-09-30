@@ -43,7 +43,9 @@ end
 local function parseDiseases(nodeActor, nDateinMinutes)
 	for _,nodeDisease in pairs(DB.getChildren(nodeActor, 'diseases')) do
 		local sDiseaseName = DB.getValue(nodeDisease, 'name', '')
-		local nDateOfContr = tonumber(DB.getValue(nodeDisease, 'starttime', nDateinMinutes))
+		local nDateOfContr = DB.getValue(nodeDisease, 'starttime')
+		if DB.getValue(nodeDisease, 'starttimestring') then nDateOfContr = tonumber(DB.getValue(nodeDisease, 'starttimestring')) end
+		if not nDateOfContr then nDateOfContr = nDateinMinutes end
 		if (nDateOfContr <= 0) then return; end -- only continue if disease starting time has been set
 		local nTimeElapsed = round((nDateinMinutes - nDateOfContr), 1)
 		local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit', '0'))
@@ -54,7 +56,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 		if (nOnsUnit ~= 0) and (nOnsVal ~= 0) then nOnset = (nOnsUnit * nOnsVal) end
 		
 		-- if the disease has a starting time, the current time is known, and any onset has elapsed
-		if nDateOfContr ~= 0 and nDateinMinutes and (nTimeElapsed >= nOnset) then
+		if nDateOfContr ~= 0 and (nTimeElapsed >= nOnset) then
 			local nFreqUnit = tonumber(DB.getValue(nodeDisease, 'freq_unit', '1'))
 			local nFreqVal = DB.getValue(nodeDisease, 'freq_interval', 1)
 			local nFreq = (nFreqUnit * nFreqVal)
@@ -101,7 +103,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 				-- and add [EXPIRED] to the disease name
 				if (nDuration ~= 0) and (nTimeElapsed >= nDuration) then
 					DB.setValue(nodeDisease, 'starttime', 'number', nil)
-					DB.setValue(nodeDisease, 'starttimestring', 'number', nil)
+					DB.setValue(nodeDisease, 'starttimestring', 'string', nil)
 					DB.setValue(nodeDisease, 'savecount', 'number', nil)
 					if not string.find(DB.getValue(nodeDisease, 'name', ''), '%[EXPIRED%]') then
 						DB.setValue(nodeDisease, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
