@@ -19,7 +19,11 @@ aSBOverrides = {
 
 function onInit()
 	if User.isHost() and TimeManager then
-		DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged)
+		if DB.getValue('calendar.dateinminutesstring') then
+			DB.addHandler('calendar.dateinminutesstring', 'onUpdate', onTimeChanged)
+		else
+			DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged)
+		end
 		DB.addHandler('combattracker.round', 'onUpdate', onTimeChanged)
 	end
 	for kRecordType,vRecordType in pairs(aSBOverrides) do
@@ -39,7 +43,7 @@ end
 local function parseDiseases(nodeActor, nDateinMinutes)
 	for _,nodeDisease in pairs(DB.getChildren(nodeActor, 'diseases')) do
 		local sDiseaseName = DB.getValue(nodeDisease, 'name', '')
-		local nDateOfContr = DB.getValue(nodeDisease, 'starttime', nDateinMinutes)
+		local nDateOfContr = tonumber(DB.getValue(nodeDisease, 'starttime', nDateinMinutes))
 		if (nDateOfContr <= 0) then return; end -- only continue if disease starting time has been set
 		local nTimeElapsed = round((nDateinMinutes - nDateOfContr), 1)
 		local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit', '0'))
@@ -97,6 +101,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 				-- and add [EXPIRED] to the disease name
 				if (nDuration ~= 0) and (nTimeElapsed >= nDuration) then
 					DB.setValue(nodeDisease, 'starttime', 'number', nil)
+					DB.setValue(nodeDisease, 'starttimestring', 'number', nil)
 					DB.setValue(nodeDisease, 'savecount', 'number', nil)
 					if not string.find(DB.getValue(nodeDisease, 'name', ''), '%[EXPIRED%]') then
 						DB.setValue(nodeDisease, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)

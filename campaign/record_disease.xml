@@ -250,9 +250,11 @@
 							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
 							local nRound = DB.getValue(window.getDatabaseNode().getChild('.....'), 'combattracker.round', 1)
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes + ( 0.1 * nRound ))
+							DB.setValue(window.getDatabaseNode(), 'starttimestring', 'string', tostring(nDateinMinutes + ( 0.1 * nRound )))
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
 						else
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
+							DB.setValue(window.getDatabaseNode(), 'starttimestring', 'number', nil)
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
 						end
 					end
