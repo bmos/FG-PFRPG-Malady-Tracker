@@ -38,6 +38,9 @@ local function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 			DB.setValue(nodeEntry, 'starttimestring', 'string', tostring(TimeManager.getCurrentDateinMinutes() + ( 0.1 * nRound )))
 			DB.setValue(nodeEntry, 'savecount', 'number', 0)
 		end
+		if DB.getValue(nodeEntry, 'dc_notifier') == 1 then
+			ChatManager.SystemMessage('The added disease has a DC that depends on its source. Please check the current value to ensure it is correct.')
+		end
 	else
 		return false
 	end
