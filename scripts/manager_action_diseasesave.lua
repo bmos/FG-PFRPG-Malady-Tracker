@@ -66,6 +66,7 @@ function notifyApplySave(rSource, rRoll)
 			local nSavesReq = DB.getValue(nodeDiseaseRoll, 'savesreq', 0)
 			if nSavesReq ~= 0 and nConsecutiveSaves >= nSavesReq then
 				DB.setValue(nodeDiseaseRoll, 'starttime', 'number', nil)
+				DB.setValue(nodeDiseaseRoll, 'starttimestring', 'string', nil)
 				DB.setValue(nodeDiseaseRoll, 'savecount', 'number', nil)
 				local sDiseaseName = DB.getValue(nodeDiseaseRoll, 'name', 0)
 				if not string.find(DB.getValue(nodeDiseaseRoll, 'name', ''), '%[CURED%]') then
