@@ -4,25 +4,29 @@
 
 aSBOverrides = {
 	-- CoreRPG overrides
-	["disease"] = {
+	['disease'] = {
 		bExport = true,
-		aDataMap = { "disease", "reference.diseases" }, 
-		aDisplayIcon = { "button_diseases", "button_diseases_down" },
-		sRecordDisplayClass = "referencedisease", 
-		aGMListButtons = { "button_feat_type" };
-		aPlayerListButtons = { "button_feat_type" };
+		aDataMap = { 'disease', 'reference.diseases' }, 
+		aDisplayIcon = { 'button_diseases', 'button_diseases_down' },
+		sRecordDisplayClass = 'referencedisease', 
+		aGMListButtons = { 'button_feat_type' };
+		aPlayerListButtons = { 'button_feat_type' };
 		aCustomFilters = {
-			["Type"] = { sField = "type" },
+			['Type'] = { sField = 'type' },
 		},
 	},
 };
 
 function onInit()
-	if User.isHost() and TimeManager then
-		if DB.getValue('calendar.dateinminutesstring') then
-			DB.addHandler('calendar.dateinminutesstring', 'onUpdate', onTimeChanged)
-		else
-			DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged)
+	if User.isHost() then
+		if TimeManager then
+			if DB.getValue('calendar.dateinminutesstring') then
+				DB.addHandler('calendar.dateinminutesstring', 'onUpdate', onTimeChanged)
+			else
+				DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged)
+			end
+			DB.addHandler('combattracker.round', 'onUpdate', onTimeChanged)
+		end
 	
 		if StringManager.contains(Extension.getExtensions(), 'Theme_SWU') then
 			aSBOverrides['disease']['aDisplayIcon'] = { 'SWU_light_button_diseases', 'SWU_light_button_diseases_down' }
@@ -30,11 +34,9 @@ function onInit()
 			aSBOverrides['disease']['aDisplayIcon'] = { 'SWU_dark_button_diseases', 'SWU_dark_button_diseases_down' }
 		end
 
+		for kRecordType,vRecordType in pairs(aSBOverrides) do
+			LibraryData.setRecordTypeInfo(kRecordType, vRecordType)
 		end
-		DB.addHandler('combattracker.round', 'onUpdate', onTimeChanged)
-	end
-	for kRecordType,vRecordType in pairs(aSBOverrides) do
-		LibraryData.setRecordTypeInfo(kRecordType, vRecordType)
 	end
 end
 
