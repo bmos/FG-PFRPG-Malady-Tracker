@@ -23,6 +23,13 @@ function onInit()
 			DB.addHandler('calendar.dateinminutesstring', 'onUpdate', onTimeChanged)
 		else
 			DB.addHandler('calendar.dateinminutes', 'onUpdate', onTimeChanged)
+	
+		if StringManager.contains(Extension.getExtensions(), 'Theme_SWU') then
+			aSBOverrides['disease']['aDisplayIcon'] = { 'SWU_light_button_diseases', 'SWU_light_button_diseases_down' }
+		elseif StringManager.contains(Extension.getExtensions(), 'Theme_SWU_dark') then
+			aSBOverrides['disease']['aDisplayIcon'] = { 'SWU_dark_button_diseases', 'SWU_dark_button_diseases_down' }
+		end
+
 		end
 		DB.addHandler('combattracker.round', 'onUpdate', onTimeChanged)
 	end
