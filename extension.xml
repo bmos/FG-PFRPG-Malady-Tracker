@@ -31,6 +31,8 @@
 	    <icon name="simplebrown_button_diseases_down" file="graphics/simplebrown_button_diseases_down.png" />
 	    <icon name="simplegray_button_diseases" file="graphics/simplegray_button_diseases.png" />
 	    <icon name="simplegray_button_diseases_down" file="graphics/simplegray_button_diseases_down.png" />
+	    <icon name="simpledark_button_diseases" file="graphics/simpledark_button_diseases.png" />
+	    <icon name="simpledark_button_diseases_down" file="graphics/simpledark_button_diseases_down.png" />
 		<!-- Campaign Records -->
 		<includefile source="campaign/record_char_main.xml" />
 		<includefile source="campaign/record_npc.xml" />

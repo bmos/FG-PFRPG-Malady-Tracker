@@ -36,6 +36,8 @@ function onInit()
 			aSBOverrides['disease']['aDisplayIcon'] = { 'simplebrown_button_diseases', 'simplebrown_button_diseases_down' }
 		elseif StringManager.contains(Extension.getExtensions(), 'Theme_Simple_Gray') then
 			aSBOverrides['disease']['aDisplayIcon'] = { 'simplegray_button_diseases', 'simplegray_button_diseases_down' }
+		elseif StringManager.contains(Extension.getExtensions(), 'Theme_Simple_Dark_102') or StringManager.contains(Extension.getExtensions(), 'Theme_Simple_Dark_03') then
+			aSBOverrides['disease']['aDisplayIcon'] = { 'simpledark_button_diseases', 'simpledark_button_diseases_down' }
 		end
 
 		for kRecordType,vRecordType in pairs(aSBOverrides) do
