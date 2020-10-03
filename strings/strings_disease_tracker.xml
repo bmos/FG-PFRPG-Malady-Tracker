@@ -4,11 +4,11 @@
 
 <root>
 	<!-- Labels -->
-	<string name="char_diseases_title">Diseases</string>
+	<string name="char_diseases_title">Maladies</string>
 
-	<string name="char_diseases_button_tooltip">Disease Tracker</string>
-	<string name="char_disease_raisesave">Raise Save DC by 2</string>
-	<string name="char_disease_increaseduration">Raise Duration by 50%</string>
+	<string name="char_diseases_button_tooltip">Malady Tracker</string>
+	<string name="char_disease_raisesave">Raise Poison Save DC by 2</string>
+	<string name="char_disease_increaseduration">Raise Poison Duration by 50%</string>
 
 	<string name="record_disease_section_stats_label">STATS</string>
 	<string name="record_disease_type_label">Type</string>
@@ -46,5 +46,5 @@
 	<string name="disease_tooltip_savecount_consec">Number of successful saves rolled</string>
 	<string name="disease_tooltip_savesreq">Number of saves required to cure</string>
 	
-	<string name="library_recordtype_label_disease">Diseases</string>
+	<string name="library_recordtype_label_disease">Maladies</string>
 </root>
