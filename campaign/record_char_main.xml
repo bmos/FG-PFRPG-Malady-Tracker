@@ -27,6 +27,10 @@
 				<icon normal="button_vitamin" pressed="button_vitamin_down" />
 				<tooltip textres="char_diseases_button_tooltip" />
 				<script>
+					function onInit()
+						local bIsHost = User.isHost()
+						setVisible(bIsHost)
+					end
 					function onButtonPress()
 						Interface.openWindow('charsheet_diseasetracker', window.getDatabaseNode())
 					end
