@@ -5,7 +5,7 @@ When the statblock is locked, a button will be shown to roll a saving throw agai
 # Compatibility and Instructions
 Current version of this extension are not compatible with [FantasyGrounds Classic](https://www.fantasygrounds.com/home/FantasyGroundsClassic.php) due to differences in how numbers are stored. If you run Classic and want to use this extension, you should use [v1.7.0](https://github.com/bmos/FG-PFRPG-Disease-Tracker/releases/tag/v1.7.0) for now.
 
-It has been tested with [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) 4.0.0 (2020-09-24).
+This extension has been tested with [FantasyGrounds Classic](https://www.fantasygrounds.com/home/FantasyGroundsClassic.php) 3.3.11 and [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) 4.0.0 (2020-10-02). If you are running it with Classic, you will need to use [my customised version of ClockAdjuster](https://github.com/bmos/FG-PFRPG-Disease-Tracker/releases/tag/v2.1.2).
 
 A potential issue to be aware of is the transition between micro and macro timekeeping (in/out of combat, basically).
 Because the round counter can exceed 10, it progresses time as used for malady tracking (but doesn't advance the actual clock). The saving throw code should be 'smart' enough to handle this without rolling incorrect numbers of saves, but it will mean that when you reset the initiative counter the 'disease clock' go back a number of minutes (# of rounds previously in the combat tracker * 0.1)
