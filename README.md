@@ -17,6 +17,7 @@ Because the round counter can exceed 10, it progresses time as used for malady t
 * Automated rolling of saving throws based on elapased time. This requires pr6i6e6st's [Clock Adjuster](https://www.fantasygrounds.com/forums/showthread.php?57561-Utility-Clock-Adjuster) extension. There is a per-character on/off toggle on the character's disease list for those who want to roll their own. When turned off, it will prompt for the roll in chat.
 * Automatic counting of rolled saves (automatic or manual), taking into account consecutive/nonconsecutive requirements.
 * Automatic rolling of variable onset, duration, and frequency when the malady is added to the character.
+* Notification message in the chat when a poison or disease that has multiple possible DCs is used (to remind the GM to set the DC).
 
 # Video Demonstration (click for video)
-[<img src="https://i.ytimg.com/vi_webp/gBv50oSphBM/hqdefault.webp">](https://www.youtube.com/watch?v=gBv50oSphBM)
+[<img src="https://i.ytimg.com/vi_webp/RNrb5khwKuY/hqdefault.webp">](https://www.youtube.com/watch?v=RNrb5khwKuY)
