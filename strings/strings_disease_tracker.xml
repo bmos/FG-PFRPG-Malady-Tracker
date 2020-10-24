@@ -47,4 +47,20 @@
 	<string name="disease_tooltip_savesreq">Number of saves required to cure</string>
 	
 	<string name="library_recordtype_label_disease">Maladies</string>
+	
+	<!-- Disease Save String Text -->
+	<string name="disease_savestring_after"> after </string>
+	<string name="disease_savestring_for"> for </string>
+	<string name="disease_savestring_none">none</string>
+	
+	<!-- DC Notifier Message for Library Functionality -->
+	<string name="disease_msg_dcnotifier">The added disease has a DC that depends on its source. Please check the current value to ensure it is correct.</string>
+
+	<!-- Messaging to allow players to make their own saves -->
+	<string name="disease_agencynotifer1"> is due to roll </string>
+	<string name="disease_agencynotifer2"> saving throws against their </string>
+
+	<!-- Messaging for auto disease saves -->
+	<string name="disease_expiration"> has run its course. </string>
+	<string name="disease_against"> (against </string>
 </root>

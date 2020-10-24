@@ -293,7 +293,7 @@ function performRoll(draginfo, rActor, nodeDisease)
 
 	local sDiseaseName = DB.getValue(nodeDisease, 'name')
 	if sDiseaseName and sDiseaseName ~= '' then
-		rRoll.sDesc = rRoll.sDesc .. ' (against ' .. sDiseaseName .. ')'
+		rRoll.sDesc = rRoll.sDesc .. Interface.getString("disease_against") .. sDiseaseName .. ')'
 	end
 	
 	rRoll.nodeDisease = nodeDisease.getPath()
