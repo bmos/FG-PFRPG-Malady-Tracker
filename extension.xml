@@ -2,10 +2,10 @@
 <root version="3.3" release="3">
 	<!-- Please see the LICENSE.md file included with this distribution for attribution and copyright information. -->
 	<properties>
-		<name>Disease Tracker</name>
+		<name>Malady Tracker</name>
 		<version>2.1.3</version>
 		<author>bmos (Wil Thieme)</author>
-		<description>This FantasyGrounds extension helps track disease duration, saves, effects, and other information.</description>
+		<description>This FantasyGrounds extension helps track the duration, saves, effects, and other information relating to maladies.</description>
 		<ruleset>
 			<name>PFRPG</name>
 		</ruleset>
@@ -14,7 +14,7 @@
 		</ruleset>
 	</properties>
 
-	<announcement text="https://github.com/bmos/FG-PFRPG-Disease-Tracker\nPFRPG Disease Tracker v2.1.3:\nThis extension helps track disease duration, saves, effects, and other information. To access it, click the pill bottle button next by the character's hitpoints.\nTo have saving throws rolled automatically based on the in-game clock, you must be using the Clock Adjuster extension."  icon="logo_vitamin" font="emotefont" />
+	<announcement text="https://github.com/bmos/FG-PFRPG-Disease-Tracker\nPFRPG Malady Tracker v2.1.3:\nThis extension helps track the duration, saves, effects, and other information relating to maladies. To access it, click the pill bottle button next by the character's hitpoints.\nTo have saving throws rolled automatically based on the in-game clock, you must be using the Clock Adjuster extension."  icon="logo_vitamin" font="emotefont" />
 
 	<base>
 		<!-- Graphics -->
