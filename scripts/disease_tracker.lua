@@ -19,7 +19,7 @@ aSBOverrides = {
 
 function onInit()
 	if User.isHost() then
-		if TimeManager then
+		if LongTermEffects then
 			if DB.getValue('calendar.dateinminutesstring') then
 				DB.addHandler('calendar.dateinminutesstring', 'onUpdate', onTimeChanged)
 			else
