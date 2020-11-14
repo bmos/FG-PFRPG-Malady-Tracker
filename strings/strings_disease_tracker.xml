@@ -57,10 +57,12 @@
 	<string name="disease_msg_dcnotifier">The added disease has a DC that depends on its source. Please check the current value to ensure it is correct.</string>
 
 	<!-- Messaging to allow players to make their own saves -->
-	<string name="disease_agencynotifer1"> is due to roll </string>
-	<string name="disease_agencynotifer2"> saving throws against their </string>
+	<string name="disease_agencynotifer">%s is due to roll %d saving throw(s) against %s</string>
 
 	<!-- Messaging for auto disease saves -->
-	<string name="disease_expiration"> has run its course. </string>
-	<string name="disease_against"> (against </string>
+	<string name="disease_expiration">%'s %s has run its course.</string>
+	<string name="disease_against">(against %s)</string>
+	<string name="disease_failure_effect">FAILURE EFFECT:</string>
+	<string name="disease_failure_effect_primary">PRIMARY:</string>
+	<string name="disease_failure_effect_secondary">SECONDARY:</string>
 </root>

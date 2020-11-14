@@ -49,10 +49,10 @@ function generateSaveString()
 	if sSave == '' then sSave = sFreq elseif sFreq ~= '' then sSave = sSave .. '    ' .. sFreq end
 	
 	local sDur = generateDurationString()
-	if sSave == '' then sSave = sDur elseif duration_interval.getValue() > 0 then sSave = sSave .. Interface.getString("disease_savestring_for") .. sDur end
+	if sSave == '' then sSave = sDur elseif duration_interval.getValue() > 0 then sSave = sSave .. ' ' .. Interface.getString("disease_savestring_for") .. ' ' .. sDur end
 
 	local sOnset = generateOnsetString()
-	if sSave ~= '' and onset_interval.getValue() > 0 then sSave = sSave .. Interface.getString("disease_savestring_after") .. sOnset end
+	if sSave ~= '' and onset_interval.getValue() > 0 then sSave = sSave .. ' ' .. Interface.getString("disease_savestring_after") .. ' ' .. sOnset end
 
 	if sSave == '' then sSave = Interface.getString("disease_savestring_none") end
 	

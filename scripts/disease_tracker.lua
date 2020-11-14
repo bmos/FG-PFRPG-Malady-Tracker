@@ -59,7 +59,7 @@ end
 -- This function iterates through each disease and poison of the character
 local function parseDiseases(nodeActor, nDateinMinutes)
 	for _,nodeDisease in pairs(DB.getChildren(nodeActor, 'diseases')) do
-		local sDiseaseName = DB.getValue(nodeDisease, 'name', '')
+		local sDiseaseName = DB.getValue(nodeDisease, 'name', 'their disease')
 		local nDateOfContr = DB.getValue(nodeDisease, 'starttime')
 		if DB.getValue(nodeDisease, 'starttimestring') then nDateOfContr = tonumber(DB.getValue(nodeDisease, 'starttimestring')) end
 		if not nDateOfContr then nDateOfContr = nDateinMinutes end
@@ -100,7 +100,9 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 			local sDiseaseType = DB.getValue(nodeDisease, 'type', '')
 			local bIsAutoRoll = (DB.getValue(nodeActor, 'diseaserollactive', 1) == 1)
 			if not bIsAutoRoll then
-				ChatManager.SystemMessage(DB.getValue(nodeActor, 'name') .. Interface.getString("disease_agencynotifer1") .. nTargetRollCount .. Interface.getString("disease_agencynotifer2") .. sDiseaseName .. ' ' .. sDiseaseType .. '.')
+				ChatManager.SystemMessage(string.format(Interface.getString('disease_agencynotifer'), DB.getValue(nodeActor, 'name', 'A character'), nTargetRollCount, 'a ' .. sDiseaseType))
+				-- alternate messaging that exposes the name of the malady
+				--ChatManager.SystemMessage(string.format(Interface.getString('disease_agencynotifer'), DB.getValue(nodeActor, 'name', 'A character'), nTargetRollCount, sDiseaseName))
 			end
 			
 			-- if savetype is known and more saves are due to be rolled
@@ -125,7 +127,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 					if not string.find(DB.getValue(nodeDisease, 'name', ''), '%[EXPIRED%]') then
 						DB.setValue(nodeDisease, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
 					end
-					ChatManager.SystemMessage(DB.getValue(nodeActor, 'name', '') ..": " .. sDiseaseName .. Interface.getString("disease_expiration"))
+					ChatManager.SystemMessage(string.format(Interface.getString('disease_expiration'), DB.getValue(nodeActor, 'name', 'A character'), sDiseaseName))
 					break
 				end
 				

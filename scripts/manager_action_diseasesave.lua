@@ -83,13 +83,13 @@ function notifyApplySave(rSource, rRoll)
 
 		local sPoisonEffect = ''
 		if nodeDiseaseRoll.getChild('poison_effect_primary') then sPoisonEffect = nodeDiseaseRoll.getChild('poison_effect_primary').getText() end
-		if sPoisonEffect ~= '' then sMaladyEffect = '\nPRIMARY: ' .. sPoisonEffect end
+		if sPoisonEffect ~= '' then sMaladyEffect = '\n' .. Interface.getString('disease_failure_effect_primary') .. ' ' .. sPoisonEffect end
 
 		local sPoisonSecondary = ''
 		if nodeDiseaseRoll.getChild('poison_effect_secondary') then sPoisonSecondary = nodeDiseaseRoll.getChild('poison_effect_secondary').getText() end
-		if sPoisonSecondary ~= '' then sMaladyEffect = sMaladyEffect .. '\nSECONDARY: ' .. sPoisonSecondary end
+		if sPoisonSecondary ~= '' then sMaladyEffect = sMaladyEffect .. '\n' .. Interface.getString('disease_failure_effect_secondary') .. ' ' .. sPoisonSecondary end
 
-		ChatManager.SystemMessage('FAILURE EFFECT: ' .. sMaladyEffect)
+		ChatManager.Message(Interface.getString('disease_failure_effect') .. ' ' .. sMaladyEffect, false)
 	end
 end
 
@@ -293,7 +293,7 @@ function performRoll(draginfo, rActor, nodeDisease)
 
 	local sDiseaseName = DB.getValue(nodeDisease, 'name')
 	if sDiseaseName and sDiseaseName ~= '' then
-		rRoll.sDesc = rRoll.sDesc .. Interface.getString("disease_against") .. sDiseaseName .. ')'
+		rRoll.sDesc = rRoll.sDesc .. ' ' .. string.format(Interface.getString('disease_against'), sDiseaseName)
 	end
 	
 	rRoll.nodeDisease = nodeDisease.getPath()
