@@ -99,7 +99,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 
 			local sDiseaseType = DB.getValue(nodeDisease, 'type', '')
 			local bIsAutoRoll = (DB.getValue(nodeActor, 'diseaserollactive', 1) == 1)
-			if not bIsAutoRoll then
+			if not bIsAutoRoll and (nTargetRollCount and (nTargetRollCount > 0)) then
 				ChatManager.SystemMessage(string.format(Interface.getString('disease_agencynotifer'), DB.getValue(nodeActor, 'name', 'A character'), nTargetRollCount, 'a ' .. sDiseaseType))
 				-- alternate messaging that exposes the name of the malady
 				--ChatManager.SystemMessage(string.format(Interface.getString('disease_agencynotifer'), DB.getValue(nodeActor, 'name', 'A character'), nTargetRollCount, sDiseaseName))
