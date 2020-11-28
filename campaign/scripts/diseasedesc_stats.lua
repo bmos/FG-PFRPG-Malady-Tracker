@@ -74,6 +74,9 @@ local function ifLocked(sType)
 	savedc_label.setVisible(false)
 	savedc.setVisible(false)
 	
+	associated_npc_name.setVisible(false)
+	associated_npc_name_label.setVisible(false)
+	
 	if getDatabaseNode().getParent().getName() ~= 'disease'
 	and getDatabaseNode().getChild('...').getName() ~= 'reference' then
 		saveroll.setVisible(true)
@@ -162,6 +165,9 @@ local function ifUnlocked(sType)
 	savedc_label.setVisible(true)
 	savedc.setVisible(true)
 	saveroll.setVisible(false)
+	
+	associated_npc_name.setVisible(true)
+	associated_npc_name_label.setVisible(true)
 
 	raisesave.setVisible(false)
 	increaseduration.setVisible(false)

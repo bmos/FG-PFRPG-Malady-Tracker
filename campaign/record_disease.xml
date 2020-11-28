@@ -370,6 +370,10 @@
 				<center />
 			</header_column>
 			<ft_columnh name="description" />
+			<label_column name="associated_npc_name_label">
+				<static textres="record_disease_associated_npc_name_label" />
+			</label_column>
+			<string_columnh name="associated_npc_name" source="npc"/>
 		</sheetdata>
 	</windowclass>
 </root>

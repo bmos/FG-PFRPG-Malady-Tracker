@@ -22,6 +22,7 @@
 	<string name="record_disease_poison_effect_primary_label">Primary</string>
 	<string name="record_disease_poison_effect_secondary_label">Secondary</string>
 	<string name="record_disease_section_description_label">DESCRIPTION</string>
+	<string name="record_disease_associated_npc_name_label">Associated NPC</string>
 	
 	<string name="record_disease_cycler_freq_none">-</string>
 	<string name="record_disease_cycler_freq_round">/rd</string>
