@@ -18,4 +18,4 @@ Because the round counter can exceed 10, it progresses time as used for malady t
 * Notification message in the chat when a poison or disease that has multiple possible DCs is used (to remind the GM to set the DC).
 
 # Video Demonstration (click for video)
-[<img src="https://i.ytimg.com/vi_webp/RNrb5khwKuY/hqdefault.webp">](https://www.youtube.com/watch?v=RNrb5khwKuY)
+[<img src="https://i.ytimg.com/vi_webp/VkTjPjuczYo/hqdefault.webp">](https://www.youtube.com/watch?v=VkTjPjuczYo)
