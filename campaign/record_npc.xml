@@ -17,7 +17,7 @@
 				<tooltip textres="char_diseases_button_tooltip" />
 				<script>
 					function onInit()
-						local bIsHost = User.isHost()
+						local bIsHost = Session.IsHost
 						setVisible(bIsHost)
 					end
 					function onButtonPress()

@@ -244,7 +244,7 @@ function modSave(rSource, rTarget, rRoll)
 		end
 
 		-- Get ability modifiers
-		local nBonusStat, nBonusEffects = ActorManager2.getAbilityEffectsBonus(rSource, sActionStat)
+		local nBonusStat, nBonusEffects = ActorManager35E.getAbilityEffectsBonus(rSource, sActionStat)
 		if nBonusEffects > 0 then
 			bEffects = true
 			nAddMod = nAddMod + nBonusStat
