@@ -2,7 +2,7 @@
 --	Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
 
-aSBOverrides = {
+local aSBOverrides = {
 	-- CoreRPG overrides
 	['disease'] = {
 		bExport = true,
