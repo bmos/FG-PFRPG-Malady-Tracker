@@ -61,7 +61,7 @@
 	<string name="disease_agencynotifer">%s is due to roll %d saving throw(s) against %s</string>
 
 	<!-- Messaging for auto disease saves -->
-	<string name="disease_expiration">%'s %s has run its course.</string>
+	<string name="disease_expiration">%s's %s has run its course.</string>
 	<string name="disease_against">(against %s)</string>
 	<string name="disease_failure_effect">FAILURE EFFECT:</string>
 	<string name="disease_failure_effect_primary">PRIMARY:</string>
