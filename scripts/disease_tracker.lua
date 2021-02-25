@@ -107,7 +107,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 			
 			-- if savetype is known and more saves are due to be rolled
 			if DB.getValue(nodeDisease, 'savetype') and (nNewRollCount >= 1) and (nTargetRollCount > 0) then
-				local rActor = ActorManager.getActor('pc', nodeActor)
+				local rActor = ActorManager.getCreatureNode(nodeActor)
 				local nRollCount = 0
 				if (nDurUnit == 0.1) then nRollCount = 1 end
 				

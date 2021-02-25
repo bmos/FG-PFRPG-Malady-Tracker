@@ -148,9 +148,7 @@
 				<anchored to="save_string" position="left" offset="5" />
 				<script>
 					function onClickRelease(target, button, image)
-						local rActor = {}
-						if window.getDatabaseNode().getChild('....').getName() == 'charsheet' then rActor = ActorManager.getActor('pc', window.getDatabaseNode().getChild('...')) end
-						if window.getDatabaseNode().getChild('....').getName() == 'list' then rActor = ActorManager.getActor('npc', window.getDatabaseNode().getChild('...')) end
+						local rActor = ActorManager.resolveActor(window.getDatabaseNode().getChild('...'))
 						local nodeDisease = window.getDatabaseNode()
 						DiseaseTracker.rollSave(rActor, nodeDisease)
 					end

@@ -12,8 +12,8 @@ function onInit()
 end
 
 function handleApplySave(msgOOB)
-	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
-	local rOrigin = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
+	local rSource = ActorManager.resolveActor(msgOOB.sSourceNode);
+	local rTarget = ActorManager.resolveActor(msgOOB.sTargetNode);
 	
 	local rAction = {};
 	rAction.bSecret = (tonumber(msgOOB.nSecret) == 1);
@@ -24,7 +24,7 @@ function handleApplySave(msgOOB)
 	rAction.bRemoveOnMiss = (tonumber(msgOOB.nRemoveOnMiss) == 1);
 	rAction.sSaveResult = msgOOB.sSaveResult;
 	
-	applySave(rSource, rOrigin, rAction);
+	applySave(rSource, rTarget, rAction);
 end
 
 function notifyApplySave(rSource, rRoll)
@@ -43,15 +43,12 @@ function notifyApplySave(rSource, rRoll)
 	msgOOB.sSaveResult = rRoll.sSaveResult;
 	if rRoll.bRemoveOnMiss then msgOOB.nRemoveOnMiss = 1; end
 
-	local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
-	msgOOB.sSourceType = sSourceType;
+	local sSourceNode = ActorManager.getCreatureNode(rSource);
 	msgOOB.sSourceNode = sSourceNode;
 
 	if rRoll.sSource ~= "" then
-		msgOOB.sTargetType = "ct";
 		msgOOB.sTargetNode = rRoll.sSource;
 	else
-		msgOOB.sTargetType = "";
 		msgOOB.sTargetNode = "";
 	end
 	
@@ -101,10 +98,10 @@ local function getRoll(rActor, nodeDisease)
 
 	-- Look up actor specific information
 	local sAbility = nil
-	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor)
+	local nodeActor = ActorManager.getTypeAndNode(rActor)
 	local sSave = DB.getValue(nodeDisease, 'savetype')
 	if nodeActor then
-		if sActorType == 'pc' then
+		if ActorManager.isPC(rActor) then
 			rRoll.nMod = DB.getValue(nodeActor, 'saves.' .. sSave .. '.total', 0)
 			sAbility = DB.getValue(nodeActor, 'saves.' .. sSave .. '.ability', '')
 		else
@@ -186,7 +183,7 @@ function modSave(rSource, rTarget, rRoll)
 		-- Get effect modifiers
 		local rSaveSource = nil
 		if rRoll.sSource then
-			rSaveSource = ActorManager.getActor('ct', rRoll.sSource)
+			rSaveSource = ActorManager.resolveActor(rRoll.sSource)
 		end
 		local aExistingBonusByType = {}
 		local aSaveEffects = EffectManager35E.getEffectsByType(rSource, 'SAVE', aSaveFilter, rSaveSource, false)
