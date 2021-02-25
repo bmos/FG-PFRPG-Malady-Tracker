@@ -98,7 +98,7 @@ local function getRoll(rActor, nodeDisease)
 
 	-- Look up actor specific information
 	local sAbility = nil
-	local nodeActor = ActorManager.getTypeAndNode(rActor)
+	local nodeActor = ActorManager.getCreatureNode(rActor)
 	local sSave = DB.getValue(nodeDisease, 'savetype')
 	if nodeActor then
 		if ActorManager.isPC(rActor) then
