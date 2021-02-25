@@ -9,21 +9,8 @@
 	<windowclass name="charsheet_main" merge="join">
 		<sheetdata>
 		<!-- Health -->
-			<frame_char name="hpframe">
-				<bounds>15,380,385,100</bounds>
-			</frame_char>
-			
-			<string_labeled name="dr" source="defenses.damagereduction">
-				<anchored>
-					<top anchor="top" offset="64" />
-					<left anchor="left" offset="45" />
-					<right anchor="right" offset="-15" />
-				</anchored>
-				<labelres>char_label_dr</labelres>
-			</string_labeled>
-
 			<buttoncontrol name="button_diseases">
-				<bounds>30,444,23,23</bounds>
+				<bounds>30,395,23,23</bounds>
 				<icon normal="button_vitamin" pressed="button_vitamin_down" />
 				<tooltip textres="char_diseases_button_tooltip" />
 				<script>
