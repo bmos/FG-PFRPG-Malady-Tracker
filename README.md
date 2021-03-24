@@ -1,8 +1,10 @@
 # PFRPG Malady Tracker
-Handles automatic rolling of saving throws against poisons, diseases, and other types of maladies.
+This extension handles automatic rolling of saving throws against poisons, diseases, and other types of maladies.
 
 # Compatibility and Instructions
 This extension has been tested with [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) 4.0.10 (2021-02-04).
+
+For automatic saving throws, you must be using the [ClockAdjuster extension](https://www.fantasygrounds.com/forums/showthread.php?57561-Utility-Clock-Adjuster).
 
 A potential issue to be aware of is the transition between micro and macro timekeeping (in/out of combat, basically).
 Because the round counter can exceed 10, it progresses time as used for malady tracking (but doesn't advance the actual clock). The saving throw code should be 'smart' enough to handle this without rolling incorrect numbers of saves, but it will mean that when you reset the initiative counter the 'disease clock' go back a number of minutes (# of rounds previously in the combat tracker * 0.1)
