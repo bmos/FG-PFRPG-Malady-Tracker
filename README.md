@@ -1,6 +1,5 @@
 # PFRPG Malady Tracker
-Just like my [Sanity Tracker](https://github.com/bmos/FG-PFRPG-Sanity-Tracker) extension, there is a new window accessible from each character sheet. Each window contains a list of afflictions. Each affliction is linked to a statblock matching Paizo's typical disease or poison format.
-When the statblock is locked, a button will be shown to roll a saving throw against the affliction. If [Time Manager](https://github.com/bmos/FG-PFRPG-Time-Manager/) is enabled, saves that are due will also be rolled automatically when the time or rounds are incremented. 
+Handles automatic rolling of saving throws against poisons, diseases, and other types of maladies.
 
 # Compatibility and Instructions
 This extension has been tested with [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) 4.0.10 (2021-02-04).
