@@ -8,8 +8,12 @@
 		<version>2.5</version>
 		<author>bmos (Wil Thieme)</author>
 		<description>This FantasyGrounds extension helps track the duration, saves, effects, and other information relating to maladies.</description>
-		<ruleset name="PFRPG" />
-		<ruleset name="3.5E" />
+		<ruleset>
+			<name>3.5E</name>
+		</ruleset>
+		<ruleset>
+			<name>PFRPG</name>
+		</ruleset>
 	</properties>
 
 	<announcement text="https://github.com/bmos/FG-PFRPG-Disease-Tracker\nPFRPG Malady Tracker v2.5:\nThis extension helps track the duration, saves, effects, and other information relating to maladies. To access it, click the pill bottle button next by the character's hitpoints.\nTo have saving throws rolled automatically based on the in-game clock, you must also be using the Time Manager extension." icon="logo_vitamin" font="emotefont" />
