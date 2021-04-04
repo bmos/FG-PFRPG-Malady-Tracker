@@ -23,20 +23,6 @@
 	    <icon name="logo_vitamin" file="graphics/vitamin_logo.png" />
 	    <icon name="button_vitamin" file="graphics/button_vitamin.png" />
 	    <icon name="button_vitamin_down" file="graphics/button_vitamin_down.png" />
-	    <!-- <icon name="button_diseases" file="graphics/button_diseases.png" />
-	    <icon name="button_diseases_down" file="graphics/button_diseases_down.png" />
-	    <icon name="SWU_light_button_diseases" file="graphics/SWU_light_button_diseases.png" />
-	    <icon name="SWU_light_button_diseases_down" file="graphics/SWU_light_button_diseases_down.png" />
-	    <icon name="SWU_dark_button_diseases" file="graphics/SWU_dark_button_diseases.png" />
-	    <icon name="SWU_dark_button_diseases_down" file="graphics/SWU_dark_button_diseases_down.png" />
-	    <icon name="simplebrown_button_diseases" file="graphics/simplebrown_button_diseases.png" />
-	    <icon name="simplebrown_button_diseases_down" file="graphics/simplebrown_button_diseases_down.png" />
-	    <icon name="simplegray_button_diseases" file="graphics/simplegray_button_diseases.png" />
-	    <icon name="simplegray_button_diseases_down" file="graphics/simplegray_button_diseases_down.png" />
-	    <icon name="simpledark_button_diseases" file="graphics/simpledark_button_diseases.png" />
-	    <icon name="simpledark_button_diseases_down" file="graphics/simpledark_button_diseases_down.png" />
-	    <icon name="pathfinder_button_diseases" file="graphics/pathfinder_button_diseases.png" />
-	    <icon name="pathfinder_button_diseases_down" file="graphics/pathfinder_button_diseases_down.png" /> -->
 		<!-- Campaign Records -->
 		<includefile source="campaign/record_char_main.xml" />
 		<includefile source="campaign/record_npc.xml" />

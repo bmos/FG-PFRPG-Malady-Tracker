@@ -7,7 +7,6 @@ local aSBOverrides = {
 	['disease'] = {
 		bExport = true,
 		aDataMap = { 'disease', 'reference.diseases' }, 
-		aDisplayIcon = { 'button_diseases', 'button_diseases_down' },
 		sRecordDisplayClass = 'referencedisease', 
 		aGMListButtons = { 'button_feat_type' };
 		aPlayerListButtons = { 'button_feat_type' };
@@ -16,22 +15,6 @@ local aSBOverrides = {
 		},
 	},
 };
-
-local function setSidebarImage()
-	if StringManager.contains(Extension.getExtensions(), 'Theme_SWU') then
-		aSBOverrides['disease']['aDisplayIcon'] = { 'SWU_light_button_diseases', 'SWU_light_button_diseases_down' }
-	elseif StringManager.contains(Extension.getExtensions(), 'Theme_SWU_dark') then
-		aSBOverrides['disease']['aDisplayIcon'] = { 'SWU_dark_button_diseases', 'SWU_dark_button_diseases_down' }
-	elseif StringManager.contains(Extension.getExtensions(), 'Theme_Simple_Brown') then
-		aSBOverrides['disease']['aDisplayIcon'] = { 'simplebrown_button_diseases', 'simplebrown_button_diseases_down' }
-	elseif StringManager.contains(Extension.getExtensions(), 'Theme_Simple_Gray') then
-		aSBOverrides['disease']['aDisplayIcon'] = { 'simplegray_button_diseases', 'simplegray_button_diseases_down' }
-	elseif StringManager.contains(Extension.getExtensions(), 'Theme_Simple_Dark_102') or StringManager.contains(Extension.getExtensions(), 'Theme_Simple_Dark_03') then
-		aSBOverrides['disease']['aDisplayIcon'] = { 'simpledark_button_diseases', 'simpledark_button_diseases_down' }
-	elseif StringManager.contains(Extension.getExtensions(), 'PFRPG_Theme_Pathfinder_Official') then
-		aSBOverrides['disease']['aDisplayIcon'] = { 'pathfinder_button_diseases', 'pathfinder_button_diseases_down' }
-	end
-end
 
 function onInit()
 	if Session.IsHost then
@@ -43,8 +26,6 @@ function onInit()
 			end
 			DB.addHandler('combattracker.round', 'onUpdate', onTimeChanged)
 		end
-		
-		-- setSidebarImage()
 
 		for kRecordType,vRecordType in pairs(aSBOverrides) do
 			LibraryData.setRecordTypeInfo(kRecordType, vRecordType)
