@@ -21,7 +21,7 @@ end
 -- Start the action process
 function performRoll(draginfo, nodeDisease, rActor, tDice, nFixedInt, sField)
 	local rRoll = getRoll(rActor, tDice, nFixedInt, sField);
-	rRoll['nodeDisease'] = nodeDisease.getPath()
+	rRoll.nodeDisease = nodeDisease.getPath()
 	
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end

@@ -76,14 +76,13 @@ function notifyApplySave(rSource, rRoll)
 	Comm.deliverOOBMessage(msgOOB, "");
 
 	if rRoll.sSaveResult:match('failure') then
-		local sMaladyEffect = nodeDiseaseRoll.getChild('disease_effect').getText()
+		local sMaladyEffect = ''
+		if nodeDiseaseRoll.getChild('disease_effect') then sMaladyEffect = nodeDiseaseRoll.getChild('disease_effect').getText() end
 
-		local sPoisonEffect = ''
-		if nodeDiseaseRoll.getChild('poison_effect_primary') then sPoisonEffect = nodeDiseaseRoll.getChild('poison_effect_primary').getText() end
-		if sPoisonEffect ~= '' then sMaladyEffect = '\n' .. Interface.getString('disease_failure_effect_primary') .. ' ' .. sPoisonEffect end
+		local sPoisonEffect = DB.getValue(nodeDiseaseRoll, 'poison_effect_primary', '')
+		if sPoisonEffect ~= '' then sMaladyEffect = sMaladyEffect .. '\n' .. Interface.getString('disease_failure_effect_primary') .. ' ' .. sPoisonEffect end
 
-		local sPoisonSecondary = ''
-		if nodeDiseaseRoll.getChild('poison_effect_secondary') then sPoisonSecondary = nodeDiseaseRoll.getChild('poison_effect_secondary').getText() end
+		local sPoisonSecondary = DB.getValue(nodeDiseaseRoll, 'poison_effect_primary', '')
 		if sPoisonSecondary ~= '' then sMaladyEffect = sMaladyEffect .. '\n' .. Interface.getString('disease_failure_effect_secondary') .. ' ' .. sPoisonSecondary end
 
 		ChatManager.Message(Interface.getString('disease_failure_effect') .. ' ' .. sMaladyEffect, false)
