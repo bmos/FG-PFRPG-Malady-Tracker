@@ -2,20 +2,6 @@
 --	Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
 
-local aSBOverrides = {
-	-- CoreRPG overrides
-	['disease'] = {
-		bExport = true,
-		aDataMap = { 'disease', 'reference.diseases' }, 
-		sRecordDisplayClass = 'referencedisease', 
-		aGMListButtons = { 'button_feat_type' };
-		aPlayerListButtons = { 'button_feat_type' };
-		aCustomFilters = {
-			['Type'] = { sField = 'type' },
-		},
-	},
-};
-
 function onInit()
 	if Session.IsHost then
 		if LongTermEffects then
@@ -27,9 +13,16 @@ function onInit()
 			DB.addHandler('combattracker.round', 'onUpdate', onTimeChanged)
 		end
 
-		for kRecordType,vRecordType in pairs(aSBOverrides) do
-			LibraryData.setRecordTypeInfo(kRecordType, vRecordType)
-		end
+		LibraryData.setRecordTypeInfo('disease', {
+				bExport = true,
+				aDataMap = { 'disease', 'reference.diseases' }, 
+				sRecordDisplayClass = 'referencedisease', 
+				aGMListButtons = { 'button_feat_type' };
+				aPlayerListButtons = { 'button_feat_type' };
+				aCustomFilters = {
+					['Type'] = { sField = 'type' },
+				}
+			})
 	end
 end
 
