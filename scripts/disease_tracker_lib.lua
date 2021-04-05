@@ -10,8 +10,10 @@ function formatTitleCase(first, rest)
    return first:upper() .. rest:lower()
 end
 
----	This function rounds nNum to nDecimalPlaces (or to a whole number)
-function round(nNum, nDecimalPlaces)
-  local nMult = 10^(nDecimalPlaces or 0)
-  return math.floor(nNum * nMult + 0.5) / nMult
+---	This function rounds to the specified number of decimals
+function round(number, decimals)
+    local n = 10^(decimals or 0)
+    number = number * n
+    if number >= 0 then number = math.floor(number + 0.5) else number = math.ceil(number - 0.5) end
+    return number / n
 end

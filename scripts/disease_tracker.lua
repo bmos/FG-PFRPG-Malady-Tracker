@@ -33,14 +33,6 @@ function onInit()
 	end
 end
 
----	This function rounds to the specified number of decimals
-function round(number, decimals)
-    local n = 10^(decimals or 0)
-    number = number * n
-    if number >= 0 then number = math.floor(number + 0.5) else number = math.ceil(number - 0.5) end
-    return number / n
-end
-
 -- This function iterates through each disease and poison of the character
 local function parseDiseases(nodeActor, nDateinMinutes)
 	for _,nodeDisease in pairs(DB.getChildren(nodeActor, 'diseases')) do
@@ -49,7 +41,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 		if DB.getValue(nodeDisease, 'starttimestring') then nDateOfContr = tonumber(DB.getValue(nodeDisease, 'starttimestring')) end
 		if not nDateOfContr then nDateOfContr = nDateinMinutes end
 		if (nDateOfContr <= 0) then return; end -- only continue if disease starting time has been set
-		local nTimeElapsed = round((nDateinMinutes - nDateOfContr), 1)
+		local nTimeElapsed = DiseaseTrackerLib.round((nDateinMinutes - nDateOfContr), 1)
 		local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit', '0'))
 		local nOnsVal = DB.getValue(nodeDisease, 'onset_interval', 0)
 		local nOnset = 0
