@@ -31,7 +31,6 @@
 		<includefile source="strings/strings_disease_tracker.xml" />
 		<!-- Scripts -->
 		<script name="DiseaseTracker" file="scripts/disease_tracker.lua" />
-		<script name="DiseaseTrackerLib" file="scripts/disease_tracker_lib.lua" />
 		<script name="ActionDiseaseSave" file="scripts/manager_action_diseasesave.lua" />
 		<script name="ActionDiseaseTimeRoll" file="scripts/manager_action_diseasetimeroll.lua" />
 	</base>

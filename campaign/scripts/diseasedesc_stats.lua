@@ -26,11 +26,18 @@ local function generateDurationString()
 	return sDur
 end
 
+---	This function rounds nNum to nDecimalPlaces (or to a whole number)
+function round(nNum, nDecimalPlaces)
+	if not nNum then return 0; end
+	local nMult = 10^(nDecimalPlaces or 0)
+	return math.floor(nNum * nMult + 0.5) / nMult
+end
+
 --	This function takes the Save DC related information and combines them into a single string that can be displayed once the window is locked.
 local function generateFrequencyString()
 	local sFreq = ''
 	
-	if freq_unit.getValue() ~= '' then sFreq = DiseaseTrackerLib.round(freq_interval.getValue(), 1) end
+	if freq_unit.getValue() ~= '' then sFreq = round(freq_interval.getValue(), 1) end
 	if freq_unit.getValue() ~= '' then sFreq = sFreq .. freq_unit.getValue() else sFreq = '' end
 	
 	return sFreq

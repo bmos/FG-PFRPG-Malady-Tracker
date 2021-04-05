@@ -4,19 +4,17 @@
 
 --- Allow dragging and dropping madnesses between players
 local function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
-	if not nodeChar then
+	if not nodeChar or not sClass or not sRecord or not nodeTargetList then
 		return false;
 	end
-	
+
 	if sClass == 'referencedisease' then
 		local nodeSource = CharManager.resolveRefNode(sRecord)
 		if not nodeSource then
 			return
 		end
 		
-		if not nodeTargetList then
-			return
-		end
+		local rActor = ActorManager.resolveActor(nodeChar)
 		
 		local nodeEntry = nodeTargetList.createChild()
 		DB.copyNode(nodeSource, nodeEntry)
@@ -33,9 +31,13 @@ local function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 			end
 		end
 		if TimeManager and DB.getValue(nodeEntry, 'freq_interval') and tonumber(DB.getValue(nodeEntry, 'freq_unit', 0.1)) then
-			local nRound = DB.getValue(nodeEntry.getChild('.....'), 'combattracker.round', 1)
-			DB.setValue(nodeEntry, 'starttime', 'number', TimeManager.getCurrentDateinMinutes() + ( 0.1 * nRound ))
-			DB.setValue(nodeEntry, 'starttimestring', 'string', tostring(TimeManager.getCurrentDateinMinutes() + ( 0.1 * nRound )))
+			local nRound = DB.getValue("combattracker.round", 0)
+			local nInit = DB.getValue(CombatManager.getActiveCT(), "initresult", 0)
+			if nInit ~= 0 then nInit = 0.1 - (0.001 * (nInit)) end
+			local nDateinMinutes = TimeManager.getCurrentDateinMinutes() + nInit
+			--Debug.chat('addDisease', nDateinMinutes)
+			DB.setValue(nodeEntry, 'starttime', 'number', nDateinMinutes)
+			DB.setValue(nodeEntry, 'starttimestring', 'string', tostring(nDateinMinutes))
 			DB.setValue(nodeEntry, 'savecount', 'number', 0)
 		end
 		if DB.getValue(nodeEntry, 'dc_notifier') == 1 then
