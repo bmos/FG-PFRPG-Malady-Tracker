@@ -83,7 +83,7 @@ local function parseDiseases(nodeActor, nDateinMinutes)
 				
 				-- rolls saving throws until the desired total is achieved
 				repeat
-					if bIsAutoRoll and not string.find(DB.getValue(nodeDisease, 'name', ''), '%[') then rollSave(rActor, nodeDisease) end
+					if bIsAutoRoll and not string.find(DB.getValue(nodeDisease, 'name', ''), '%[') then ActionDiseaseSave.performRoll(nil, rActor, nodeDisease) end
 					nRollCount = nRollCount + 1
 				until nRollCount >= nTargetRollCount
 				
@@ -110,29 +110,15 @@ end
 
 ---	This function is called by the handler which watches for changes in current time.
 --	The handler is only configured if the ClockAdjuster extension is installed.
---	@param node the databasenode corresponding to the calendar (two levels below database root)
-function onTimeChanged(node)
-	timeConcierge(node)
-	-- DB.setValue(node.getChild('...'), 'combattracker.round', 'number', 1)
-end
-
----	This function is called by the handler which watches for changes in current time.
---	The handler is only configured if the ClockAdjuster extension is installed.
---	@param node the databasenode corresponding to the calendar (two levels below database root)
-function timeConcierge(node)
-	local nRound = DB.getValue(node.getChild('...'), 'combattracker.round', 1)
+function onTimeChanged()
+	local nRound = DB.getValue(CombatManager.CT_ROUND, 1)
 	local nDateinMinutes = TimeManager.getCurrentDateinMinutes() + ( 0.1 * nRound )
 	-- iterates through each player character
-	for _,nodeChar in pairs(DB.getChildren(node.getChild('...'), 'charsheet')) do
+	for _,nodeChar in pairs(DB.getChildren('charsheet')) do
 		parseDiseases(nodeChar, nDateinMinutes)
 	end
 	-- iterates through each non-player character
-	for _,nodeNPC in pairs(DB.getChildren(node.getChild('...'), 'combattracker.list')) do
+	for _,nodeNPC in pairs(DB.getChildren(CombatManager.CT_LIST)) do
 		parseDiseases(nodeNPC, nDateinMinutes)
 	end
-end
-
----	This function rolls the save specified in the disease information
-function rollSave(rActor, nodeDisease)
-	ActionDiseaseSave.performRoll(nil, rActor, nodeDisease)
 end
