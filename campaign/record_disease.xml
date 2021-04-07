@@ -247,9 +247,8 @@
 						if TimeManager then
 							local nRound = DB.getValue("combattracker.round", 0)
 							local nInit = DB.getValue(CombatManager.getActiveCT(), "initresult", 0)
-							if nInit ~= 0 then nInit = nInit - 1 end
-							if nInit ~= 0 then nInit = 0.1 - (0.001 * (nInit)) end
-							local nDateinMinutes = TimeManager.getCurrentDateinMinutes() + nInit
+							if nInit > 0 then nInitMin = 0.1 - (0.001 * (nInit)) end
+							local nDateinMinutes = TimeManager.getCurrentDateinMinutes() + nInitMin
 							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
 							DB.setValue(window.getDatabaseNode(), 'starttimestring', 'string', tostring(nDateinMinutes))
 							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)

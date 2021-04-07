@@ -33,8 +33,9 @@ local function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 		if TimeManager and DB.getValue(nodeEntry, 'freq_interval') and tonumber(DB.getValue(nodeEntry, 'freq_unit', 0.1)) then
 			local nRound = DB.getValue("combattracker.round", 0)
 			local nInit = DB.getValue(CombatManager.getActiveCT(), "initresult", 0)
-			if nInit ~= 0 then nInit = 0.1 - (0.001 * (nInit)) end
-			local nDateinMinutes = TimeManager.getCurrentDateinMinutes() + nInit
+			local nInitMin = 0
+			if nInit > 0 then nInitMin = 0.1 - (0.001 * (nInit)) end
+			local nDateinMinutes = TimeManager.getCurrentDateinMinutes() + nInitMin
 			--Debug.chat('addDisease', nDateinMinutes)
 			DB.setValue(nodeEntry, 'starttime', 'number', nDateinMinutes)
 			DB.setValue(nodeEntry, 'starttimestring', 'string', tostring(nDateinMinutes))
