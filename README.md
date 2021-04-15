@@ -1,6 +1,8 @@
 # PFRPG Malady Tracker
 This extension handles automatic rolling of saving throws against poisons, diseases, and other types of maladies.
 
+If you're using this with Pathfinder, you should absolutely get the [Maladies Library](https://github.com/bmos/FG-PFRPG-Maladies-Library) module as well.
+
 # Compatibility and Instructions
 This extension has been tested with [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) 4.0.10 (2021-02-04).
 
