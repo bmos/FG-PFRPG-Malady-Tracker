@@ -4,11 +4,11 @@ This extension handles automatic rolling of saving throws against poisons, disea
 # Compatibility and Instructions
 This extension has been tested with [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) 4.0.10 (2021-02-04).
 
-For automatic saving throws, you must be using the [ClockAdjuster extension](https://www.fantasygrounds.com/forums/showthread.php?57561-Utility-Clock-Adjuster).
-
 If you're using this with Pathfinder, you should absolutely get the [Maladies Library](https://github.com/bmos/FG-PFRPG-Maladies-Library) module as well. This module contains over 600 pre-entered maladies.
 
 You may also want to use my [Upgrade NPC Actions extension](https://github.com/bmos/FG-PFRPG-Upgrade-NPC-Actions) to have links added to NPC notes tabs so you don't have to search for the right malady in-game or during prep.
+
+For automatic saving throws, you must be using the [ClockAdjuster extension](https://www.fantasygrounds.com/forums/showthread.php?57561-Utility-Clock-Adjuster).
 
 A potential issue to be aware of is the transition between micro and macro timekeeping (in/out of combat, basically).
 Because the round counter can exceed 10, it progresses time as used for malady tracking (but doesn't advance the actual clock). The saving throw code should be 'smart' enough to handle this without rolling incorrect numbers of saves, but it will mean that when you reset the initiative counter the 'disease clock' go back a number of minutes (# of rounds previously in the combat tracker * 0.1)
