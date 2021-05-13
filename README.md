@@ -19,7 +19,7 @@ Because the round counter can exceed 10, it progresses time as used for malady t
 * Manual button to roll against listed save DC and announce success/failure
 * Automated rolling of saving throws based on elapased time. There is a per-character on/off toggle on the character's disease list for those who want to roll their own. When turned off, it will prompt for the roll in chat.
 * Automatic counting of rolled saves (automatic or manual), taking into account consecutive/nonconsecutive requirements.
-* Kelrugem's IFTAG support (diseasetracker, maladytracker, infestationtracker, etc -- IFTAG: diseasetracker; SAVE: 2)
+* [Kelrugem's IFTAG](https://www.fantasygrounds.com/forums/showthread.php?50297-(New-IF-operator)-New-and-much-better-version-of-Save-versus-tags) support (diseasetracker, maladytracker, infestationtracker, etc -- IFTAG: diseasetracker; SAVE: 2)
 * Automatic rolling of variable onset, duration, and frequency when the malady is added to the character.
 * Notification message in the chat when a poison or disease that has multiple possible DCs is used (to remind the GM to set the DC).
 
