@@ -59,7 +59,7 @@ local function calculateOnset(nodeDisease, sDiseaseName)
 	local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit', 0))
 	local nOnsVal = DB.getValue(nodeDisease, 'onset_interval', 0)
 	local nOnset = 0
-	if nDurUnit and nDurVal then
+	if nOnsUnit and nOnsVal then
 		nOnset = nOnsUnit * nOnsVal
 	end
 	--Debug.console(sDiseaseName, 'Onset: ' .. nOnset or 'nil')
