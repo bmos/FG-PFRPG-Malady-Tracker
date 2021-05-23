@@ -34,10 +34,11 @@ local function calculateFrequency(nodeDisease, sDiseaseName)
 	local nFreqUnit = tonumber(DB.getValue(nodeDisease, 'freq_unit'))
 	local nFreqVal = DB.getValue(nodeDisease, 'freq_interval')
 	local nFreq
+	-- Debug.console(sDiseaseName, 'nFreqUnit: ' .. nFreqUnit, 'nFreqVal: ' .. nFreqVal)
 	if nFreqUnit and nFreqVal then
 		nFreq = nFreqUnit * nFreqVal
 	end
-	--Debug.console(sDiseaseName, 'Frequency: ' .. nFreq or 'nil')
+	-- Debug.console(sDiseaseName, 'Frequency: ' .. nFreq or 'nil')
 
 	return nFreq
 end
@@ -46,23 +47,25 @@ local function calculateDuration(nodeDisease, sDiseaseName, nOnset)
 	local nDurUnit = tonumber(DB.getValue(nodeDisease, 'duration_unit'))
 	local nDurVal = DB.getValue(nodeDisease, 'duration_interval')
 	local nDuration
+	-- Debug.console(sDiseaseName, 'nDurUnit: ' .. nDurUnit, 'nDurVal: ' .. nDurVal)
 	if nDurUnit and nDurVal then
 		nDuration = nDurUnit * nDurVal + nOnset
 		nDurationWithOnset = nDurUnit * nDurVal + nOnset
 	end
-	--Debug.console(sDiseaseName, 'Duration With Onset: ' .. nDurationWithOnset, 'Duration: ' .. nDuration)
+	-- Debug.console(sDiseaseName, 'nDurationWithOnset: ' .. nDurationWithOnset, 'nDuration: ' .. nDuration)
 
 	return nDurationWithOnset, nDuration, nDurUnit
 end
 
 local function calculateOnset(nodeDisease, sDiseaseName)
-	local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit', 0))
-	local nOnsVal = DB.getValue(nodeDisease, 'onset_interval', 0)
-	local nOnset = 0
+	local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit'))
+	local nOnsVal = DB.getValue(nodeDisease, 'onset_interval')
+	local nOnset
+	-- Debug.console(sDiseaseName, 'nOnsUnit: ' .. nOnsUnit, 'nOnsVal: ' .. nOnsVal)
 	if nOnsUnit and nOnsVal then
 		nOnset = nOnsUnit * nOnsVal
 	end
-	--Debug.console(sDiseaseName, 'Onset: ' .. nOnset or 'nil')
+	-- Debug.console(sDiseaseName, 'nOnset: ' .. nOnset)
 
 	return nOnset
 end
@@ -76,7 +79,6 @@ function parseDiseases(nodeActor)
 		if nInit > 0 then nInit = 0.1 - (0.001 * (nInit)) end
 	end
 	local nDateWithRounds = nDateinMinutes + nInit
-	--Debug.console('current', nDateWithRounds, nDateinMinutes, nodeActor)
 	for _,nodeCT in pairs(DB.getChildren('combattracker.list')) do
 		local rActor = ActorManager.resolveActor(nodeCT)
 		local nodeActor = ActorManager.getCreatureNode(rActor)
@@ -85,11 +87,11 @@ function parseDiseases(nodeActor)
 			if nDateOfContr and DB.getValue(nodeDisease, 'savetype') and not string.find(DB.getValue(nodeDisease, 'name', ''), '%[') then
 				local nTimeElapsed = nDateWithRounds - nDateOfContr
 
-				local nOnset = calculateOnset(nodeDisease, sDiseaseName)
+				local nOnset = calculateOnset(nodeDisease, sDiseaseName) or 0
 				nTimeElapsed = nTimeElapsed - nOnset
 
 				local sDiseaseName = DB.getValue(nodeDisease, 'name', 'their disease')
-				--Debug.console(sDiseaseName, nTimeElapsed .. ': ' .. nDateWithRounds .. ' - ' .. nDateOfContr .. ' - ' .. nOnset)
+				-- Debug.console(sDiseaseName, 'nTimeElapsed: ' .. nTimeElapsed, 'nDateOfContr: ' .. nDateOfContr, 'nOnset: ' .. nOnset)
 				-- if the disease has a starting time, the current time is known, and any onset has elapsed
 				if nTimeElapsed > 0 then
 					local nFreq = calculateFrequency(nodeDisease, sDiseaseName)
@@ -97,13 +99,13 @@ function parseDiseases(nodeActor)
 						local nPrevRollCount = DB.getValue(nodeDisease, 'savecount', 0) -- how many saves have been successful
 						nTimeElapsed = round(nTimeElapsed / nFreq, 3)
 						local nTotalRolls = math.floor(nTimeElapsed)
-						--Debug.console(sDiseaseName, nTimeElapsed .. ': ' .. nTimeElapsed .. ' / ' .. nFreq)
+						-- Debug.console(sDiseaseName, nTimeElapsed .. ': ' .. nTimeElapsed .. ' / ' .. nFreq)
 						local nTargetRollCount = nTotalRolls - nPrevRollCount
 						if nTargetRollCount > 0 then
 							local nDurationWithOnset, nDuration, nDurUnit = calculateDuration(nodeDisease, sDiseaseName, nOnset)
 							if nDurationWithOnset then nTargetRollCount = math.min(nTargetRollCount, nDurationWithOnset / nFreq) end
 							if nDurUnit == 0.1 then nTargetRollCount = nTargetRollCount - 1 end -- fix rounds-based maladies rolling once too many times
-							Debug.console(rActor.name, sDiseaseName, 'Previous Rolls:' .. nPrevRollCount, 'Rolls Due:' .. nTargetRollCount)
+							-- Debug.console(sDiseaseName, 'nPrevRollCount: ' .. nPrevRollCount, 'nTargetRollCount: ' .. nTargetRollCount)
 
 							-- if character auto-roll is disabled, request roll via a chat message.
 							local bIsAutoRoll = DB.getValue(nodeActor, 'diseaserollactive', 1) == 1
@@ -127,6 +129,7 @@ function parseDiseases(nodeActor)
 							-- if the disease has a duration and the duration has now expired,
 							-- announce in chat, delete the save-counting + time records,
 							-- and add [EXPIRED] to the disease name
+							-- Debug.console(sDiseaseName, 'nDuration: ' .. nDuration, 'nDurationWithOnset: ' .. nDurationWithOnset, 'nTimeElapsed: ' .. nTimeElapsed)
 							if nDuration and nDuration > 0 and nDurationWithOnset and nTimeElapsed >= nDurationWithOnset then
 								DB.setValue(nodeDisease, 'starttime', 'number', nil)
 								DB.setValue(nodeDisease, 'starttimestring', 'string', nil)
