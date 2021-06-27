@@ -3,7 +3,7 @@
 --
 
 --- Allow dragging and dropping madnesses between players
-local function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
+function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 	if not nodeChar or not sClass or not sRecord or not nodeTargetList then
 		return false;
 	end
@@ -30,12 +30,8 @@ local function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 				ActionDiseaseTimeRoll.performRoll(draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'), 'Duration')
 			end
 		end
-		if TimeManager and DB.getValue(nodeEntry, 'freq_interval') and tonumber(DB.getValue(nodeEntry, 'freq_unit', 0.1)) then
-			local nRound = DB.getValue("combattracker.round", 0)
-			local nInit = DB.getValue(CombatManager.getActiveCT(), "initresult", 0)
-			local nInitMin = 0
-			if nInit > 0 then nInitMin = 0.1 - (0.001 * (nInit)) end
-			local nDateinMinutes = TimeManager.getCurrentDateinMinutes() + nInitMin
+		if TimeManager_Disabled and DB.getValue(nodeEntry, 'freq_interval') and tonumber(DB.getValue(nodeEntry, 'freq_unit', 0.1)) then
+			local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
 			--Debug.chat('addDisease', nDateinMinutes)
 			DB.setValue(nodeEntry, 'starttime', 'number', nDateinMinutes)
 			DB.setValue(nodeEntry, 'starttimestring', 'string', tostring(nDateinMinutes))

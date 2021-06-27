@@ -89,7 +89,7 @@ function notifyApplySave(rSource, rRoll)
 	end
 end
 
-local function getRoll(rActor, nodeDisease)
+function getRoll(rActor, nodeDisease)
 	local rRoll = {}
 	rRoll.sType = 'disease'
 	rRoll.aDice = { 'd20' }

@@ -7,7 +7,7 @@ function onInit()
 end
 
 --	This function takes the Save DC related information and combines them into a single string that can be displayed once the window is locked.
-local function generateOnsetString()
+function generateOnsetString()
 	local sOnset = ''
 	
 	if onset_unit.getValue() ~= '' then sOnset = onset_interval.getValue() end
@@ -17,7 +17,7 @@ local function generateOnsetString()
 end
 
 --	This function takes the Save DC related information and combines them into a single string that can be displayed once the window is locked.
-local function generateDurationString()
+function generateDurationString()
 	local sDur = ''
 	
 	if duration_unit.getValue() ~= '' then sDur = duration_interval.getValue() end
@@ -34,7 +34,7 @@ function round(nNum, nDecimalPlaces)
 end
 
 --	This function takes the Save DC related information and combines them into a single string that can be displayed once the window is locked.
-local function generateFrequencyString()
+function generateFrequencyString()
 	local sFreq = ''
 	
 	if freq_unit.getValue() ~= '' then sFreq = round(freq_interval.getValue(), 1) end
@@ -67,7 +67,7 @@ function generateSaveString()
 end
 
 --	This function sets the visibility and editability of various fields on the malady sheet when it is unlocked.
-local function ifLocked(sType)
+function ifLocked(sType)
 	local sSubtype = ''
 	if subtype.getValue() and subtype.getValue() ~= '' then
 		sSubtype = ' (' .. subtype.getValue() .. ')'
@@ -166,7 +166,7 @@ local function ifLocked(sType)
 end
 
 --	This function sets the visibility and editability of various fields on the malady sheet when it is locked.
-local function ifUnlocked(sType)
+function ifUnlocked(sType)
 	save_string.setVisible(false)
 	savetype.setVisible(true)
 	savedc_label.setVisible(true)
@@ -219,7 +219,7 @@ local function ifUnlocked(sType)
 	end
 
 	button_settime.setVisible(false)
-	if TimeManager and getDatabaseNode().getParent().getName() ~= 'disease' and getDatabaseNode().getChild('...').getName() ~= 'reference' then
+	if TimeManager_Disabled and getDatabaseNode().getParent().getName() ~= 'disease' and getDatabaseNode().getChild('...').getName() ~= 'reference' then
 		button_settime.setVisible(true)
 	end
 

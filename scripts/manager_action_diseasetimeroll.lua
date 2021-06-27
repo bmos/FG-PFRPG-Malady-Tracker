@@ -7,7 +7,7 @@ function onInit()
 	ActionsManager.registerResultHandler("diseasetimeroll", onRoll);
 end
 
-local function getRoll(rActor, tDice, nFixedInt, sField)
+function getRoll(rActor, tDice, nFixedInt, sField)
 	local rRoll = {};
 	
 	rRoll.sType = "diseasetimeroll";
