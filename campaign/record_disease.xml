@@ -150,7 +150,7 @@
 					function onClickRelease(target, button, image)
 						local rActor = ActorManager.resolveActor(window.getDatabaseNode().getChild('...'))
 						local nodeDisease = window.getDatabaseNode()
-						DiseaseTracker.rollSave(rActor, nodeDisease)
+						ActionDiseaseSave.performRoll(nil, rActor, nodeDisease)
 					end
 				</script>
 			</button_roll>
