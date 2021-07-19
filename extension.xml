@@ -4,7 +4,7 @@
 
 <root version='3.3' release='3'>
 	<properties>
-		<name>Malady Tracker</name>
+		<name>Feature: Malady Tracker</name>
 		<version>2.8</version>
 		<author>bmos (Wil Thieme)</author>
 		<description>This FantasyGrounds extension helps track the duration, saves, effects, and other information relating to maladies.</description>
