@@ -85,7 +85,7 @@ function notifyApplySave(rSource, rRoll)
 		local sPoisonSecondary = DB.getValue(nodeDiseaseRoll, 'poison_effect_secondary', '')
 		if sPoisonSecondary ~= '' then sMaladyEffect = sMaladyEffect .. '\n' .. Interface.getString('disease_failure_effect_secondary') .. ' ' .. sPoisonSecondary end
 
-		ChatManager.Message(Interface.getString('disease_failure_effect') .. ' ' .. sMaladyEffect, false)
+		ChatManager.Message(Interface.getString('disease_failure_effect') .. ' ' .. sMaladyEffect, true, rSource)
 	end
 end
 

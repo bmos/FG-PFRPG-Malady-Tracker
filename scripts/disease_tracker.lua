@@ -107,7 +107,7 @@ function parseDiseases()
 										DB.getValue(nodeActor, 'name', 'A character'),
 										nTargetRollCount,
 										'a ' .. DB.getValue(nodeDisease, 'type', 'malady')),
-									false, rActor)
+									true, rActor)
 							else
 								-- rolls saving throws until the desired total is achieved
 								repeat
@@ -131,7 +131,7 @@ function parseDiseases()
 										Interface.getString('disease_expiration'),
 										DB.getValue(nodeActor, 'name', 'A character'),
 										sDiseaseName),
-									false, rActor)
+									true, rActor)
 							end
 							
 							-- saves the new total for use next time
