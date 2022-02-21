@@ -70,7 +70,7 @@ end
 -- This function iterates through each disease and poison of the character
 function parseDiseases()
 	local nDateWithRounds = TimeManager.getCurrentDateinMinutes()
-	for _,nodeCT in pairs(DB.getChildren('combattracker.list')) do
+	for _,nodeCT in pairs(DB.getChildren(CombatManager.CT_LIST)) do
 		local rActor = ActorManager.resolveActor(nodeCT)
 		local nodeActor = ActorManager.getCreatureNode(rActor)
 		for _,nodeDisease in pairs(DB.getChildren(nodeActor, 'diseases')) do
