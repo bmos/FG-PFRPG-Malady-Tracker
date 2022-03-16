@@ -9,10 +9,10 @@ function onInit()
 
 	LibraryData.setRecordTypeInfo('disease', {
 			bExport = true,
-			aDataMap = { 'disease', 'reference.diseases' }, 
-			sRecordDisplayClass = 'referencedisease', 
-			aGMListButtons = { 'button_feat_type' };
-			aPlayerListButtons = { 'button_feat_type' };
+			aDataMap = { 'disease', 'reference.diseases' },
+			sRecordDisplayClass = 'referencedisease',
+			aGMListButtons = { 'button_feat_type' },
+			aPlayerListButtons = { 'button_feat_type' },
 			aCustomFilters = {
 				['Type'] = { sField = 'type' },
 			}
@@ -20,6 +20,7 @@ function onInit()
 end
 
 ---	This function rounds to the specified number of decimals
+--	luacheck: globals round
 function round(number, decimals)
     local n = 10^(decimals or 0)
     number = number * n
@@ -27,7 +28,8 @@ function round(number, decimals)
     return number / n
 end
 
-function calculateFrequency(nodeDisease, sDiseaseName)
+--	luacheck: globals calculateFrequency
+function calculateFrequency(nodeDisease)
 	local nFreqUnit = tonumber(DB.getValue(nodeDisease, 'freq_unit'))
 	local nFreqVal = DB.getValue(nodeDisease, 'freq_interval')
 	local nFreq
@@ -40,10 +42,11 @@ function calculateFrequency(nodeDisease, sDiseaseName)
 	return nFreq
 end
 
-function calculateDuration(nodeDisease, sDiseaseName, nOnset)
+--	luacheck: globals calculateDuration
+function calculateDuration(nodeDisease, nOnset)
 	local nDurUnit = tonumber(DB.getValue(nodeDisease, 'duration_unit'))
 	local nDurVal = DB.getValue(nodeDisease, 'duration_interval')
-	local nDuration
+	local nDuration, nDurationWithOnset
 	-- Debug.console(sDiseaseName, 'nDurUnit: ' .. nDurUnit, 'nDurVal: ' .. nDurVal)
 	if nDurUnit and nDurVal then
 		nDuration = nDurUnit * nDurVal
@@ -54,7 +57,8 @@ function calculateDuration(nodeDisease, sDiseaseName, nOnset)
 	return nDurationWithOnset, nDuration, nDurUnit
 end
 
-function calculateOnset(nodeDisease, sDiseaseName)
+--	luacheck: globals calculateOnset
+function calculateOnset(nodeDisease)
 	local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit'))
 	local nOnsVal = DB.getValue(nodeDisease, 'onset_interval')
 	local nOnset
@@ -67,7 +71,8 @@ function calculateOnset(nodeDisease, sDiseaseName)
 	return nOnset
 end
 
--- This function iterates through each disease and poison of the character
+-- This function iterates through each disease and poison of each character
+--	luacheck: globals parseDiseases
 function parseDiseases()
 	local nDateWithRounds = TimeManager.getCurrentDateinMinutes()
 	for _,nodeCT in pairs(DB.getChildren(CombatManager.CT_LIST)) do
@@ -78,21 +83,21 @@ function parseDiseases()
 			if nDateOfContr and DB.getValue(nodeDisease, 'savetype') and not string.find(DB.getValue(nodeDisease, 'name', ''), '%[') then
 				local nTimeSinceContraction = nDateWithRounds - nDateOfContr
 
-				local nOnset = calculateOnset(nodeDisease, sDiseaseName) or 0
-				nDiseaseElapsed = round(nTimeSinceContraction - nOnset, 1)
+				local nOnset = calculateOnset(nodeDisease) or 0
+				local nDiseaseElapsed = round(nTimeSinceContraction - nOnset, 1)
 
 				local sDiseaseName = DB.getValue(nodeDisease, 'name', 'their disease')
 				Debug.console(sDiseaseName, 'nDiseaseElapsed: ' .. nDiseaseElapsed)
 				-- if the disease has a starting time, the current time is known, and any onset has elapsed
 				if nDiseaseElapsed > 0 then
-					local nFreq = calculateFrequency(nodeDisease, sDiseaseName)
+					local nFreq = calculateFrequency(nodeDisease)
 					if nFreq then
 						local nPrevRollCount = DB.getValue(nodeDisease, 'savecount', 0) -- how many saves have been successful
 						local nTotalRolls = round(nDiseaseElapsed / nFreq, 0)
 						-- Debug.console(sDiseaseName, 'nTotalRolls: ' .. nTotalRolls, 'nPrevRollCount: ' .. nPrevRollCount)
 						local nTargetRollCount = nTotalRolls - nPrevRollCount
 						if nTargetRollCount > 0 then
-							local nDurationWithOnset, nDuration, nDurUnit = calculateDuration(nodeDisease, sDiseaseName, nOnset)
+							local nDurationWithOnset, nDuration, _ = calculateDuration(nodeDisease, nOnset)
 							if nDurationWithOnset then nTargetRollCount = math.min(nTargetRollCount, nDuration / nFreq); end
 							-- Debug.console(sDiseaseName, 'nDurationWithOnset: ' .. nDurationWithOnset, 'nDiseaseElapsed: ' .. nDiseaseElapsed)
 							-- Debug.console(sDiseaseName, 'nTargetRollCount: ' .. nTargetRollCount)
@@ -133,7 +138,7 @@ function parseDiseases()
 										sDiseaseName),
 									true, rActor)
 							end
-							
+
 							-- saves the new total for use next time
 							DB.setValue(nodeDisease, 'savecount', 'number', nPrevRollCount + nRollCount)
 						end
