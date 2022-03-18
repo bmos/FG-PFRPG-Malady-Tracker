@@ -1,15 +1,8 @@
 --
 -- Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
+
 OOB_MSGTYPE_APPLYDISEASESAVE = "applysave";
-
-function onInit()
---	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYDISEASESAVE, handleApplySave);
-
-	GameSystem.actions['disease'] = { bUseModStack = true }
-	ActionsManager.registerModHandler('disease', modSave)
-	ActionsManager.registerResultHandler('disease', onRoll)
-end
 
 function handleApplySave(msgOOB)
 	local rSource = ActorManager.resolveActor(msgOOB.sSourceNode);
@@ -330,4 +323,10 @@ function onRoll(rSource, _, rRoll)
 		end
 		notifyApplySave(rSource, rRoll)
 	end
+end
+
+function onInit()
+	GameSystem.actions['disease'] = { bUseModStack = true }
+	ActionsManager.registerModHandler('disease', modSave)
+	ActionsManager.registerResultHandler('disease', onRoll)
 end
