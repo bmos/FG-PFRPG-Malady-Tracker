@@ -1,73 +1,83 @@
--- 
+--
 -- Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
 
-function onInit()
-	update()
-end
+-- luacheck: globals type
 
---	This function takes the Save DC related information and combines them into a single string that can be displayed once the window is locked.
+--	This function takes the Save DC related information and combines them into a single string.
+--	The string is displayed once the window is locked for a simpler UX.
+--	luacheck: globals generateOnsetString
 function generateOnsetString()
 	local sOnset = ''
-	
+
 	if onset_unit.getValue() ~= '' then sOnset = onset_interval.getValue() end
 	if onset_unit.getValue() ~= '' then sOnset = sOnset .. ' ' .. onset_unit.getValue() else sOnset = '' end
-	
+
 	return sOnset
 end
 
---	This function takes the Save DC related information and combines them into a single string that can be displayed once the window is locked.
+--	This function takes the Save DC related information and combines them into a single string.
+--	The string is displayed once the window is locked for a simpler UX.
+--	luacheck: globals generateDurationString
 function generateDurationString()
 	local sDur = ''
-	
+
 	if duration_unit.getValue() ~= '' then sDur = duration_interval.getValue() end
 	if duration_unit.getValue() ~= '' then sDur = sDur .. ' ' .. duration_unit.getValue() else sDur = '' end
-	
+
 	return sDur
 end
 
+--	This function takes the Save DC related information and combines them into a single string.
+--	The string is displayed once the window is locked for a simpler UX.
+--	luacheck: globals generateSaveString
+function generateSaveString()
+	local sSave = ''
+
+	local nSaveDc = savedc.getValue()
+	local sSaveType = savetype.getValue()
+	if nSaveDc ~= 0 then sSave = 'DC ' .. nSaveDc end
+	if sSaveType ~= '' then sSave = sSave .. ' ' .. sSaveType end
+
+	local sFreq = generateFrequencyString()
+	if sSave == '' then sSave = sFreq elseif sFreq ~= '' then sSave = sSave .. '    ' .. sFreq end
+
+	local sDur = generateDurationString()
+	if sSave == '' then sSave = sDur elseif duration_interval.getValue() > 0 then
+		sSave = sSave .. ' ' .. Interface.getString("disease_savestring_for") .. ' ' .. sDur
+	end
+
+	local sOnset = generateOnsetString()
+	if sSave ~= '' and onset_interval.getValue() > 0 then
+		sSave = sSave .. ' ' .. Interface.getString("disease_savestring_after") .. ' ' .. sOnset
+	end
+
+	if sSave == '' then sSave = Interface.getString("disease_savestring_none") end
+
+	save_string.setValue(sSave)
+end
+
 ---	This function rounds nNum to nDecimalPlaces (or to a whole number)
-function round(nNum, nDecimalPlaces)
+local function round(nNum, nDecimalPlaces)
 	if not nNum then return 0; end
 	local nMult = 10^(nDecimalPlaces or 0)
 	return math.floor(nNum * nMult + 0.5) / nMult
 end
 
---	This function takes the Save DC related information and combines them into a single string that can be displayed once the window is locked.
+--	This function takes the Save DC related information and combines them into a single string.
+--	The string is displayed once the window is locked for a simpler UX.
+--	luacheck: globals generateFrequencyString
 function generateFrequencyString()
 	local sFreq = ''
-	
+
 	if freq_unit.getValue() ~= '' then sFreq = round(freq_interval.getValue(), 1) end
 	if freq_unit.getValue() ~= '' then sFreq = sFreq .. freq_unit.getValue() else sFreq = '' end
-	
+
 	return sFreq
 end
 
---	This function takes the Save DC related information and combines them into a single string that can be displayed once the window is locked.
-function generateSaveString()
-	local sSave = ''
-	
-	local nSaveDc = savedc.getValue()
-	local sSaveType = savetype.getValue()
-	if nSaveDc ~= 0 then sSave = 'DC ' .. nSaveDc end
-	if sSaveType ~= '' then sSave = sSave .. ' ' .. sSaveType end
-	
-	local sFreq = generateFrequencyString()
-	if sSave == '' then sSave = sFreq elseif sFreq ~= '' then sSave = sSave .. '    ' .. sFreq end
-	
-	local sDur = generateDurationString()
-	if sSave == '' then sSave = sDur elseif duration_interval.getValue() > 0 then sSave = sSave .. ' ' .. Interface.getString("disease_savestring_for") .. ' ' .. sDur end
-
-	local sOnset = generateOnsetString()
-	if sSave ~= '' and onset_interval.getValue() > 0 then sSave = sSave .. ' ' .. Interface.getString("disease_savestring_after") .. ' ' .. sOnset end
-
-	if sSave == '' then sSave = Interface.getString("disease_savestring_none") end
-	
-	save_string.setValue(sSave)
-end
-
 --	This function sets the visibility and editability of various fields on the malady sheet when it is unlocked.
-function ifLocked(sType)
+local function ifLocked(sType)
 	local sSubtype = ''
 	if subtype.getValue() and subtype.getValue() ~= '' then
 		sSubtype = ' (' .. subtype.getValue() .. ')'
@@ -80,10 +90,10 @@ function ifLocked(sType)
 	savetype.setVisible(false)
 	savedc_label.setVisible(false)
 	savedc.setVisible(false)
-	
+
 	associated_npc_name.setVisible(false)
 	associated_npc_name_label.setVisible(false)
-	
+
 	if getDatabaseNode().getParent().getName() ~= 'disease'
 	and getDatabaseNode().getChild('...').getName() ~= 'reference' then
 		saveroll.setVisible(true)
@@ -107,9 +117,9 @@ function ifLocked(sType)
 	else
 		raisesave.setVisible(false)
 		increaseduration.setVisible(false)
-		
+
 		disease_effect.setVisible(true)
-		
+
 		poison_effect_primary.setVisible(false)
 		poison_effect_primary_label.setVisible(false)
 		poison_effect_secondary.setVisible(false)
@@ -117,7 +127,7 @@ function ifLocked(sType)
 	end
 	if sType == 'poison' then
 		disease_effect.setVisible(false)
-		
+
 		if save_string.getValue() and save_string.getValue() ~= 'none'
 		and getDatabaseNode().getParent().getName() ~= 'disease'
 		and getDatabaseNode().getChild('...').getName() ~= 'reference' then
@@ -125,15 +135,20 @@ function ifLocked(sType)
 		else
 			raisesave.setVisible(false)
 		end
-		
-		if duration_interval.getValue() and duration_interval.getValue() > 0 and getDatabaseNode().getParent().getName() ~= 'disease' and getDatabaseNode().getChild('...').getName() ~= 'reference' then
+
+		if duration_interval.getValue() and
+		duration_interval.getValue() > 0 and
+		getDatabaseNode().getParent().getName() ~= 'disease' and
+		getDatabaseNode().getChild('...').getName() ~= 'reference' then
 			increaseduration.setVisible(true)
 		else
 			increaseduration.setVisible(false)
 		end
 	end
-	
-	if disease_effect.getValue() == '\n<p></p>' and poison_effect_primary.getValue() == '' and poison_effect_primary.getValue() == '' then
+
+	if disease_effect.getValue() == '\n<p></p>' and
+	poison_effect_primary.getValue() == '' and
+	poison_effect_primary.getValue() == '' then
 		section_effect_label.setVisible(false)
 	end
 	if description.getValue() == '\n<p></p>' then section_description_label.setVisible(false) end
@@ -155,7 +170,7 @@ function ifLocked(sType)
 	type_label.setVisible(false)
 	subtype.setVisible(false)
 	subtype_label.setVisible(false)
-	
+
 	if savesreq.getValue() ~= 0 then
 		savecount_seperator.setVisible(true)
 		isconsecutive.setVisible(true)
@@ -166,13 +181,13 @@ function ifLocked(sType)
 end
 
 --	This function sets the visibility and editability of various fields on the malady sheet when it is locked.
-function ifUnlocked(sType)
+local function ifUnlocked(sType)
 	save_string.setVisible(false)
 	savetype.setVisible(true)
 	savedc_label.setVisible(true)
 	savedc.setVisible(true)
 	saveroll.setVisible(false)
-	
+
 	associated_npc_name.setVisible(true)
 	associated_npc_name_label.setVisible(true)
 
@@ -184,19 +199,20 @@ function ifUnlocked(sType)
 	duration_unit.setVisible(true)
 
 	if sType ~= 'disease' then
-		if getDatabaseNode().getParent().getName() == 'disease' or getDatabaseNode().getChild('...').getName() == 'reference' then
+		if getDatabaseNode().getParent().getName() == 'disease' or
+		getDatabaseNode().getChild('...').getName() == 'reference' then
 			duration_dice.setVisible(true)
 		else
 			duration_dice.setVisible(false)
 		end
-		
+
 		poison_effect_primary.setVisible(true)
 		poison_effect_primary_label.setVisible(true)
 		poison_effect_secondary.setVisible(true)
 		poison_effect_secondary_label.setVisible(true)
 	else
 		duration_dice.setVisible(false)
-		
+
 		disease_effect.setVisible(true)
 		poison_effect_primary.setVisible(false)
 		poison_effect_primary_label.setVisible(false)
@@ -212,21 +228,24 @@ function ifUnlocked(sType)
 	onset_label.setVisible(true)
 	onset_unit.setVisible(true)
 	onset_interval.setVisible(true)
-	if getDatabaseNode().getParent().getName() == 'disease' or getDatabaseNode().getChild('...').getName() == 'reference' then
+	if getDatabaseNode().getParent().getName() == 'disease' or
+	getDatabaseNode().getChild('...').getName() == 'reference' then
 		onset_dice.setVisible(true)
 	else
 		onset_dice.setVisible(false)
 	end
 
 	button_settime.setVisible(false)
-	if TimeManager_Disabled and getDatabaseNode().getParent().getName() ~= 'disease' and getDatabaseNode().getChild('...').getName() ~= 'reference' then
+	if TimeManager_Disabled and getDatabaseNode().getParent().getName() ~= 'disease' and
+	getDatabaseNode().getChild('...').getName() ~= 'reference' then
 		button_settime.setVisible(true)
 	end
 
 	freq_label.setVisible(true)
 	freq_unit.setVisible(true)
 	freq_interval.setVisible(true)
-	if getDatabaseNode().getParent().getName() == 'disease' or getDatabaseNode().getChild('...').getName() == 'reference' then
+	if getDatabaseNode().getParent().getName() == 'disease' or
+	getDatabaseNode().getChild('...').getName() == 'reference' then
 		freq_dice.setVisible(true)
 	else
 		freq_dice.setVisible(false)
@@ -237,7 +256,7 @@ function ifUnlocked(sType)
 	type_label.setVisible(true)
 	subtype.setVisible(true)
 	subtype_label.setVisible(true)
-	
+
 	savecount_seperator.setVisible(true)
 	isconsecutive.setVisible(true)
 end
@@ -253,4 +272,8 @@ function update()
 	if sType ~= 'disease' then poison_effect_primary.update(bReadOnly) end
 	if sType ~= 'disease' then poison_effect_secondary.update(bReadOnly) end
 	description.update(bReadOnly)
+end
+
+function onInit()
+	update()
 end
