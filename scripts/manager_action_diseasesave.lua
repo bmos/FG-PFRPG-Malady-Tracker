@@ -162,6 +162,7 @@ function modSave(rSource, _, rRoll)
 			sActionStat = DataCommon.ability_stol[sModStat]
 		end
 		if not sActionStat then
+			Debug.console('Disease save ability score not found. Using defaults based on save type.')
 			if sSave == 'fortitude' then
 				sActionStat = 'constitution'
 			elseif sSave == 'reflex' then
