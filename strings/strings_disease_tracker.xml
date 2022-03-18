@@ -62,6 +62,7 @@
 
 	<!-- Messaging for auto disease saves -->
 	<string name="disease_expiration">%s's %s has run its course.</string>
+	<string name="disease_overcome">%s has overcome their %s.</string>
 	<string name="disease_against">(against %s)</string>
 	<string name="disease_failure_effect">FAILURE EFFECT:</string>
 	<string name="disease_failure_effect_primary">%s\nPRIMARY: %s</string>
