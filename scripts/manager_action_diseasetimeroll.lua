@@ -2,7 +2,7 @@
 --- Initialization
 ---
 
--- luacheck: globals getRoll
+--	luacheck: globals getRoll
 function getRoll(_, tDice, nFixedInt, sField)
 	local rRoll = {};
 
@@ -15,7 +15,7 @@ function getRoll(_, tDice, nFixedInt, sField)
 end
 
 -- Start the action process
--- luacheck: globals performRoll
+--	luacheck: globals performRoll
 function performRoll(draginfo, nodeDisease, rActor, tDice, nFixedInt, sField)
 	local rRoll = getRoll(rActor, tDice, nFixedInt, sField);
 	rRoll.nodeDisease = nodeDisease.getPath()
@@ -23,7 +23,7 @@ function performRoll(draginfo, nodeDisease, rActor, tDice, nFixedInt, sField)
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
--- luacheck: globals onRoll
+--	luacheck: globals onRoll
 function onRoll(rSource, _, rRoll)
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
 	Comm.deliverChatMessage(rMessage);

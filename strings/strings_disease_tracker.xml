@@ -23,14 +23,14 @@
 	<string name="record_disease_poison_effect_secondary_label">Secondary</string>
 	<string name="record_disease_section_description_label">DESCRIPTION</string>
 	<string name="record_disease_associated_npc_name_label">Associated NPC</string>
-	
+
 	<string name="record_disease_cycler_freq_none">-</string>
 	<string name="record_disease_cycler_freq_round">/rd</string>
 	<string name="record_disease_cycler_freq_minute">/min</string>
 	<string name="record_disease_cycler_freq_hour">/hour</string>
 	<string name="record_disease_cycler_freq_day">/day</string>
 	<string name="record_disease_cycler_freq_week">/week</string>
-	
+
 	<string name="record_disease_cycler_duration_none">-</string>
 	<string name="record_disease_cycler_duration_rounds">rounds</string>
 	<string name="record_disease_cycler_duration_minutes">minutes</string>
@@ -38,22 +38,22 @@
 	<string name="record_disease_cycler_duration_days">days</string>
 	<string name="record_disease_cycler_duration_weeks">weeks</string>
 	<string name="record_disease_cycler_duration_indefinite">forever</string>
-	
+
 	<string name="item_tooltip_settime">Reset automatic save timer</string>
 
 	<string name="disease_tooltip_saveconsecutive">Saves must be consecutive</string>
 	<string name="disease_tooltip_savetotal">Saves do not need to be consecutive</string>
-	
+
 	<string name="disease_tooltip_savecount_consec">Number of successful saves rolled</string>
 	<string name="disease_tooltip_savesreq">Number of saves required to cure</string>
-	
+
 	<string name="library_recordtype_label_disease">Maladies</string>
-	
+
 	<!-- Disease Save String Text -->
 	<string name="disease_savestring_after"> after </string>
 	<string name="disease_savestring_for"> for </string>
 	<string name="disease_savestring_none">none</string>
-	
+
 	<!-- DC Notifier Message for Library Functionality -->
 	<string name="disease_msg_dcnotifier">The added disease has a DC that depends on its source. Please check the current value to ensure it is correct.</string>
 
@@ -64,6 +64,6 @@
 	<string name="disease_expiration">%s's %s has run its course.</string>
 	<string name="disease_against">(against %s)</string>
 	<string name="disease_failure_effect">FAILURE EFFECT:</string>
-	<string name="disease_failure_effect_primary">PRIMARY:</string>
-	<string name="disease_failure_effect_secondary">SECONDARY:</string>
+	<string name="disease_failure_effect_primary">%s\nPRIMARY: %s</string>
+	<string name="disease_failure_effect_secondary">%s\nSECONDARY: %s</string>
 </root>

@@ -290,7 +290,7 @@ function modSave(rSource, _, rRoll)
 	rRoll.nMod = rRoll.nMod + nAddMod
 end
 
--- luacheck: globals performRoll
+--	luacheck: globals performRoll
 function performRoll(draginfo, rActor, nodeDisease)
 	local rRoll = getRoll(rActor, nodeDisease)
 
@@ -304,7 +304,7 @@ function performRoll(draginfo, rActor, nodeDisease)
 	ActionsManager.performAction(draginfo, rActor, rRoll)
 end
 
--- luacheck: globals onRoll
+--	luacheck: globals onRoll
 function onRoll(rSource, _, rRoll)
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll)
 	Comm.deliverChatMessage(rMessage)
