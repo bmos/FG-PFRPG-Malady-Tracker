@@ -132,15 +132,27 @@ function getRoll(rActor, nodeDisease)
 	return rRoll
 end
 
+local function guessSaveAbility(sSaveType)
+	local sActionStat
+	if sSaveType == 'fortitude' then
+		sActionStat = 'constitution'
+	elseif sSaveType == 'reflex' then
+		sActionStat = 'dexterity'
+	elseif sSaveType == 'will' then
+		sActionStat = 'wisdom'
+	end
+
+	return sActionStat
+end
+
 function modSave(rSource, _, rRoll)
 	local aAddDesc = {}
 	local aAddDice = {}
 	local nAddMod = 0
 
 	-- Determine save type
-	local sSave = nil
-	local sSaveMatch = rRoll.sDesc:match('%]%s%a+%s%(')
-	sSaveMatch = sSaveMatch:sub(2, -2)
+	local sSaveMatch = rRoll.sDesc:match('%]%s%a+%s%('):sub(2, -2)
+	local sSave
 	if sSaveMatch then
 		sSave = StringManager.trim(sSaveMatch):lower()
 	end
@@ -155,14 +167,7 @@ function modSave(rSource, _, rRoll)
 			sActionStat = DataCommon.ability_stol[sModStat]
 		end
 		if not sActionStat then
-			Debug.console('Disease save ability score not found. Using defaults based on save type.')
-			if sSave == 'fortitude' then
-				sActionStat = 'constitution'
-			elseif sSave == 'reflex' then
-				sActionStat = 'dexterity'
-			elseif sSave == 'will' then
-				sActionStat = 'wisdom'
-			end
+			sActionStat = guessSaveAbility(sSave)
 		end
 
 		-- Build save filter
