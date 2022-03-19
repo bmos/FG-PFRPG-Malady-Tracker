@@ -67,4 +67,7 @@
 	<string name="disease_failure_effect">FAILURE EFFECT:</string>
 	<string name="disease_failure_effect_primary">%s\nPRIMARY: %s</string>
 	<string name="disease_failure_effect_secondary">%s\nSECONDARY: %s</string>
+
+	<!-- Messaging for auto disease saves -->
+	<string name="disease_debug_guesssavestat">Disease save ability score not found. Using defaults based on save type.</string>
 </root>

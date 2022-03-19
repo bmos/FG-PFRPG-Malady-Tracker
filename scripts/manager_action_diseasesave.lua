@@ -133,6 +133,7 @@ function getRoll(rActor, nodeDisease)
 end
 
 local function guessSaveAbility(sSaveType)
+	Debug.console(Interface.getString('disease_debug_guesssavestat'))
 	local sActionStat
 	if sSaveType == 'fortitude' then
 		sActionStat = 'constitution'
