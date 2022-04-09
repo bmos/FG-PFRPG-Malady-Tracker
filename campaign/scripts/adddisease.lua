@@ -1,6 +1,7 @@
 --
 -- Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
+
 --- Allow dragging and dropping madnesses between players
 --	luacheck: globals addDisease
 function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
@@ -18,17 +19,17 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 		if nodeSource.getChild('....') and nodeSource.getChild('....').getName() ~= 'charsheet' then
 			if DB.getValue(nodeSource, 'onset_dice') then
 				ActionDiseaseTimeRoll.performRoll(
-								draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'onset_dice'), DB.getValue(nodeSource, 'onset_interval'), 'Onset'
+								_, nodeEntry, rActor, DB.getValue(nodeSource, 'onset_dice'), DB.getValue(nodeSource, 'onset_interval'), 'Onset'
 				)
 			end
 			if DB.getValue(nodeSource, 'freq_dice') then
 				ActionDiseaseTimeRoll.performRoll(
-								draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'freq_dice'), DB.getValue(nodeSource, 'freq_interval'), 'Frequency'
+								_, nodeEntry, rActor, DB.getValue(nodeSource, 'freq_dice'), DB.getValue(nodeSource, 'freq_interval'), 'Frequency'
 				)
 			end
 			if DB.getValue(nodeSource, 'duration_dice') then
 				ActionDiseaseTimeRoll.performRoll(
-								draginfo, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'),
+								_, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'),
 								'Duration'
 				)
 			end
