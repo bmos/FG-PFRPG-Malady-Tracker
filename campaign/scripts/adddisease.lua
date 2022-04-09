@@ -19,17 +19,17 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 		if nodeSource.getChild('....') and nodeSource.getChild('....').getName() ~= 'charsheet' then
 			if DB.getValue(nodeSource, 'onset_dice') then
 				ActionDiseaseTimeRoll.performRoll(
-								_, nodeEntry, rActor, DB.getValue(nodeSource, 'onset_dice'), DB.getValue(nodeSource, 'onset_interval'), 'Onset'
+								nil, nodeEntry, rActor, DB.getValue(nodeSource, 'onset_dice'), DB.getValue(nodeSource, 'onset_interval'), 'Onset'
 				)
 			end
 			if DB.getValue(nodeSource, 'freq_dice') then
 				ActionDiseaseTimeRoll.performRoll(
-								_, nodeEntry, rActor, DB.getValue(nodeSource, 'freq_dice'), DB.getValue(nodeSource, 'freq_interval'), 'Frequency'
+								nil, nodeEntry, rActor, DB.getValue(nodeSource, 'freq_dice'), DB.getValue(nodeSource, 'freq_interval'), 'Frequency'
 				)
 			end
 			if DB.getValue(nodeSource, 'duration_dice') then
 				ActionDiseaseTimeRoll.performRoll(
-								_, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'),
+								nil, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'),
 								'Duration'
 				)
 			end
