@@ -1,7 +1,6 @@
 --
 -- Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
-
 --- Allow dragging and dropping madnesses between players
 --	luacheck: globals addDisease
 function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
@@ -29,8 +28,7 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 			end
 			if DB.getValue(nodeSource, 'duration_dice') then
 				ActionDiseaseTimeRoll.performRoll(
-								nil, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'),
-								'Duration'
+								nil, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'), 'Duration'
 				)
 			end
 		end

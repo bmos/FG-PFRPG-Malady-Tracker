@@ -1,7 +1,6 @@
 --
 --	Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
-
 ---	This function rounds to the specified number of decimals
 --	luacheck: globals round
 function round(number, decimals)

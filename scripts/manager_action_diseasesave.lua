@@ -72,9 +72,7 @@ function notifyApplySave(rSource, rRoll)
 		if nodeDiseaseRoll.getChild('disease_effect') then sMaladyEffect = nodeDiseaseRoll.getChild('disease_effect').getText() end
 
 		local sPoisonEffect = DB.getValue(nodeDiseaseRoll, 'poison_effect_primary', '')
-		if sPoisonEffect ~= '' then
-			sMaladyEffect = Interface.getString('disease_failure_effect_primary'):format(sMaladyEffect, sPoisonEffect)
-		end
+		if sPoisonEffect ~= '' then sMaladyEffect = Interface.getString('disease_failure_effect_primary'):format(sMaladyEffect, sPoisonEffect) end
 
 		local sPoisonSecondary = DB.getValue(nodeDiseaseRoll, 'poison_effect_secondary', '')
 		if sPoisonSecondary ~= '' then
