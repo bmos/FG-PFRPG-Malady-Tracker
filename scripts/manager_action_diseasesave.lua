@@ -3,22 +3,6 @@
 --
 OOB_MSGTYPE_APPLYDISEASESAVE = 'applysave';
 
-function handleApplySave(msgOOB)
-	local rSource = ActorManager.resolveActor(msgOOB.sSourceNode);
-	local rTarget = ActorManager.resolveActor(msgOOB.sTargetNode);
-
-	local rAction = {};
-	rAction.bSecret = (tonumber(msgOOB.nSecret) == 1);
-	rAction.sDesc = msgOOB.sDesc;
-	rAction.nTotal = tonumber(msgOOB.nTotal) or 0;
-	rAction.sSaveDesc = msgOOB.sSaveDesc;
-	rAction.nTarget = tonumber(msgOOB.nTarget) or 0;
-	rAction.bRemoveOnMiss = (tonumber(msgOOB.nRemoveOnMiss) == 1);
-	rAction.sSaveResult = msgOOB.sSaveResult;
-
-	applySave(rSource, rTarget, rAction);
-end
-
 function notifyApplySave(rSource, rRoll)
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_APPLYDISEASESAVE;
@@ -30,7 +14,7 @@ function notifyApplySave(rSource, rRoll)
 	end
 	msgOOB.sDesc = rRoll.sDesc;
 	msgOOB.nTotal = ActionsManager.total(rRoll);
-	msgOOB.sSaveDesc = rRoll.sSaveDesc;
+	msgOOB.sSaveDesc = rRoll.sSaveDesc or '';
 	msgOOB.nTarget = rRoll.nTarget;
 	msgOOB.sSaveResult = rRoll.sSaveResult;
 	if rRoll.bRemoveOnMiss then msgOOB.nRemoveOnMiss = 1; end
