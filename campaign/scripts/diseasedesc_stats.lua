@@ -36,7 +36,7 @@ end
 
 --	This function takes the Save DC related information and combines them into a single string.
 --	The string is displayed once the window is locked for a simpler UX.
---	luacheck: globals generateSaveString
+--	luacheck: globals generateSaveString generateFrequencyString save_string
 function generateSaveString()
 	local sSave = ''
 
@@ -93,6 +93,7 @@ function generateFrequencyString()
 end
 
 --	This function sets the visibility and editability of various fields on the malady sheet when it is unlocked.
+-- luacheck: globals subtype poison_effect_primary poison_effect_secondary disease_effect description associated_npc_name
 local function ifLocked(sType)
 	local sSubtype = ''
 	if subtype.getValue() and subtype.getValue() ~= '' then sSubtype = ' (' .. subtype.getValue() .. ')' end
@@ -189,6 +190,7 @@ local function ifLocked(sType)
 end
 
 --	This function sets the visibility and editability of various fields on the malady sheet when it is locked.
+-- luacheck: globals associated_npc_name TimeManager_Disabled
 local function ifUnlocked(sType)
 	save_string.setVisible(false)
 	savetype.setVisible(true)
@@ -264,6 +266,7 @@ local function ifUnlocked(sType)
 	isconsecutive.setVisible(true)
 end
 
+-- luacheck: globals update
 function update()
 	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode())
 	local sType = string.lower(type.getValue())
@@ -273,8 +276,8 @@ function update()
 		ifUnlocked(sType)
 	end
 
-	savesreq.update(bReadOnly, bForceHide, 'cure_label')
-	savecount_consec.update(false, bForceHide, 'cure_label', savesreq)
+	savesreq.update(bReadOnly, nil, 'cure_label')
+	savecount_consec.update(false, nil, 'cure_label', savesreq)
 	if sType ~= 'poison' then disease_effect.update(bReadOnly) end
 	if sType ~= 'disease' then poison_effect_primary.update(bReadOnly) end
 	if sType ~= 'disease' then poison_effect_secondary.update(bReadOnly) end

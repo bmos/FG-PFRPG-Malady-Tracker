@@ -25,7 +25,7 @@ local function parseDiseases()
 			if nDateOfContr and DB.getValue(nodeDisease, 'savetype') and not string.find(DB.getValue(nodeDisease, 'name', ''), '%[') then
 				local nTimeSinceContraction = nDateWithRounds - nDateOfContr
 
-				local function calculateOnset(nodeDisease)
+				local function calculateOnset()
 					local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit'))
 					local nOnsVal = DB.getValue(nodeDisease, 'onset_interval')
 					local nOnset
@@ -36,7 +36,7 @@ local function parseDiseases()
 					return nOnset
 				end
 
-				local nOnset = calculateOnset(nodeDisease) or 0
+				local nOnset = calculateOnset() or 0
 				local nDiseaseElapsed = round(nTimeSinceContraction - nOnset, 1)
 
 				local sDiseaseName = DB.getValue(nodeDisease, 'name', 'their disease')
@@ -44,7 +44,7 @@ local function parseDiseases()
 				-- if the disease has a starting time, the current time is known, and any onset has elapsed
 				if nDiseaseElapsed > 0 then
 
-					local function calculateFrequency(nodeDisease)
+					local function calculateFrequency()
 						local nFreqUnit = tonumber(DB.getValue(nodeDisease, 'freq_unit'))
 						local nFreqVal = DB.getValue(nodeDisease, 'freq_interval')
 						local nFreq
@@ -55,7 +55,7 @@ local function parseDiseases()
 						return nFreq
 					end
 
-					local nFreq = calculateFrequency(nodeDisease)
+					local nFreq = calculateFrequency()
 					if nFreq then
 						local nPrevRollCount = DB.getValue(nodeDisease, 'savecount', 0) -- how many saves have been successful
 						local nTotalRolls = round(nDiseaseElapsed / nFreq, 0)
@@ -63,7 +63,7 @@ local function parseDiseases()
 						local nTargetRollCount = nTotalRolls - nPrevRollCount
 						if nTargetRollCount > 0 then
 
-							local function calculateDuration(nodeDisease, nOnset)
+							local function calculateDuration()
 								local nDurUnit = tonumber(DB.getValue(nodeDisease, 'duration_unit'))
 								local nDurVal = DB.getValue(nodeDisease, 'duration_interval')
 								local nDuration, nDurationWithOnset
@@ -77,7 +77,7 @@ local function parseDiseases()
 								return nDurationWithOnset, nDuration, nDurUnit
 							end
 
-							local nDurationWithOnset, nDuration, _ = calculateDuration(nodeDisease, nOnset)
+							local nDurationWithOnset, nDuration, _ = calculateDuration()
 							if nDurationWithOnset then nTargetRollCount = math.min(nTargetRollCount, nDuration / nFreq); end
 							-- Debug.console(sDiseaseName, 'nDurationWithOnset: ' .. nDurationWithOnset, 'nDiseaseElapsed: ' .. nDiseaseElapsed)
 							-- Debug.console(sDiseaseName, 'nTargetRollCount: ' .. nTargetRollCount)
@@ -127,6 +127,7 @@ local function parseDiseases()
 	end
 end
 
+-- luacheck: globals TimeManager_Disabled
 function onInit()
 	if TimeManager_Disabled and LongTermEffects then DB.addHandler('calendar.dateinminutes', 'onUpdate', parseDiseases) end
 

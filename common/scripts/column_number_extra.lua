@@ -1,6 +1,7 @@
 --
 -- Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
+-- luacheck: globals update setReadOnly setVisible onValueChanged getValue isVisible isReadOnly nohide
 function onInit()
 	if super and super.onInit then super.onInit(); end
 

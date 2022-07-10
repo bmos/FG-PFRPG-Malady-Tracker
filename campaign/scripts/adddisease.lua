@@ -2,7 +2,7 @@
 -- Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
 --- Allow dragging and dropping madnesses between players
---	luacheck: globals addDisease
+--	luacheck: globals addDisease TimeManager_Disabled onDrop handleDrop
 function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 	if not nodeChar or not sClass or not sRecord or not nodeTargetList then return false; end
 
