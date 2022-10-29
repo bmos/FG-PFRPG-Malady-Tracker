@@ -3,29 +3,29 @@
 ---
 --	luacheck: globals getRoll
 function getRoll(_, tDice, nFixedInt, sField)
-	local rRoll = {};
+	local rRoll = {}
 
-	rRoll.sType = 'diseasetimeroll';
-	rRoll.aDice = tDice;
-	rRoll.nMod = nFixedInt;
-	rRoll.sDesc = sField;
+	rRoll.sType = 'diseasetimeroll'
+	rRoll.aDice = tDice
+	rRoll.nMod = nFixedInt
+	rRoll.sDesc = sField
 
-	return rRoll;
+	return rRoll
 end
 
 -- Start the action process
 --	luacheck: globals performRoll
 function performRoll(draginfo, nodeDisease, rActor, tDice, nFixedInt, sField)
-	local rRoll = getRoll(rActor, tDice, nFixedInt, sField);
+	local rRoll = getRoll(rActor, tDice, nFixedInt, sField)
 	rRoll.nodeDisease = nodeDisease.getPath()
 
-	ActionsManager.performAction(draginfo, rActor, rRoll);
+	ActionsManager.performAction(draginfo, rActor, rRoll)
 end
 
 --	luacheck: globals onRoll
 function onRoll(rSource, _, rRoll)
-	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
-	Comm.deliverChatMessage(rMessage);
+	local rMessage = ActionsManager.createActionMessage(rSource, rRoll)
+	Comm.deliverChatMessage(rMessage)
 
 	local nodeDisease = {}
 	if rRoll.nodeDisease then nodeDisease = DB.findNode(rRoll.nodeDisease) end
@@ -43,6 +43,6 @@ function onRoll(rSource, _, rRoll)
 end
 
 function onInit()
-	GameSystem.actions['diseasetimeroll'] = { bUseModStack = false };
-	ActionsManager.registerResultHandler('diseasetimeroll', onRoll);
+	GameSystem.actions['diseasetimeroll'] = { bUseModStack = false }
+	ActionsManager.registerResultHandler('diseasetimeroll', onRoll)
 end

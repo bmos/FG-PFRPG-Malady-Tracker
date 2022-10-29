@@ -4,7 +4,7 @@
 --- Allow dragging and dropping madnesses between players
 --	luacheck: globals addDisease TimeManager_Disabled onDrop handleDrop
 function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
-	if not nodeChar or not sClass or not sRecord or not nodeTargetList then return false; end
+	if not nodeChar or not sClass or not sRecord or not nodeTargetList then return false end
 
 	if sClass == 'referencedisease' then
 		local nodeSource = CharManager.resolveRefNode(sRecord)
@@ -18,17 +18,32 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 		if nodeSource.getChild('....') and nodeSource.getChild('....').getName() ~= 'charsheet' then
 			if DB.getValue(nodeSource, 'onset_dice') then
 				ActionDiseaseTimeRoll.performRoll(
-								nil, nodeEntry, rActor, DB.getValue(nodeSource, 'onset_dice'), DB.getValue(nodeSource, 'onset_interval'), 'Onset'
+					nil,
+					nodeEntry,
+					rActor,
+					DB.getValue(nodeSource, 'onset_dice'),
+					DB.getValue(nodeSource, 'onset_interval'),
+					'Onset'
 				)
 			end
 			if DB.getValue(nodeSource, 'freq_dice') then
 				ActionDiseaseTimeRoll.performRoll(
-								nil, nodeEntry, rActor, DB.getValue(nodeSource, 'freq_dice'), DB.getValue(nodeSource, 'freq_interval'), 'Frequency'
+					nil,
+					nodeEntry,
+					rActor,
+					DB.getValue(nodeSource, 'freq_dice'),
+					DB.getValue(nodeSource, 'freq_interval'),
+					'Frequency'
 				)
 			end
 			if DB.getValue(nodeSource, 'duration_dice') then
 				ActionDiseaseTimeRoll.performRoll(
-								nil, nodeEntry, rActor, DB.getValue(nodeSource, 'duration_dice'), DB.getValue(nodeSource, 'duration_interval'), 'Duration'
+					nil,
+					nodeEntry,
+					rActor,
+					DB.getValue(nodeSource, 'duration_dice'),
+					DB.getValue(nodeSource, 'duration_interval'),
+					'Duration'
 				)
 			end
 		end
@@ -47,7 +62,7 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 	return true
 end
 
-function onDrop(_, _, draginfo) return handleDrop(draginfo, nil); end
+function onDrop(_, _, draginfo) return handleDrop(draginfo, nil) end
 
 function handleDrop(draginfo, nodeTargetList)
 	if draginfo.isType('shortcut') then

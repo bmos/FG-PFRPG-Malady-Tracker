@@ -2,31 +2,31 @@
 -- Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
 -- luacheck: globals notifyApplySave getRoll modSave
-OOB_MSGTYPE_APPLYDISEASESAVE = 'applysave';
+OOB_MSGTYPE_APPLYDISEASESAVE = 'applysave'
 
 function notifyApplySave(rSource, rRoll)
-	local msgOOB = {};
-	msgOOB.type = OOB_MSGTYPE_APPLYDISEASESAVE;
+	local msgOOB = {}
+	msgOOB.type = OOB_MSGTYPE_APPLYDISEASESAVE
 
 	if rRoll.bTower then
-		msgOOB.nSecret = 1;
+		msgOOB.nSecret = 1
 	else
-		msgOOB.nSecret = 0;
+		msgOOB.nSecret = 0
 	end
-	msgOOB.sDesc = rRoll.sDesc;
-	msgOOB.nTotal = ActionsManager.total(rRoll);
-	msgOOB.sSaveDesc = rRoll.sSaveDesc or '';
-	msgOOB.nTarget = rRoll.nTarget;
-	msgOOB.sSaveResult = rRoll.sSaveResult;
-	if rRoll.bRemoveOnMiss then msgOOB.nRemoveOnMiss = 1; end
+	msgOOB.sDesc = rRoll.sDesc
+	msgOOB.nTotal = ActionsManager.total(rRoll)
+	msgOOB.sSaveDesc = rRoll.sSaveDesc or ''
+	msgOOB.nTarget = rRoll.nTarget
+	msgOOB.sSaveResult = rRoll.sSaveResult
+	if rRoll.bRemoveOnMiss then msgOOB.nRemoveOnMiss = 1 end
 
-	local sSourceNode = ActorManager.getCreatureNode(rSource);
-	msgOOB.sSourceNode = sSourceNode;
+	local sSourceNode = ActorManager.getCreatureNode(rSource)
+	msgOOB.sSourceNode = sSourceNode
 
 	if rRoll.sSource ~= '' then
-		msgOOB.sTargetNode = rRoll.sSource;
+		msgOOB.sTargetNode = rRoll.sSource
 	else
-		msgOOB.sTargetNode = '';
+		msgOOB.sTargetNode = ''
 	end
 
 	local nodeDiseaseRoll = DB.findNode(rRoll.nodeDisease)
@@ -50,7 +50,7 @@ function notifyApplySave(rSource, rRoll)
 		end
 	end
 
-	Comm.deliverOOBMessage(msgOOB, '');
+	Comm.deliverOOBMessage(msgOOB, '')
 
 	if rRoll.sSaveResult:match('failure') then
 		local sMaladyEffect = ''
@@ -93,8 +93,11 @@ function getRoll(rActor, nodeDisease)
 	rRoll.sDesc = '[DISEASE] ' .. StringManager.capitalize(sSave)
 	if sDiseaseType == 'poison' then rRoll.sDesc = '[POISON] ' .. StringManager.capitalize(sSave) end
 	if sAbility and sAbility ~= '' then
-		if (sSave == 'fortitude' and sAbility ~= 'constitution') or (sSave == 'reflex' and sAbility ~= 'dexterity') or
-						(sSave == 'will' and sAbility ~= 'wisdom') then
+		if
+			(sSave == 'fortitude' and sAbility ~= 'constitution')
+			or (sSave == 'reflex' and sAbility ~= 'dexterity')
+			or (sSave == 'will' and sAbility ~= 'wisdom')
+		then
 			local sAbilityEffect = DataCommon.ability_ltos[sAbility]
 			if sAbilityEffect then rRoll.sDesc = rRoll.sDesc .. ' [MOD:' .. sAbilityEffect .. ']' end
 		end
@@ -193,8 +196,11 @@ function modSave(rSource, _, rRoll)
 		end
 
 		-- Get condition modifiers
-		if EffectManager35E.hasEffectCondition(rSource, 'Frightened') or EffectManager35E.hasEffectCondition(rSource, 'Panicked') or
-						EffectManager35E.hasEffectCondition(rSource, 'Shaken') then
+		if
+			EffectManager35E.hasEffectCondition(rSource, 'Frightened')
+			or EffectManager35E.hasEffectCondition(rSource, 'Panicked')
+			or EffectManager35E.hasEffectCondition(rSource, 'Shaken')
+		then
 			nAddMod = nAddMod - 2
 			bEffects = true
 		end
@@ -271,7 +277,7 @@ function onRoll(rSource, _, rRoll)
 
 	if rRoll.nTarget then
 		rRoll.nTotal = ActionsManager.total(rRoll)
-		if #(rRoll.aDice) > 0 then
+		if #rRoll.aDice > 0 then
 			local nFirstDie = rRoll.aDice[1].result or 0
 			if nFirstDie == 20 then
 				rRoll.sSaveResult = 'autosuccess'

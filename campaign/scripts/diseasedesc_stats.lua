@@ -60,9 +60,7 @@ function generateSaveString()
 	end
 
 	local sOnset = generateOnsetString()
-	if sSave ~= '' and onset_interval.getValue() > 0 then
-		sSave = sSave .. ' ' .. Interface.getString('disease_savestring_after') .. ' ' .. sOnset
-	end
+	if sSave ~= '' and onset_interval.getValue() > 0 then sSave = sSave .. ' ' .. Interface.getString('disease_savestring_after') .. ' ' .. sOnset end
 
 	if sSave == '' then sSave = Interface.getString('disease_savestring_none') end
 
@@ -71,7 +69,7 @@ end
 
 ---	This function rounds nNum to nDecimalPlaces (or to a whole number)
 local function round(nNum, nDecimalPlaces)
-	if not nNum then return 0; end
+	if not nNum then return 0 end
 	local nMult = 10 ^ (nDecimalPlaces or 0)
 	return math.floor(nNum * nMult + 0.5) / nMult
 end
@@ -142,15 +140,23 @@ local function ifLocked(sType)
 	if sType == 'poison' then
 		disease_effect.setVisible(false)
 
-		if save_string.getValue() and save_string.getValue() ~= 'none' and getDatabaseNode().getParent().getName() ~= 'disease' and
-						getDatabaseNode().getChild('...').getName() ~= 'reference' then
+		if
+			save_string.getValue()
+			and save_string.getValue() ~= 'none'
+			and getDatabaseNode().getParent().getName() ~= 'disease'
+			and getDatabaseNode().getChild('...').getName() ~= 'reference'
+		then
 			raisesave.setVisible(true)
 		else
 			raisesave.setVisible(false)
 		end
 
-		if duration_interval.getValue() and duration_interval.getValue() > 0 and getDatabaseNode().getParent().getName() ~= 'disease' and
-						getDatabaseNode().getChild('...').getName() ~= 'reference' then
+		if
+			duration_interval.getValue()
+			and duration_interval.getValue() > 0
+			and getDatabaseNode().getParent().getName() ~= 'disease'
+			and getDatabaseNode().getChild('...').getName() ~= 'reference'
+		then
 			increaseduration.setVisible(true)
 		else
 			increaseduration.setVisible(false)
@@ -244,8 +250,13 @@ local function ifUnlocked(sType)
 	end
 
 	button_settime.setVisible(false)
-	if TimeManager_Disabled and getDatabaseNode().getParent().getName() ~= 'disease' and getDatabaseNode().getChild('...').getName() ~=
-					'reference' then button_settime.setVisible(true) end
+	if
+		TimeManager_Disabled
+		and getDatabaseNode().getParent().getName() ~= 'disease'
+		and getDatabaseNode().getChild('...').getName() ~= 'reference'
+	then
+		button_settime.setVisible(true)
+	end
 
 	freq_label.setVisible(true)
 	freq_unit.setVisible(true)

@@ -43,7 +43,6 @@ local function parseDiseases()
 				Debug.console(sDiseaseName, 'nDiseaseElapsed: ' .. nDiseaseElapsed)
 				-- if the disease has a starting time, the current time is known, and any onset has elapsed
 				if nDiseaseElapsed > 0 then
-
 					local function calculateFrequency()
 						local nFreqUnit = tonumber(DB.getValue(nodeDisease, 'freq_unit'))
 						local nFreqVal = DB.getValue(nodeDisease, 'freq_interval')
@@ -62,7 +61,6 @@ local function parseDiseases()
 						-- Debug.console(sDiseaseName, 'nTotalRolls: ' .. nTotalRolls, 'nPrevRollCount: ' .. nPrevRollCount)
 						local nTargetRollCount = nTotalRolls - nPrevRollCount
 						if nTargetRollCount > 0 then
-
 							local function calculateDuration()
 								local nDurUnit = tonumber(DB.getValue(nodeDisease, 'duration_unit'))
 								local nDurVal = DB.getValue(nodeDisease, 'duration_interval')
@@ -78,7 +76,7 @@ local function parseDiseases()
 							end
 
 							local nDurationWithOnset, nDuration, _ = calculateDuration()
-							if nDurationWithOnset then nTargetRollCount = math.min(nTargetRollCount, nDuration / nFreq); end
+							if nDurationWithOnset then nTargetRollCount = math.min(nTargetRollCount, nDuration / nFreq) end
 							-- Debug.console(sDiseaseName, 'nDurationWithOnset: ' .. nDurationWithOnset, 'nDiseaseElapsed: ' .. nDiseaseElapsed)
 							-- Debug.console(sDiseaseName, 'nTargetRollCount: ' .. nTargetRollCount)
 
@@ -87,10 +85,14 @@ local function parseDiseases()
 							local nRollCount = 0
 							if not bIsAutoRoll and nTargetRollCount > 0 then
 								ChatManager.Message(
-												string.format(
-																Interface.getString('disease_agencynotifer'), DB.getValue(nodeActor, 'name', 'A character'), nTargetRollCount,
-																'a ' .. DB.getValue(nodeDisease, 'type', 'malady')
-												), true, rActor
+									string.format(
+										Interface.getString('disease_agencynotifer'),
+										DB.getValue(nodeActor, 'name', 'A character'),
+										nTargetRollCount,
+										'a ' .. DB.getValue(nodeDisease, 'type', 'malady')
+									),
+									true,
+									rActor
 								)
 							else
 								-- rolls saving throws until the desired total is achieved
@@ -111,9 +113,13 @@ local function parseDiseases()
 									DB.setValue(nodeDisease, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
 								end
 								ChatManager.Message(
-												string.format(
-																Interface.getString('disease_expiration'), DB.getValue(nodeActor, 'name', 'A character'), sDiseaseName
-												), true, rActor
+									string.format(
+										Interface.getString('disease_expiration'),
+										DB.getValue(nodeActor, 'name', 'A character'),
+										sDiseaseName
+									),
+									true,
+									rActor
 								)
 							end
 
@@ -131,14 +137,12 @@ end
 function onInit()
 	if TimeManager_Disabled and LongTermEffects then DB.addHandler('calendar.dateinminutes', 'onUpdate', parseDiseases) end
 
-	LibraryData.setRecordTypeInfo(
-					'disease', {
-						bExport = true,
-						aDataMap = { 'disease', 'reference.diseases' },
-						sRecordDisplayClass = 'referencedisease',
-						aGMListButtons = { 'button_feat_type' },
-						aPlayerListButtons = { 'button_feat_type' },
-						aCustomFilters = { ['Type'] = { sField = 'type' } },
-					}
-	)
+	LibraryData.setRecordTypeInfo('disease', {
+		bExport = true,
+		aDataMap = { 'disease', 'reference.diseases' },
+		sRecordDisplayClass = 'referencedisease',
+		aGMListButtons = { 'button_feat_type' },
+		aPlayerListButtons = { 'button_feat_type' },
+		aCustomFilters = { ['Type'] = { sField = 'type' } },
+	})
 end
