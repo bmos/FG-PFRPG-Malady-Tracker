@@ -8,6 +8,7 @@
 		<version>2.9</version>
 		<author>bmos (Wil Thieme)</author>
 		<description>This FantasyGrounds extension helps track the duration, saves, effects, and other information relating to maladies.</description>
+		<loadorder>50</loadorder>
 		<ruleset>
 			<name>3.5E</name>
 		</ruleset>
@@ -27,6 +28,7 @@
 		<includefile source="campaign/record_char_main.xml" />
 		<includefile source="campaign/record_npc.xml" />
 		<includefile source="campaign/record_disease.xml" />
+		<includefile source="campaign/template_char.xml" />
 		<!-- Strings -->
 		<includefile source="strings/strings_disease_tracker.xml" />
 		<!-- Scripts -->
