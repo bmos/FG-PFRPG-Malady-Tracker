@@ -8,20 +8,12 @@
 <root>
 	<windowclass name="charsheet_main" merge="join">
 		<sheetdata>
-			<buttoncontrol name="button_diseases">
-				<bounds>30,395,23,23</bounds>
-				<icon normal="button_vitamin" pressed="button_vitamin_down" />
-				<tooltip textres="char_diseases_button_tooltip" />
-				<script>
-					function onInit()
-						local bIsHost = Session.IsHost
-						setVisible(bIsHost)
-					end
-					function onButtonPress()
-						Interface.openWindow('charsheet_diseasetracker', window.getDatabaseNode())
-					end
-				</script>
-			</buttoncontrol>
+			<button_diseases name="pc_diseases">
+				<anchored>
+					<left parent="nonlethal" anchor="right" offset="12" />
+					<top parent="nonlethal" offset="4" />
+				</anchored>
+			</button_diseases>
 		</sheetdata>
 	</windowclass>
 	

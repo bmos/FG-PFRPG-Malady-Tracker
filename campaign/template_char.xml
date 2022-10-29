@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the LICENSE.md file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+    <template name="button_diseases">
+        <buttoncontrol>
+            <anchored width="23" height="23" />
+            <icon normal="button_vitamin" pressed="button_vitamin_down" />
+            <tooltip textres="char_diseases_button_tooltip" />
+            <script>
+                function onInit()
+                    local bIsHost = Session.IsHost
+                    setVisible(bIsHost)
+                end
+                function onButtonPress()
+                    Interface.openWindow('charsheet_diseasetracker', window.getDatabaseNode())
+                end
+            </script>
+       </buttoncontrol>
+    </template>
+</root>
