@@ -8,7 +8,7 @@
 		<version>2.10</version>
 		<author>bmos (Wil Thieme)</author>
 		<description>This FantasyGrounds extension helps track the duration, saves, effects, and other information relating to maladies.</description>
-		<loadorder>50</loadorder>
+		<loadorder>34</loadorder>
 		<ruleset>
 			<name>3.5E</name>
 		</ruleset>
