@@ -54,7 +54,8 @@ function notifyApplySave(rSource, rRoll)
 
 	if rRoll.sSaveResult:match('failure') then
 		local sMaladyEffect = ''
-		if nodeDiseaseRoll.getChild('disease_effect') then sMaladyEffect = nodeDiseaseRoll.getChild('disease_effect').getText() end
+		local nodeDiseaseEffect = DB.getChild(nodeDiseaseRoll, 'disease_effect')
+		if nodeDiseaseEffect then sMaladyEffect = nodeDiseaseEffect.getText() end
 
 		local sPoisonEffect = DB.getValue(nodeDiseaseRoll, 'poison_effect_primary', '')
 		if sPoisonEffect ~= '' then sMaladyEffect = Interface.getString('disease_failure_effect_primary'):format(sMaladyEffect, sPoisonEffect) end
@@ -265,7 +266,7 @@ function performRoll(draginfo, rActor, nodeDisease)
 		rRoll.sDesc = rRoll.sDesc .. ' ' .. string.format(Interface.getString('disease_against'), sDiseaseName)
 	end
 
-	rRoll.nodeDisease = nodeDisease.getPath()
+	rRoll.nodeDisease = DB.getPath(nodeDisease)
 
 	ActionsManager.performAction(draginfo, rActor, rRoll)
 end

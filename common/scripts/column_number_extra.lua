@@ -46,18 +46,18 @@ function onValueChanged()
 		end
 	end
 
-	if window.getDatabaseNode().getParent().getName() == 'diseases' then
+	if DB.getParent(window.getDatabaseNode()).getName() == 'diseases' then
 		local nodeDisease = window.getDatabaseNode()
 		local nConsecutiveSaves = DB.getValue(nodeDisease, 'savecount_consec', 0)
 		local nSavesReq = DB.getValue(nodeDisease, 'savesreq', 0)
-		local nDiseaseRollActive = DB.getValue(nodeDisease.getParent(), 'diseaserollactive', 1)
+		local nDiseaseRollActive = DB.getValue(DB.getParent(nodeDisease), 'diseaserollactive', 1)
 		if nDiseaseRollActive ~= 1 and nSavesReq ~= 0 and nConsecutiveSaves >= nSavesReq then
 			DB.setValue(nodeDisease, 'starttime', 'number', nil)
 			DB.setValue(nodeDisease, 'starttimestring', 'string', nil)
 			DB.setValue(nodeDisease, 'savecount', 'number', nil)
 			local sDiseaseName = DB.getValue(nodeDisease, 'name', 'disease')
 			DB.setValue(nodeDisease, 'name', 'string', '[CURED] ' .. sDiseaseName)
-			local sCharName = DB.getValue(nodeDisease.getChild('...'), 'name', 'A character')
+			local sCharName = DB.getValue(DB.getChild(nodeDisease, '...'), 'name', 'A character')
 			ChatManager.SystemMessage(Interface.getString('disease_overcome'):format(sCharName, sDiseaseName))
 		end
 	end

@@ -17,7 +17,7 @@ end
 --	luacheck: globals performRoll
 function performRoll(draginfo, nodeDisease, rActor, tDice, nFixedInt, sField)
 	local rRoll = getRoll(rActor, tDice, nFixedInt, sField)
-	rRoll.nodeDisease = nodeDisease.getPath()
+	rRoll.nodeDisease = DB.getPath(nodeDisease)
 
 	ActionsManager.performAction(draginfo, rActor, rRoll)
 end
