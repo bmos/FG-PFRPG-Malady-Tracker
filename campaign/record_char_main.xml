@@ -9,10 +9,7 @@
 	<windowclass name="charsheet_main" merge="join">
 		<sheetdata>
 			<button_diseases name="pc_diseases">
-				<anchored>
-					<left parent="nonlethal" anchor="right" offset="12" />
-					<top parent="nonlethal" offset="4" />
-				</anchored>
+				<anchored to="wounds" position="right" offset="75,8" />
 			</button_diseases>
 		</sheetdata>
 	</windowclass>
