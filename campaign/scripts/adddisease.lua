@@ -15,7 +15,7 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 		local nodeEntry = DB.createChild(nodeTargetList)
 		DB.copyNode(nodeSource, nodeEntry)
 
-		if DB.getChild(nodeSource, '....') and DB.getChild(nodeSource, '....').getName() ~= 'charsheet' then
+		if DB.getChild(nodeSource, '....') and DB.getName(DB.getChild(nodeSource, '....')) ~= 'charsheet' then
 			if DB.getValue(nodeSource, 'onset_dice') then
 				ActionDiseaseTimeRoll.performRoll(
 					nil,
