@@ -4,7 +4,7 @@
 This extension handles automatic rolling of saving throws against poisons, diseases, and other types of maladies.
 
 # Compatibility and Instructions
-This extension has been tested with [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) 4.3.0 (2022-10-20).
+This extension has been tested with [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) 4.3.3 (2023-02-21).
 
 If you're using this with Pathfinder, you should absolutely get the [Maladies Library](https://github.com/bmos/FG-PFRPG-Maladies-Library) module as well. This module contains over 600 pre-entered maladies.
 
