@@ -46,7 +46,7 @@ function onValueChanged()
 		end
 	end
 
-	if DB.getName(DB.getParent(window.getDatabaseNode())) == 'diseases' then
+	if DB.getName(window.getDatabaseNode(), '..') == 'diseases' then
 		local nodeDisease = window.getDatabaseNode()
 		local nConsecutiveSaves = DB.getValue(nodeDisease, 'savecount_consec', 0)
 		local nSavesReq = DB.getValue(nodeDisease, 'savesreq', 0)

@@ -107,7 +107,10 @@ local function ifLocked(sType)
 	associated_npc_name.setVisible(false)
 	associated_npc_name_label.setVisible(false)
 
-	if DB.getName(getDatabaseNode(), '..') ~= 'disease' and DB.getName(getDatabaseNode(), '...') ~= 'reference' then
+	local bInUse = DB.getName(getDatabaseNode(), '..') ~= 'disease'
+			and DB.getName(getDatabaseNode(), '...') ~= 'reference'
+
+	if bInUse then
 		saveroll.setVisible(true)
 	else
 		saveroll.setVisible(false)
@@ -141,10 +144,9 @@ local function ifLocked(sType)
 		disease_effect.setVisible(false)
 
 		if
-			save_string.getValue()
+			bInUse
+			and save_string.getValue()
 			and save_string.getValue() ~= 'none'
-			and DB.getName(DB.getParent(getDatabaseNode())) ~= 'disease'
-			and DB.getName(DB.getChild(getDatabaseNode(), '...')) ~= 'reference'
 		then
 			raisesave.setVisible(true)
 		else
@@ -152,10 +154,9 @@ local function ifLocked(sType)
 		end
 
 		if
-			duration_interval.getValue()
+			bInUse
+			and duration_interval.getValue()
 			and duration_interval.getValue() > 0
-			and DB.getName(DB.getParent(getDatabaseNode())) ~= 'disease'
-			and DB.getName(DB.getChild(getDatabaseNode(), '...')) ~= 'reference'
 		then
 			increaseduration.setVisible(true)
 		else
