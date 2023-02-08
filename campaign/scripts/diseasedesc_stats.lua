@@ -107,8 +107,7 @@ local function ifLocked(sType)
 	associated_npc_name.setVisible(false)
 	associated_npc_name_label.setVisible(false)
 
-	local bInUse = DB.getName(getDatabaseNode(), '..') ~= 'disease'
-			and DB.getName(getDatabaseNode(), '...') ~= 'reference'
+	local bInUse = DB.getName(getDatabaseNode(), '..') ~= 'disease' and DB.getName(getDatabaseNode(), '...') ~= 'reference'
 
 	if bInUse then
 		saveroll.setVisible(true)
@@ -143,21 +142,13 @@ local function ifLocked(sType)
 	if sType == 'poison' then
 		disease_effect.setVisible(false)
 
-		if
-			bInUse
-			and save_string.getValue()
-			and save_string.getValue() ~= 'none'
-		then
+		if bInUse and save_string.getValue() and save_string.getValue() ~= 'none' then
 			raisesave.setVisible(true)
 		else
 			raisesave.setVisible(false)
 		end
 
-		if
-			bInUse
-			and duration_interval.getValue()
-			and duration_interval.getValue() > 0
-		then
+		if bInUse and duration_interval.getValue() and duration_interval.getValue() > 0 then
 			increaseduration.setVisible(true)
 		else
 			increaseduration.setVisible(false)
@@ -251,11 +242,7 @@ local function ifUnlocked(sType)
 	end
 
 	button_settime.setVisible(false)
-	if
-		TimeManager_Disabled
-		and DB.getName(getDatabaseNode(), '..') ~= 'disease'
-		and DB.getName(getDatabaseNode(), '...') ~= 'reference'
-	then
+	if TimeManager_Disabled and DB.getName(getDatabaseNode(), '..') ~= 'disease' and DB.getName(getDatabaseNode(), '...') ~= 'reference' then
 		button_settime.setVisible(true)
 	end
 
