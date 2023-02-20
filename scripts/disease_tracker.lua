@@ -17,10 +17,10 @@ end
 -- This function iterates through each disease and poison of each character
 local function parseDiseases()
 	local nDateWithRounds = TimeManager.getCurrentDateinMinutes()
-	for _, nodeCT in pairs(DB.getChildren(CombatManager.CT_LIST)) do
+	for _, nodeCT in ipairs(DB.getChildList(CombatManager.CT_LIST)) do
 		local rActor = ActorManager.resolveActor(nodeCT)
 		local nodeActor = ActorManager.getCreatureNode(rActor)
-		for _, nodeDisease in pairs(DB.getChildren(nodeActor, 'diseases')) do
+		for _, nodeDisease in ipairs(DB.getChildList(nodeActor, 'diseases')) do
 			local nDateOfContr = DB.getValue(nodeDisease, 'starttimestring') or DB.getValue(nodeDisease, 'starttime')
 			if nDateOfContr and DB.getValue(nodeDisease, 'savetype') and not string.find(DB.getValue(nodeDisease, 'name', ''), '%[') then
 				local nTimeSinceContraction = nDateWithRounds - nDateOfContr
