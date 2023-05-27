@@ -81,8 +81,8 @@ function getRoll(rActor, nodeDisease)
 	local sSave = DB.getValue(nodeDisease, 'savetype')
 	if nodeActor then
 		if ActorManager.isPC(rActor) then
-			rRoll.nMod = DB.getValue(nodeActor, 'saves.' .. sSave .. '.total', 0)
-			sAbility = DB.getValue(nodeActor, 'saves.' .. sSave .. '.ability', '')
+			rRoll.nMod = DB.getValue(nodeActor, string.format('saves.%s.total', sSave), 0)
+			sAbility = DB.getValue(nodeActor, string.format('saves.%s.ability', sSave), '')
 		else
 			rRoll.nMod = DB.getValue(nodeActor, sSave .. 'save', 0)
 		end
@@ -100,7 +100,7 @@ function getRoll(rActor, nodeDisease)
 			or (sSave == 'will' and sAbility ~= 'wisdom')
 		then
 			local sAbilityEffect = DataCommon.ability_ltos[sAbility]
-			if sAbilityEffect then rRoll.sDesc = rRoll.sDesc .. ' [MOD:' .. sAbilityEffect .. ']' end
+			if sAbilityEffect then rRoll.sDesc = string.format('%s [MOD:%s]', rRoll.sDesc, sAbilityEffect) end
 		end
 	end
 
@@ -238,15 +238,15 @@ function modSave(rSource, _, rRoll)
 			local sEffects
 			local sMod = DiceManager.convertDiceToString(aAddDice, nAddMod, true)
 			if sMod ~= '' then
-				sEffects = '[' .. Interface.getString('effects_tag') .. ' ' .. sMod .. ']'
+				sEffects = string.format('[%s %s]', Interface.getString('effects_tag'), sMod)
 			else
-				sEffects = '[' .. Interface.getString('effects_tag') .. ']'
+				sEffects = string.format('[%s]', Interface.getString('effects_tag'))
 			end
 			table.insert(aAddDesc, sEffects)
 		end
 	end
 
-	if #aAddDesc > 0 then rRoll.sDesc = rRoll.sDesc .. ' ' .. table.concat(aAddDesc, ' ') end
+	if #aAddDesc > 0 then rRoll.sDesc = string.format('%s %s', rRoll.sDesc, table.concat(aAddDesc, ' ')) end
 	for _, vDie in ipairs(aAddDice) do
 		if vDie:sub(1, 1) == '-' then
 			table.insert(rRoll.aDice, '-p' .. vDie:sub(3))
@@ -263,7 +263,7 @@ function performRoll(draginfo, rActor, nodeDisease)
 
 	local sDiseaseName = DB.getValue(nodeDisease, 'name')
 	if sDiseaseName and sDiseaseName ~= '' then
-		rRoll.sDesc = rRoll.sDesc .. ' ' .. string.format(Interface.getString('disease_against'), sDiseaseName)
+		rRoll.sDesc = string.format(Interface.getString('disease_against'), rRoll.sDesc, sDiseaseName)
 	end
 
 	rRoll.nodeDisease = DB.getPath(nodeDisease)
