@@ -27,18 +27,19 @@
 			end
 		</script>
 		<sheetdata>
-			<sub_ref_header name="header">
+			<sub_record_header name="header">
 				<class>diseasedesc_header</class>
-			</sub_ref_header>
+			</sub_record_header>
 
-			<frame_ref_content />
-			<sub_ref_content name="content">
+			<frame_record_content />
+			<subwindow_record name="content">
 				<class>diseasedesc_stats</class>
-			</sub_ref_content>
-			<scrollbar_ref_content />
+				<activate />
+			</subwindow_record>
+			<scrollbar_content />
 			
-			<resize_referencepage />
-			<close_referencepage />
+			<resize_recordsheet />
+			<close_recordsheet />
 		</sheetdata>
 	</windowclass>
 
