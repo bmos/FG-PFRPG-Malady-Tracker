@@ -1,4 +1,4 @@
-[![Build FG-Usable File](https://github.com/bmos/FG-PFRPG-Malady-Tracker/actions/workflows/create-ext.yml/badge.svg)](https://github.com/bmos/FG-PFRPG-Malady-Tracker/actions/workflows/create-ext.yml) [![Luacheck](https://github.com/bmos/FG-PFRPG-Malady-Tracker/actions/workflows/luacheck.yml/badge.svg)](https://github.com/bmos/FG-PFRPG-Malady-Tracker/actions/workflows/luacheck.yml)
+[![Build FG-Usable File](https://github.com/bmos/FG-PFRPG-Malady-Tracker/actions/workflows/release.yml/badge.svg)](https://github.com/bmos/FG-PFRPG-Malady-Tracker/actions/workflows/release.yml) [![Luacheck](https://github.com/bmos/FG-PFRPG-Malady-Tracker/actions/workflows/luacheck.yml/badge.svg)](https://github.com/bmos/FG-PFRPG-Malady-Tracker/actions/workflows/luacheck.yml)
 
 # Malady Tracker
 This extension handles automatic rolling of saving throws against poisons, diseases, and other types of maladies.
