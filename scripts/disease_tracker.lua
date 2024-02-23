@@ -20,17 +20,23 @@ local function parseDiseases()
 	for _, nodeCT in ipairs(DB.getChildList(CombatManager.CT_LIST)) do
 		local rActor = ActorManager.resolveActor(nodeCT)
 		local nodeActor = ActorManager.getCreatureNode(rActor)
-		for _, nodeDisease in ipairs(DB.getChildList(nodeActor, 'diseases')) do
-			local nDateOfContr = DB.getValue(nodeDisease, 'starttimestring') or DB.getValue(nodeDisease, 'starttime')
-			if nDateOfContr and DB.getValue(nodeDisease, 'savetype') and not string.find(DB.getValue(nodeDisease, 'name', ''), '%[') then
+		for _, nodeDisease in ipairs(DB.getChildList(nodeActor, "diseases")) do
+			local nDateOfContr = DB.getValue(nodeDisease, "starttimestring") or DB.getValue(nodeDisease, "starttime")
+			if
+				nDateOfContr
+				and DB.getValue(nodeDisease, "savetype")
+				and not string.find(DB.getValue(nodeDisease, "name", ""), "%[")
+			then
 				local nTimeSinceContraction = nDateWithRounds - nDateOfContr
 
 				local function calculateOnset()
-					local nOnsUnit = tonumber(DB.getValue(nodeDisease, 'onset_unit'))
-					local nOnsVal = DB.getValue(nodeDisease, 'onset_interval')
+					local nOnsUnit = tonumber(DB.getValue(nodeDisease, "onset_unit"))
+					local nOnsVal = DB.getValue(nodeDisease, "onset_interval")
 					local nOnset
 					-- Debug.console(sDiseaseName, 'nOnsUnit: ' .. nOnsUnit, 'nOnsVal: ' .. nOnsVal)
-					if nOnsUnit and nOnsVal then nOnset = nOnsUnit * nOnsVal end
+					if nOnsUnit and nOnsVal then
+						nOnset = nOnsUnit * nOnsVal
+					end
 					-- Debug.console(sDiseaseName, 'nOnset: ' .. nOnset)
 
 					return nOnset
@@ -39,16 +45,18 @@ local function parseDiseases()
 				local nOnset = calculateOnset() or 0
 				local nDiseaseElapsed = round(nTimeSinceContraction - nOnset, 1)
 
-				local sDiseaseName = DB.getValue(nodeDisease, 'name', 'their disease')
-				Debug.console(sDiseaseName, 'nDiseaseElapsed: ' .. nDiseaseElapsed)
+				local sDiseaseName = DB.getValue(nodeDisease, "name", "their disease")
+				Debug.console(sDiseaseName, "nDiseaseElapsed: " .. nDiseaseElapsed)
 				-- if the disease has a starting time, the current time is known, and any onset has elapsed
 				if nDiseaseElapsed > 0 then
 					local function calculateFrequency()
-						local nFreqUnit = tonumber(DB.getValue(nodeDisease, 'freq_unit'))
-						local nFreqVal = DB.getValue(nodeDisease, 'freq_interval')
+						local nFreqUnit = tonumber(DB.getValue(nodeDisease, "freq_unit"))
+						local nFreqVal = DB.getValue(nodeDisease, "freq_interval")
 						local nFreq
 						-- Debug.console(sDiseaseName, 'nFreqUnit: ' .. nFreqUnit, 'nFreqVal: ' .. nFreqVal)
-						if nFreqUnit and nFreqVal then nFreq = nFreqUnit * nFreqVal end
+						if nFreqUnit and nFreqVal then
+							nFreq = nFreqUnit * nFreqVal
+						end
 						-- Debug.console(sDiseaseName, 'Frequency: ' .. nFreq or 'nil')
 
 						return nFreq
@@ -56,14 +64,14 @@ local function parseDiseases()
 
 					local nFreq = calculateFrequency()
 					if nFreq then
-						local nPrevRollCount = DB.getValue(nodeDisease, 'savecount', 0) -- how many saves have been successful
+						local nPrevRollCount = DB.getValue(nodeDisease, "savecount", 0) -- how many saves have been successful
 						local nTotalRolls = round(nDiseaseElapsed / nFreq, 0)
 						-- Debug.console(sDiseaseName, 'nTotalRolls: ' .. nTotalRolls, 'nPrevRollCount: ' .. nPrevRollCount)
 						local nTargetRollCount = nTotalRolls - nPrevRollCount
 						if nTargetRollCount > 0 then
 							local function calculateDuration()
-								local nDurUnit = tonumber(DB.getValue(nodeDisease, 'duration_unit'))
-								local nDurVal = DB.getValue(nodeDisease, 'duration_interval')
+								local nDurUnit = tonumber(DB.getValue(nodeDisease, "duration_unit"))
+								local nDurVal = DB.getValue(nodeDisease, "duration_interval")
 								local nDuration, nDurationWithOnset
 								-- Debug.console(sDiseaseName, 'nDurUnit: ' .. nDurUnit, 'nDurVal: ' .. nDurVal)
 								if nDurUnit and nDurVal then
@@ -76,20 +84,22 @@ local function parseDiseases()
 							end
 
 							local nDurationWithOnset, nDuration, _ = calculateDuration()
-							if nDurationWithOnset then nTargetRollCount = math.min(nTargetRollCount, nDuration / nFreq) end
+							if nDurationWithOnset then
+								nTargetRollCount = math.min(nTargetRollCount, nDuration / nFreq)
+							end
 							-- Debug.console(sDiseaseName, 'nDurationWithOnset: ' .. nDurationWithOnset, 'nDiseaseElapsed: ' .. nDiseaseElapsed)
 							-- Debug.console(sDiseaseName, 'nTargetRollCount: ' .. nTargetRollCount)
 
 							-- if character auto-roll is disabled, request roll via a chat message.
-							local bIsAutoRoll = DB.getValue(nodeActor, 'diseaserollactive', 1) == 1
+							local bIsAutoRoll = DB.getValue(nodeActor, "diseaserollactive", 1) == 1
 							local nRollCount = 0
 							if not bIsAutoRoll and nTargetRollCount > 0 then
 								ChatManager.Message(
 									string.format(
-										Interface.getString('disease_agencynotifer'),
-										DB.getValue(nodeActor, 'name', 'A character'),
+										Interface.getString("disease_agencynotifer"),
+										DB.getValue(nodeActor, "name", "A character"),
 										nTargetRollCount,
-										'a ' .. DB.getValue(nodeDisease, 'type', 'malady')
+										"a " .. DB.getValue(nodeDisease, "type", "malady")
 									),
 									true,
 									rActor
@@ -106,16 +116,16 @@ local function parseDiseases()
 							-- announce in chat, delete the save-counting + time records,
 							-- and add [EXPIRED] to the disease name
 							if (nDuration and nDuration > 0) and (nDiseaseElapsed >= nDuration) then
-								DB.setValue(nodeDisease, 'starttime', 'number', nil)
-								DB.setValue(nodeDisease, 'starttimestring', 'string', nil)
-								DB.setValue(nodeDisease, 'savecount', 'number', nil)
-								if not string.find(DB.getValue(nodeDisease, 'name', ''), '%[EXPIRED%]') then
-									DB.setValue(nodeDisease, 'name', 'string', '[EXPIRED] ' .. sDiseaseName)
+								DB.setValue(nodeDisease, "starttime", "number", nil)
+								DB.setValue(nodeDisease, "starttimestring", "string", nil)
+								DB.setValue(nodeDisease, "savecount", "number", nil)
+								if not string.find(DB.getValue(nodeDisease, "name", ""), "%[EXPIRED%]") then
+									DB.setValue(nodeDisease, "name", "string", "[EXPIRED] " .. sDiseaseName)
 								end
 								ChatManager.Message(
 									string.format(
-										Interface.getString('disease_expiration'),
-										DB.getValue(nodeActor, 'name', 'A character'),
+										Interface.getString("disease_expiration"),
+										DB.getValue(nodeActor, "name", "A character"),
 										sDiseaseName
 									),
 									true,
@@ -124,7 +134,7 @@ local function parseDiseases()
 							end
 
 							-- saves the new total for use next time
-							DB.setValue(nodeDisease, 'savecount', 'number', nPrevRollCount + nRollCount)
+							DB.setValue(nodeDisease, "savecount", "number", nPrevRollCount + nRollCount)
 						end
 					end
 				end
@@ -135,14 +145,16 @@ end
 
 -- luacheck: globals TimeManager_Disabled
 function onInit()
-	if TimeManager_Disabled and LongTermEffects then DB.addHandler('calendar.dateinminutes', 'onUpdate', parseDiseases) end
+	if TimeManager_Disabled and LongTermEffects then
+		DB.addHandler("calendar.dateinminutes", "onUpdate", parseDiseases)
+	end
 
-	LibraryData.setRecordTypeInfo('disease', {
+	LibraryData.setRecordTypeInfo("disease", {
 		bExport = true,
-		aDataMap = { 'disease', 'reference.diseases' },
-		sRecordDisplayClass = 'referencedisease',
-		aGMListButtons = { 'button_feat_type' },
-		aPlayerListButtons = { 'button_feat_type' },
-		aCustomFilters = { ['Type'] = { sField = 'type' } },
+		aDataMap = { "disease", "reference.diseases" },
+		sRecordDisplayClass = "referencedisease",
+		aGMListButtons = { "button_feat_type" },
+		aPlayerListButtons = { "button_feat_type" },
+		aCustomFilters = { ["Type"] = { sField = "type" } },
 	})
 end
