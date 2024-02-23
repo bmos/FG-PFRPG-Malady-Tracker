@@ -157,7 +157,7 @@
 
 			<buttoncontrol name="raisesave">
 				<anchored to="saveroll" position="left" offset="5" width="20" />
-				<icon normal="button_zoomin" pressed="button_zoomin_down" />
+				<icon normal="button_import" pressed="button_import_down" />
 				<tooltip textres="char_disease_raisesave" />
 				<script>
 					function onClickRelease(target, button, image)
@@ -296,7 +296,7 @@
 
 			<buttoncontrol name="increaseduration">
 				<anchored to="save_string" position="right" offset="-15" width="20" />
-				<icon normal="button_zoomin" pressed="button_zoomin_down" />
+				<icon normal="button_import" pressed="button_import_down" />
 				<tooltip textres="char_disease_increaseduration" />
 				<script>
 					function onClickRelease(target, button, image)
