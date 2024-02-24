@@ -3,8 +3,7 @@
 <!-- Please see the LICENSE.md file included with this distribution for attribution and copyright information. -->
 
 <root>
-	<windowclass name="referencedisease">
-		<frame>recordsheet</frame>
+	<windowclass name="referencedisease" copy="record_window">
 		<placement>
 			<size width="500" height="475" />
 		</placement>
@@ -12,69 +11,20 @@
 			<minimum width="475" height="450" />
 			<dynamic />
 		</sizelimits>
-		<tooltip field="name" />
-		<nodelete />
-		<playercontrol />
-		<sharable />
 		<script>
-			function onLockChanged()
-				if header.subwindow then
-					header.subwindow.update()
-				end
-				if content.subwindow then
-					content.subwindow.update()
-				end
+			function onDrop(x, y, draginfo)
+				UtilityManagerADND.onDropStory(x, y, draginfo,getDatabaseNode());
 			end
 		</script>
-		<sheetdata>
-			<sub_record_header name="header">
-				<class>diseasedesc_header</class>
-			</sub_record_header>
-
-			<frame_record_content />
-			<subwindow_record name="content">
-				<class>diseasedesc_stats</class>
-				<activate />
-			</subwindow_record>
-			<scrollbar_content />
-			
-			<resize_recordsheet />
-			<close_recordsheet />
-		</sheetdata>
 	</windowclass>
 
-	<windowclass name="diseasedesc_header">
-		<margins control="0,0,0,7" />
-		<script>
-			function onInit()
-				update()
-			end
-			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode())
-				name.setReadOnly(bReadOnly)
-			end
-		</script>
-		<sheetdata>
-			<link_record_header>
-				<class>referencedisease</class>
-			</link_record_header>
+	<windowclass name="referencedisease_header" copy="record_header" />
 
-			<anchor_record_header_right />
-			<icon_record_locked />
-			<button_record_locked />
-
-			<string_record_name name="name">
-				<empty textres="library_recordtype_empty_disease" />
-			</string_record_name>
-		</sheetdata>
-	</windowclass>
-	
-	<windowclass name="diseasedesc_stats">
-		<margins control="0,0,0,15" />
+	<windowclass name="referencedisease_main">
 		<script file="campaign/scripts/diseasedesc_stats.lua" />
 		<sheetdata>
 			<anchor_column name="columnanchor" />
-			
+
 			<label_column name="type_biglabel">
 				<anchored>
 					<top relation="relative" offset="7" />
@@ -145,7 +95,7 @@
 			</button_stringcycler>
 
 			<button_roll name="saveroll">
-				<anchored to="save_string" position="left" offset="5" />
+				<anchored to="save_string" position="lefthigh" offset="5" />
 				<script>
 					function onClickRelease(target, button, image)
 						local rActor = ActorManager.resolveActor(DB.getChild(window.getDatabaseNode(), '...'))
@@ -244,16 +194,9 @@
 				<gmvisibleonly />
 				<script>
 					function onButtonPress()
-						if TimeManager_Disabled then
-							local nDateinMinutes = TimeManager.getCurrentDateinMinutes()
-							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nDateinMinutes)
-							DB.setValue(window.getDatabaseNode(), 'starttimestring', 'string', tostring(nDateinMinutes))
-							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', 0)
-						else
-							DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
-							DB.setValue(window.getDatabaseNode(), 'starttimestring', 'string', nil)
-							DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
-						end
+						DB.setValue(window.getDatabaseNode(), 'starttime', 'number', nil)
+						DB.setValue(window.getDatabaseNode(), 'starttimestring', 'string', nil)
+						DB.setValue(window.getDatabaseNode(), 'savecount', 'number', nil)
 					end
 				</script>
 			</buttoncontrol>

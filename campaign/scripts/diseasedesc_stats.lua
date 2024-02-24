@@ -300,6 +300,9 @@ end
 
 -- luacheck: globals update
 function update()
+	if super and super.update then
+		super.update();
+	end
 	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode())
 	local sType = string.lower(type.getValue())
 	if bReadOnly then
@@ -323,5 +326,8 @@ function update()
 end
 
 function onInit()
+	if super and super.onInit then
+		super.onInit();
+	end
 	update()
 end
