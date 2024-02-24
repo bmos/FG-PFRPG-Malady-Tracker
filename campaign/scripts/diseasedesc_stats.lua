@@ -213,7 +213,7 @@ local function ifLocked(sType)
 end
 
 --	This function sets the visibility and editability of various fields on the malady sheet when it is locked.
--- luacheck: globals associated_npc_name TimeManager_Disabled
+-- luacheck: globals associated_npc_name
 local function ifUnlocked(sType)
 	save_string.setVisible(false)
 	savetype.setVisible(true)
@@ -271,13 +271,6 @@ local function ifUnlocked(sType)
 	end
 
 	button_settime.setVisible(false)
-	if
-		TimeManager_Disabled
-		and DB.getName(getDatabaseNode(), "..") ~= "disease"
-		and DB.getName(getDatabaseNode(), "...") ~= "reference"
-	then
-		button_settime.setVisible(true)
-	end
 
 	freq_label.setVisible(true)
 	freq_unit.setVisible(true)
@@ -301,7 +294,7 @@ end
 -- luacheck: globals update
 function update()
 	if super and super.update then
-		super.update();
+		super.update()
 	end
 	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode())
 	local sType = string.lower(type.getValue())
@@ -327,7 +320,7 @@ end
 
 function onInit()
 	if super and super.onInit then
-		super.onInit();
+		super.onInit()
 	end
 	update()
 end
