@@ -9,7 +9,7 @@ function addDisease(nodeChar, sClass, sRecord, nodeTargetList)
 	end
 
 	if sClass == "referencedisease" then
-		local nodeSource = CharManager.resolveRefNode(sRecord)
+		local nodeSource = DB.findNode(sRecord)
 		if not nodeSource then
 			return
 		end
